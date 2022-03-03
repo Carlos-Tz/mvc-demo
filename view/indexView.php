@@ -1,50 +1,46 @@
-<!DOCTYPE HTML>
-<html lang="es">
+<?php
+include 'cabecera.php';
+date_default_timezone_set('America/Mexico_City');
+?>
 
-<head>
-    <meta charset="utf-8" />
-    <title>Example PHP+PDO+POO+MVC</title>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <style>
-        input {
-            margin-top: 5px;
-            margin-bottom: 5px;
-        }
 
-        .right {
-            float: right;
-        }
-    </style>
-</head>
+<div class="card-body">
+    <div class="container-fluid">
+        <H1>Módulo Ejecutivo</H1>
+        <table id="entries" class="display" style="width: 100%">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Semana</th>
+                    <th>Id Producto</th>
+                    <th>Nombre Producto</th>
+                    <th>Existencia</th>
+                    <th>Costo Promedio</th>
+                    <th>Clasificación</th>
+                </tr>
+            </thead>
+            <tfoot>
+            </tfoot>
+        </table>
+        <!-- <section class="col-lg-7" style="height:400px;overflow-y:scroll;"> -->
+            <?php /* foreach ($datos["entries"] as $entry) { ?>
+                <?php echo $entry["fecha"]; ?> -
+                <?php echo $entry["semana"]; ?> -
+                <?php echo $entry["id_prod"]; ?> -
+                <?php echo $entry["nom_prod"]; ?>
+                <?php echo $entry["existencia"]; ?>
+                <?php echo $entry["costo_promedio"]; ?>
+                <?php echo $entry["clasificacion"]; ?>
+                <div class="right">
+                </div>
+                <hr />
+            <?php } */ ?>
+        <!-- </section> -->
 
-<body>
-    <form action="index.php?controller=employees&action=alta" method="post" class="col-lg-5">
-        <h3>Add user</h3>
-        <hr />
-        Name: <input type="text" name="Name" class="form-control" />
-        Surname: <input type="text" name="Surname" class="form-control" />
-        Email: <input type="text" name="email" class="form-control" />
-        phone: <input type="text" name="phone" class="form-control" />
-        <input type="submit" value="Send" class="btn btn-success" />
-    </form>
-    <div class="col-lg-7">
-        <h3>Users</h3>
-        <hr />
     </div>
-    <section class="col-lg-7 usuario" style="height:400px;overflow-y:scroll;">
-        <?php foreach ($datos["employees"] as $employee) { ?>
-            <?php echo $employee["id"]; ?> -
-            <?php echo $employee["Name"]; ?> -
-            <?php echo $employee["email"]; ?> -
-            <?php echo $employee["phone"]; ?>
-            <div class="right">
-                <a href="index.php?controller=employees&action=detalle&id=<?php echo $employee['id']; ?>" class="btn btn-info">Detalles</a>
-            </div>
-            <hr />
-        <?php } ?>
-    </section>
-</body>
+</div> <!-- card-body -->
 
-</html>
+<?php include "piePagina.php";
+?>
+
+<script src="<?= DIR_S ?>js/app.js"></script>

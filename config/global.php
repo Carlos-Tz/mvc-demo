@@ -1,3 +1,3 @@
 <?php
-define("CONTROLLER_DEFECTO", "Employees");
-define("DEFECT_ACTION", "index");
+define("DEFAULT_CONTROLLER", "Index");
+define("DEFAULT_ACTION", "index");

@@ -81,7 +81,7 @@ class EmployeesController
             $employee->setName($_POST["Name"]);
             $employee->setSurname($_POST["Surname"]);
             $employee->setEmail($_POST["email"]);
-            $employee->setphone($_POST["phone"]);
+            $employee->setPhone($_POST["phone"]);
             $save = $employee->save();
         }
         header('Location: index.php');
@@ -100,7 +100,7 @@ class EmployeesController
             $employee->setName($_POST["Name"]);
             $employee->setSurname($_POST["Surname"]);
             $employee->setEmail($_POST["email"]);
-            $employee->setphone($_POST["phone"]);
+            $employee->setPhone($_POST["phone"]);
             $save = $employee->update();
         }
         header('Location: index.php');
