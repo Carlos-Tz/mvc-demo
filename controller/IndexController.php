@@ -19,6 +19,9 @@ class IndexController {
             case "index":
                 $this->index();
                 break;
+            case "table":
+                $this->table();
+                break;
             /* case "alta":
                 $this->crear();
                 break;
@@ -35,17 +38,36 @@ class IndexController {
     }
 
 	public function index() {
-        $entrie = new Entry($this->Connection);
-        $entries = $entrie->getAll();
+        $entry = new Entry($this->Connection);
+        $entries = $entry->getAll();
+        /* print_r($entries); */
+        /* $data = array(); */
         $this->view("index", array(
             "entries" => $entries,
             "title" => "INDEX"
         ));
     }
 
+    public function table(){
+        $entry = new Entry($this->Connection);
+        $entries = $entry->getAll();
+        $data = array();
+        foreach ($entries as $entry){
+            array_push($data, array('fecha' => $entry['fecha'], 'semana' => $entry['semana'], 'id_prod' => $entry['id_prod'], 'nom_prod' => $entry['nom_prod'], 'existencia' => $entry['existencia'], 'costo_promedio' => $entry['costo_promedio'], 'clasificacion' => $entry['clasificacion']));
+        }
+        $results = array(
+            "draw" => 1,
+            'aaData' => $data
+        );
+        echo json_encode($results); 
+    }
+
 	public function view($vista, $datos) {
         $data = $datos;
         require_once  __DIR__ . "/../view/" . $vista . "View.php";
-        echo json_encode($datos); 
+        $results = array(
+            'aaData' => $datos['entries']
+        );
+        //echo json_encode($results); 
     }
 }

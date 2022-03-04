@@ -7,16 +7,17 @@ date_default_timezone_set('America/Mexico_City');
 <div class="card-body">
     <div class="container-fluid">
         <H1>Módulo Ejecutivo</H1>
+        <button onclick="tabla()">tabla</button>
         <table id="entries" class="display" style="width: 100%">
             <thead>
                 <tr>
                     <th>Fecha</th>
-                    <th>Semana</th>
+                    <!-- <th>Semana</th>
                     <th>Id Producto</th>
                     <th>Nombre Producto</th>
                     <th>Existencia</th>
                     <th>Costo Promedio</th>
-                    <th>Clasificación</th>
+                    <th>Clasificación</th> -->
                 </tr>
             </thead>
             <tfoot>
