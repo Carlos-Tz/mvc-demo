@@ -1,16 +1,17 @@
 <?php
-class Entry {
+class Existence {
     private $table = "semanal";
-    private $Connection;
+    private $table1 = "producto";
+    private $Connection;/* 
     private $fecha;
     private $semana;
     private $id_prod;
     private $nom_prod;
     private $existencia;
     private $costo_promedio;
-    private $clasificacion;
+    private $clasificacion; */
     public function __construct($Connection) { $this->Connection = $Connection; }
-    public function getFecha() { return $this->fecha; }
+    /* public function getFecha() { return $this->fecha; }
     public function setFecha($fecha) { $this->fecha = $fecha; }
     public function getSemana() { return $this->semana; }
     public function setSemana($semana) { $this->semana = $semana; }
@@ -23,12 +24,12 @@ class Entry {
     public function getCosto() { return $this->costo_promedio; }
     public function setCosto($costo_promedio) { $this->costo_promedio = $costo_promedio; }
     public function getClasificacion() { return $this->clasificacion; }
-    public function setClasificacion($clasificacion) { $this->clasificacion = $clasificacion; }
+    public function setClasificacion($clasificacion) { $this->clasificacion = $clasificacion; } */
 
     public function getAll() {
-        $consultation = $this->Connection->prepare("SELECT * FROM " . $this->table);
-        $consultation->execute();
-        $result = $consultation->fetchAll();
+        $stmt = $this->Connection->prepare("SELECT semanal.id_prod, semanal.fecha, semanal.nom_prod, semanal.existencia, semanal.clasificacion, semanal.costo_promedio, producto.unidad_medida FROM " .$this->table. "," .$this->table1. " WHERE semanal.id_prod = producto.id_prod");
+        $stmt->execute();
+        $result = $stmt->fetchAll();
         $this->Connection = null; //cierre de conexión
         return $result;
     }

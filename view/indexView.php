@@ -2,16 +2,18 @@
 include 'cabecera.php';
 date_default_timezone_set('America/Mexico_City');
 ?>
+<link href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
 <div class="card-body">
     <div class="container-fluid">
         <H1>Módulo Ejecutivo</H1>
         <button onclick="tabla()">tabla</button>
-        <table id="entries" class="display" style="width: 100%">
+        <table id="entries" class="table table-striped table-bordered table-hover" style="width: 100%">
             <thead>
                 <tr>
-                    <th>Fecha</th>
+                    <th></th>
+                    <th>Concepto</th>
                     <!-- <th>Semana</th>
                     <th>Id Producto</th>
                     <th>Nombre Producto</th>
@@ -20,6 +22,7 @@ date_default_timezone_set('America/Mexico_City');
                     <th>Clasificación</th> -->
                 </tr>
             </thead>
+            <tbody></tbody>
             <tfoot>
             </tfoot>
         </table>
