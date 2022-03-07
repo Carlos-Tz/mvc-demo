@@ -45,12 +45,12 @@ class IndexController
 
     public function index()
     {
-        $entry = new Existence($this->Connection);
-        $entries = $entry->getAll();
+        /* $entry = new Existence($this->Connection);
+        $entries = $entry->getAll(); */
         /* print_r($entries); */
         /* $data = array(); */
         $this->view("index", array(
-            "entries" => $entries,
+            /* "entries" => $entries, */
             "title" => "INDEX"
         ));
     }
@@ -68,19 +68,21 @@ class IndexController
                 return strtolower($row['clasificacion']) == $value_rubro;
             });
             $id = '';
+            $corte_inicial = 0;
             $products = array();            
-            foreach ($rub[$key_rubro] as $j => $v):
-                $id = $v['id_prod'];
+            foreach ($rub[$key_rubro] as $j => $product):
+                $id = $product['id_prod'];
+                $corte_inicial += $product['existencia'] * $product['costo_promedio'];
                 $entr[$j] = array_filter($entries, function ($row) use ($id){
                     return $row['id_prod'] == $id;
                 });
                 $outp[$j] = array_filter($outputs, function ($row) use ($id){
                     return $row['id_prod'] == $id;
                 });
-                array_push($products, array('p' => $v, 'entradas' =>  $entr[$j], 'salidas' =>  $outp[$j]));
+                array_push($products, array('p' => $product, 'entradas' =>  $entr[$j], 'salidas' =>  $outp[$j]));
                 endforeach;
             if ($rub[$key_rubro]):
-                array_push($data, array('rubro' => $this->rubros[$key_rubro], 'productos' => $products));
+                array_push($data, array('rubro' => $this->rubros[$key_rubro], 'corte_inicial' => $corte_inicial, 'productos' => $products));
                 /* array_push($data, array('rubro' => $this->rubros[$key_rubro], 'productos' => $rub[$key_rubro])); */
             endif;
         endforeach;
@@ -96,9 +98,9 @@ class IndexController
     {
         $data = $datos;
         require_once  __DIR__ . "/../view/" . $vista . "View.php";
-        $results = array(
+        /* $results = array(
             'aaData' => $datos['entries']
-        );
+        ); */
         //echo json_encode($results); 
     }
 }

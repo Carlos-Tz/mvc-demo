@@ -14,8 +14,8 @@ date_default_timezone_set('America/Mexico_City');
                 <tr>
                     <th></th>
                     <th>Concepto</th>
-                    <!-- <th>Semana</th>
-                    <th>Id Producto</th>
+                    <th>Corte inicial</th>
+                    <!-- <th>Id Producto</th>
                     <th>Nombre Producto</th>
                     <th>Existencia</th>
                     <th>Costo Promedio</th>
