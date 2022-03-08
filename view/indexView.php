@@ -14,32 +14,16 @@ date_default_timezone_set('America/Mexico_City');
                 <tr>
                     <th></th>
                     <th>Concepto</th>
-                    <th>Corte inicial</th>
-                    <!-- <th>Id Producto</th>
-                    <th>Nombre Producto</th>
-                    <th>Existencia</th>
-                    <th>Costo Promedio</th>
-                    <th>Clasificación</th> -->
+                    <th>Corte Inicial</th>
+                    <th>Corte Final</th>
+                    <th>GASTO</th>
+                    <th>COMPRAS</th>
                 </tr>
             </thead>
             <tbody></tbody>
             <tfoot>
             </tfoot>
         </table>
-        <!-- <section class="col-lg-7" style="height:400px;overflow-y:scroll;"> -->
-            <?php /* foreach ($datos["entries"] as $entry) { ?>
-                <?php echo $entry["fecha"]; ?> -
-                <?php echo $entry["semana"]; ?> -
-                <?php echo $entry["id_prod"]; ?> -
-                <?php echo $entry["nom_prod"]; ?>
-                <?php echo $entry["existencia"]; ?>
-                <?php echo $entry["costo_promedio"]; ?>
-                <?php echo $entry["clasificacion"]; ?>
-                <div class="right">
-                </div>
-                <hr />
-            <?php } */ ?>
-        <!-- </section> -->
 
     </div>
 </div> <!-- card-body -->

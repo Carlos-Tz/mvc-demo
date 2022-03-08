@@ -69,20 +69,29 @@ class IndexController
             });
             $id = '';
             $corte_inicial = 0;
+            $sub_entradas = 0;
+            $sub_salidas = 0;
             $products = array();            
             foreach ($rub[$key_rubro] as $j => $product):
                 $id = $product['id_prod'];
-                $corte_inicial += $product['existencia'] * $product['costo_promedio'];
+                $corte_inicial += $product['importe'];
                 $entr[$j] = array_filter($entries, function ($row) use ($id){
                     return $row['id_prod'] == $id;
                 });
+                foreach ($entr[$j] as $k => $pro_i):
+                    $sub_entradas += $pro_i['importe'];
+                    endforeach;
                 $outp[$j] = array_filter($outputs, function ($row) use ($id){
                     return $row['id_prod'] == $id;
                 });
+                foreach ($outp[$j] as $o => $pro_o):
+                    $sub_salidas += $pro_o['importe'];
+                    endforeach;
                 array_push($products, array('p' => $product, 'entradas' =>  $entr[$j], 'salidas' =>  $outp[$j]));
                 endforeach;
             if ($rub[$key_rubro]):
-                array_push($data, array('rubro' => $this->rubros[$key_rubro], 'corte_inicial' => $corte_inicial, 'productos' => $products));
+                $corte_final = $corte_inicial + $sub_entradas - $sub_salidas;
+                array_push($data, array('rubro' => $this->rubros[$key_rubro], 'corte_inicial' => $corte_inicial, 'productos' => $products, 'sub_entradas' => $sub_entradas, 'sub_salidas' => $sub_salidas, 'corte_final' => $corte_final));
                 /* array_push($data, array('rubro' => $this->rubros[$key_rubro], 'productos' => $rub[$key_rubro])); */
             endif;
         endforeach;
