@@ -90,7 +90,48 @@ function tabla(){
                     return number;
                 }
             }
-        ]
+        ],
+        'footerCallback': function (row, data, start, end, display) {
+            var api = this.api();
+            // Remove the formatting to get integer data for summation
+            var intVal = function (i) {
+                return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '') * 1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+            // Total over all pages
+            total_inicial = api
+                .column(2)
+                .data()
+                .reduce(function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+            // Total over this page
+            total_final = api
+                .column(3)
+                .data()
+                .reduce(function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+            total_gasto = api
+                .column(4)
+                .data()
+                .reduce(function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+            total_compras = api
+                .column(5)
+                .data()
+                .reduce(function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+            // Update footer
+            $(api.column(2).footer()).html( formatter.format(total_inicial) );
+            $(api.column(3).footer()).html( formatter.format(total_final) );
+            $(api.column(4).footer()).html( formatter.format(total_gasto) );
+            $(api.column(5).footer()).html( formatter.format(total_compras) );
+        }
     });
     $('#entries tbody').on('click', 'td.dt-control', function () {
         var tr = $(this).closest('tr');

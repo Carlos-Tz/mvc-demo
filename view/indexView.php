@@ -22,6 +22,13 @@ date_default_timezone_set('America/Mexico_City');
             </thead>
             <tbody></tbody>
             <tfoot>
+                <tr>
+                    <th colspan="2" style="text-align:right">Total:</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
             </tfoot>
         </table>
 
