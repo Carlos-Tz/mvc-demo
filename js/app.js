@@ -1,3 +1,18 @@
+$(document).ready(function () {   
+    $("#almacen").click(function() {
+        if($('#btn_excel').is(':hidden')){
+            $('#btn_excel').show();
+        }
+        if ($.fn.DataTable.isDataTable("#table-almacen")) {
+            $("#table-almacen").dataTable().fnDestroy();
+            $('#table-almacen tbody').remove();
+            tabla();
+        }else{
+            tabla();
+        }
+    });
+});
+
 const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -34,7 +49,8 @@ function formatE(data) {
 }
 
 function tabla(){
-    var table = $('#entries').DataTable({
+    var fecha = $('#fechaAlmacen').val();
+    var table = $('#table-almacen').DataTable({
         /* 'processing': true, */
         /* 'serverSide': true, */
         'serverMethod': 'post',
@@ -49,6 +65,7 @@ function tabla(){
         'ajax': {
             'url': 'index.php?controller=index&action=table',
             'type': 'post',
+            'data': { 'fechaA': fecha },
             /* success: function(data) {
                 if (!data.error) { console.log(data); }
                 else { alert("Error en funcion") }
@@ -61,7 +78,12 @@ function tabla(){
                 data: null,
                 defaultContent: ''
             },
-            { data: 'rubro'},
+            { 
+                data: 'rubro',
+                render: function (data, type) {
+                    return data.toUpperCase();
+                }
+            },
             { 
                 data: 'corte_inicial',
                 render: function (data, type) {
@@ -133,7 +155,7 @@ function tabla(){
             $(api.column(5).footer()).html( formatter.format(total_compras) );
         }
     });
-    $('#entries tbody').on('click', 'td.dt-control', function () {
+    $('#table-almacen tbody').on('click', 'td.dt-control', function () {
         var tr = $(this).closest('tr');
         var row = table.row(tr);
         if (row.child.isShown()) {
@@ -147,4 +169,19 @@ function tabla(){
             tr.addClass('shown');
         }
     });
+}
+
+function almacen_excel() {
+    var fecha = $('#fechaAlmacen').val();
+    $.ajax({
+       url: 'index.php?controller=index&action=excel',
+       method: 'POST',
+       data: { 'fechaA': fecha },
+       success: function(data) {
+           if (!data.error) {
+               console.log(data);
+               window.location.href = "http://demo.test/almacen.xlsx";
+           } else { console.log("Error en funcion") }
+     }
+ })
 }

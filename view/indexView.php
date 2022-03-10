@@ -8,8 +8,21 @@ date_default_timezone_set('America/Mexico_City');
 <div class="card-body">
     <div class="container-fluid">
         <H1>Módulo Ejecutivo</H1>
-        <button onclick="tabla()">tabla</button>
-        <table id="entries" class="table table-striped table-bordered table-hover" style="width: 100%">
+        <div class="row py-2  px-2" style="background-color: #e3e6ec">
+            <div class="col-md-2">
+                <label for="sub">Fecha :</label>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <input type="date" class="form-control" required name="fechaAlmacen" id="fechaAlmacen" value="<?= date("Y-m-d")?>">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-outline-success btn-block" id="almacen">Generar</button>
+            </div>
+        </div>
+        <button type="button" class="btn btn-secondary" onclick="almacen_excel()" style="display:none;" id="btn_excel">Excel</button>
+        <table id="table-almacen" class="table table-striped table-bordered table-hover" style="width: 100%">
             <thead>
                 <tr>
                     <th></th>
