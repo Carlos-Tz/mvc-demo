@@ -48,8 +48,25 @@ function formatE(data) {
         '</table>';
 }
 
+function startOfWeek(date) {
+    var diff = date.getDate() - date.getDay() + 1;
+    return new Date(date.setDate(diff));
+  }
+
 function tabla(){
     var fecha = $('#fechaAlmacen').val();
+    var f = new Date($('#fechaAlmacen').val());
+    var inicio = startOfWeek(f);
+    var f_inicio =  inicio.getDate() + "/" + (inicio.getMonth() + 1) + "/" + inicio.getFullYear();
+    var fin = inicio;
+    var dias = 6;
+    fin.setDate(fin.getDate() + dias);
+    var f_fin = fin.getDate() + "/" + (fin.getMonth() + 1) + "/" + fin.getFullYear();
+    if (f_inicio && f_fin){
+        $('#f_i').text(f_inicio);
+        $('#f_f').text(f_fin);
+    }
+
     var table = $('#table-almacen').DataTable({
         /* 'processing': true, */
         /* 'serverSide': true, */
@@ -178,10 +195,11 @@ function almacen_excel() {
        method: 'POST',
        data: { 'fechaA': fecha },
        success: function(data) {
-           if (!data.error) {
+           if (data) {
                console.log(data);
-               window.location.href = "http://demo.test/almacen.xlsx";
-           } else { console.log("Error en funcion") }
+               window.location.href = "http://localhost:8080/local/dev/adm/demo2/almacen.xlsx";
+               /* window.location.href = "http://demo.test/almacen.xlsx"; */
+           } else { console.log("Sin datos") }
      }
  })
 }

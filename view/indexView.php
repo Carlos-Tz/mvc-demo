@@ -21,7 +21,14 @@ date_default_timezone_set('America/Mexico_City');
                 <button class="btn btn-outline-success btn-block" id="almacen">Generar</button>
             </div>
         </div>
-        <button type="button" class="btn btn-secondary" onclick="almacen_excel()" style="display:none;" id="btn_excel">Excel</button>
+        <div id="btn_excel" style="display:none;" class="row">
+            <div class="col-md-2">
+                <button type="button" class="btn btn-secondary mt-2" onclick="almacen_excel()">Excel</button>
+            </div>
+            <div class="col-md-8 mt-3">
+                <h6>Semana de: <span id="f_i"></span> a <span id="f_f"></span> </h6>
+            </div>
+        </div>
         <table id="table-almacen" class="table table-striped table-bordered table-hover" style="width: 100%">
             <thead>
                 <tr>
