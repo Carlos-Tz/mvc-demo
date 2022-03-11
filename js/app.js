@@ -37,9 +37,11 @@ function formatE(data) {
             salidas += parseFloat(products[p].salidas[m].cantidad);
             salidas_valor += parseFloat(products[p].salidas[m].importe);
         }
-        existencia_final = parseFloat(products[p].p['existencia']) + entradas - salidas;
-        valor_monetario_final = valor_monetario_inicial + entradas_valor - salidas_valor;
-        tr += '<tr><td>' + products[p].p['nom_prod'].toUpperCase() + '</td><td>' + products[p].p['unidad_medida'].toUpperCase() + '</td><td>' + parseFloat(products[p].p['existencia']).toFixed(3) + '</td><td>'+ formatter.format(valor_monetario_inicial) +'</td><td>' + entradas.toFixed(3) + '</td><td>' + formatter.format(entradas_valor) + '</td><td>'+ salidas.toFixed(3) +'</td><td>'+ formatter.format(salidas_valor) +'</td><td>' + existencia_final.toFixed(3) + '</td><td>'+ formatter.format(valor_monetario_final) +'</td></tr>';
+        if (entradas > 0 || salidas > 0){
+            existencia_final = parseFloat(products[p].p['existencia']) + entradas - salidas;
+            valor_monetario_final = valor_monetario_inicial + entradas_valor - salidas_valor;
+            tr += '<tr><td>' + products[p].p['nom_prod'].toUpperCase() + '</td><td>' + products[p].p['unidad_medida'].toUpperCase() + '</td><td>' + parseFloat(products[p].p['existencia']).toFixed(3) + '</td><td>'+ formatter.format(valor_monetario_inicial) +'</td><td>' + entradas.toFixed(3) + '</td><td>' + formatter.format(entradas_valor) + '</td><td>'+ salidas.toFixed(3) +'</td><td>'+ formatter.format(salidas_valor) +'</td><td>' + existencia_final.toFixed(3) + '</td><td>'+ formatter.format(valor_monetario_final) +'</td></tr>';
+        }
     }
     tr += '<tr><td></td><td></td><td>Subtotal:</td><td>' + formatter.format(data.corte_inicial) + '</td><td></td><td>' + formatter.format(data.sub_entradas) + '</td><td></td><td>' + formatter.format(data.sub_salidas) + '</td><td></td><td>' + formatter.format(data.corte_final) + '</td></tr>';
     return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +

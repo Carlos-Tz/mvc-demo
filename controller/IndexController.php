@@ -3,15 +3,13 @@ require 'phpspreadsheet/vendor/autoload.php';
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-class IndexController
-{
+class IndexController {
 
     private $conectar;
     private $Connection;
     public $rubros = ['acido', 'agroquimico', 'ferreteria', 'fertilizante', 'infraestructura', 'inocuidad', 'mano de obra', 'maq. agricola', 'mat. fumigacion', 'mat. riego', 'otros', 'papeleria', 'servicios', 'vehiculos'];
 
-    public function __construct()
-    {
+    public function __construct() {
         require_once  __DIR__ . "/../core/Conectar.php";
         require_once  __DIR__ . "/../model/existence.php";
         require_once  __DIR__ . "/../model/movement.php";
@@ -23,8 +21,7 @@ class IndexController
      * Ejecuta la acción correspondiente.
      *
      */
-    public function run($accion)
-    {
+    public function run($accion) {
         switch ($accion) {
             case "index":
                 $this->index();
@@ -35,32 +32,19 @@ class IndexController
             case "excel":
                 $this->excel();
                 break;
-            /*case "detalle":
-                $this->detalle();
-                break;
-            case "actualizar":
-                $this->actualizar();
-                break; */
             default:
                 $this->index();
                 break;
         }
     }
 
-    public function index()
-    {
-        /* $entry = new Existence($this->Connection);
-        $entries = $entry->getAll(); */
-        /* print_r($entries); */
-        /* $data = array(); */
+    public function index() {
         $this->view("index", array(
-            /* "entries" => $entries, */
             "title" => "INDEX"
         ));
     }
 
-    public function table()
-    {
+    public function table() {
         $fecha = new DateTime($_POST['fechaA'], new DateTimeZone('America/Mexico_City'));
         $semana = intval($fecha->format('W'));
         $anio = intval($fecha->format('Y'));
@@ -106,7 +90,6 @@ class IndexController
                 if ($rub[$key_rubro]):
                     $corte_final = $corte_inicial + $sub_entradas - $sub_salidas;
                     array_push($data, array('rubro' => $this->rubros[$key_rubro], 'corte_inicial' => $corte_inicial, 'productos' => $products, 'sub_entradas' => $sub_entradas, 'sub_salidas' => $sub_salidas, 'corte_final' => $corte_final));
-                    /* array_push($data, array('rubro' => $this->rubros[$key_rubro], 'productos' => $rub[$key_rubro])); */
                 endif;
             endforeach;
         }
@@ -118,8 +101,7 @@ class IndexController
         echo json_encode($results);
     }
 
-    public function excel()
-    {
+    public function excel() {
         $fecha = new DateTime($_POST['fechaA'], new DateTimeZone('America/Mexico_City'));
         $semana = intval($fecha->format('W'));
         $anio = intval($fecha->format('Y'));
@@ -203,49 +185,48 @@ class IndexController
         $total_salidas = 0;
         $total_final = 0;
         foreach ($data as $rubro):
-        /* if ($rubro['total'] > 0): */
-                $sheet->getStyle('A'.$fila.':E'.$fila)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('33CC66');
-                $sheet->getStyle('A'.$fila.':E'.$fila)->getFont()->setSize(12);
-                $sheet->getStyle('B'.$fila.':E'.$fila)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+            $sheet->getStyle('A'.$fila.':E'.$fila)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('33CC66');
+            $sheet->getStyle('A'.$fila.':E'.$fila)->getFont()->setSize(12);
+            $sheet->getStyle('B'.$fila.':E'.$fila)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 
-                $sheet->setCellValue('A'.$fila, strtoupper($rubro['rubro']));
-                $sheet->setCellValue('B'.$fila, $rubro['corte_inicial']);
-                $sheet->setCellValue('C'.$fila, $rubro['corte_final']);
-                $sheet->setCellValue('D'.$fila, $rubro['sub_salidas']);
-                $sheet->setCellValue('E'.$fila, $rubro['sub_entradas']);
-                $fila++ ;
-                $sheet->getStyle('B'.$fila.':K'.$fila)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('DAF7A6');
-                $sheet->getStyle('B'.$fila.':K'.$fila)->getAlignment()->setHorizontal('center');
+            $sheet->setCellValue('A'.$fila, strtoupper($rubro['rubro']));
+            $sheet->setCellValue('B'.$fila, $rubro['corte_inicial']);
+            $sheet->setCellValue('C'.$fila, $rubro['corte_final']);
+            $sheet->setCellValue('D'.$fila, $rubro['sub_salidas']);
+            $sheet->setCellValue('E'.$fila, $rubro['sub_entradas']);
+            $fila++ ;
+            $sheet->getStyle('B'.$fila.':K'.$fila)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('DAF7A6');
+            $sheet->getStyle('B'.$fila.':K'.$fila)->getAlignment()->setHorizontal('center');
 
-                /* $sheet->getStyle('A1'.$fila)->getFont()->getColor()->setRGB('FFFFFF'); */
-                $sheet->setCellValue('B'.$fila, "PRODUCTO") ;
-                $sheet->setCellValue('C'.$fila, "UNIDAD") ;
-                $sheet->setCellValue('D'.$fila, "EXISTENCIA INICIAL") ;
-                $sheet->setCellValue('E'.$fila, "VALOR MONETARIO INICIAL") ;
-                $sheet->setCellValue('F'.$fila, "COMPRAS CANTIDAD") ;
-                $sheet->setCellValue('G'.$fila, "COMPRAS VALOR MONETARIO") ;
-                $sheet->setCellValue('H'.$fila, "SALIDAS CANTIDAD") ;
-                $sheet->setCellValue('I'.$fila, "SALIDAS VALOR MONETARIO") ;
-                $sheet->setCellValue('J'.$fila, "EXISTENCIA FINAL") ;
-                $sheet->setCellValue('K'.$fila, "VALOR MONETARIO FINAL") ;
-                $fila++ ;
-                
-                foreach ($rubro['productos'] as $producto):
-                    $entradas = 0;
-                    $entradas_valor = 0;
-                    $salidas = 0;
-                    $salidas_valor = 0;
-                    $existencia_final = 0;
-                    $valor_monetario_final = 0;
-                    $valor_monetario_inicial = $producto['p']['importe'];
-                    foreach ($producto['entradas'] as $in):
-                        $entradas += $in['cantidad'];
-                        $entradas_valor += $in['importe'];
-                        endforeach;
-                    foreach ($producto['salidas'] as $ou):
-                        $salidas += $ou['cantidad'];
-                        $salidas_valor += $ou['importe'];
-                        endforeach;
+            $sheet->setCellValue('B'.$fila, "PRODUCTO") ;
+            $sheet->setCellValue('C'.$fila, "UNIDAD") ;
+            $sheet->setCellValue('D'.$fila, "EXISTENCIA INICIAL") ;
+            $sheet->setCellValue('E'.$fila, "VALOR MONETARIO INICIAL") ;
+            $sheet->setCellValue('F'.$fila, "COMPRAS CANTIDAD") ;
+            $sheet->setCellValue('G'.$fila, "COMPRAS VALOR MONETARIO") ;
+            $sheet->setCellValue('H'.$fila, "SALIDAS CANTIDAD") ;
+            $sheet->setCellValue('I'.$fila, "SALIDAS VALOR MONETARIO") ;
+            $sheet->setCellValue('J'.$fila, "EXISTENCIA FINAL") ;
+            $sheet->setCellValue('K'.$fila, "VALOR MONETARIO FINAL") ;
+            $fila++ ;
+            
+            foreach ($rubro['productos'] as $producto):
+                $entradas = 0;
+                $entradas_valor = 0;
+                $salidas = 0;
+                $salidas_valor = 0;
+                $existencia_final = 0;
+                $valor_monetario_final = 0;
+                $valor_monetario_inicial = $producto['p']['importe'];
+                foreach ($producto['entradas'] as $in):
+                    $entradas += $in['cantidad'];
+                    $entradas_valor += $in['importe'];
+                    endforeach;
+                foreach ($producto['salidas'] as $ou):
+                    $salidas += $ou['cantidad'];
+                    $salidas_valor += $ou['importe'];
+                    endforeach;
+                if ($entradas > 0 || $salidas > 0){
                     $existencia_final = $producto['p']['existencia'] + $entradas - $salidas;
                     $valor_monetario_final = $valor_monetario_inicial + $entradas_valor - $salidas_valor;
                     $sheet->getStyle('D'.$fila)->getNumberFormat()->setFormatCode('#,##0.000');
@@ -271,22 +252,22 @@ class IndexController
                     $sheet->setCellValue('J'.$fila, strtoupper($existencia_final));
                     $sheet->setCellValue('K'.$fila, strtoupper($valor_monetario_final));
                     $fila++;
-                endforeach;
-                $sheet->getStyle('D'.$fila.':K'.$fila)->getFont()->setSize(12);
-                $sheet->getStyle('D'.$fila.':K'.$fila)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('8CE08A');
-                $sheet->getStyle('E'.$fila.':K'.$fila)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+                }
+            endforeach;
+            $sheet->getStyle('D'.$fila.':K'.$fila)->getFont()->setSize(12);
+            $sheet->getStyle('D'.$fila.':K'.$fila)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('8CE08A');
+            $sheet->getStyle('E'.$fila.':K'.$fila)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 
-                $sheet->setCellValue('D'.$fila, 'SUBTOTAL: ');
-                $sheet->setCellValue('E'.$fila, $rubro['corte_inicial']);
-                $sheet->setCellValue('G'.$fila, $rubro['sub_entradas']);
-                $sheet->setCellValue('I'.$fila, $rubro['sub_salidas']);
-                $sheet->setCellValue('K'.$fila, $rubro['corte_final']);
-                $fila++;
-            /* endif; */
-                $total_inicial += $rubro['corte_inicial'];
-                $total_entradas += $rubro['sub_entradas'];
-                $total_salidas += $rubro['sub_salidas'];
-                $total_final += $rubro['corte_final'];
+            $sheet->setCellValue('D'.$fila, 'SUBTOTAL: ');
+            $sheet->setCellValue('E'.$fila, $rubro['corte_inicial']);
+            $sheet->setCellValue('G'.$fila, $rubro['sub_entradas']);
+            $sheet->setCellValue('I'.$fila, $rubro['sub_salidas']);
+            $sheet->setCellValue('K'.$fila, $rubro['corte_final']);
+            $fila++;
+            $total_inicial += $rubro['corte_inicial'];
+            $total_entradas += $rubro['sub_entradas'];
+            $total_salidas += $rubro['sub_salidas'];
+            $total_final += $rubro['corte_final'];
             endforeach;
             $fila++;
         $sheet->getStyle('A'.$fila.':E'.$fila)->getFont()->setBold(true)->setSize(12);
@@ -324,9 +305,5 @@ class IndexController
     {
         $data = $datos;
         require_once  __DIR__ . "/../view/" . $vista . "View.php";
-        /* $results = array(
-            'aaData' => $datos['entries']
-        ); */
-        //echo json_encode($results); 
     }
 }
