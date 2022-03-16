@@ -6,19 +6,19 @@ $(document).ready(function () {
         if ($.fn.DataTable.isDataTable("#table-almacen")) {
             $("#table-almacen").dataTable().fnDestroy();
             $('#table-almacen tbody').remove();
-            tabla();
+            tablaAlmacen();
         }else{
-            tabla();
+            tablaAlmacen();
         }
     });
 });
 
-const formatter = new Intl.NumberFormat('en-US', {
+/* const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 2
-});
-function formatE(data) {
+}); */
+function formatAlmacen(data) {
     var tr = '';
     var products = data.productos;
     for (const p in products) {
@@ -55,7 +55,7 @@ function startOfWeek(date) {
     return new Date(date.setDate(diff));
   }
 
-function tabla(){
+function tablaAlmacen(){
     var fecha = $('#fechaAlmacen').val();
     var f = new Date($('#fechaAlmacen').val());
     var inicio = startOfWeek(f);
@@ -82,7 +82,7 @@ function tabla(){
         'searching': false,
         "ordering": false,
         'ajax': {
-            'url': 'index.php?controller=index&action=table',
+            'url': 'index.php?controller=almacenSemanal&action=table',
             'type': 'post',
             'data': { 'fechaA': fecha },
             /* success: function(data) {
@@ -184,7 +184,7 @@ function tabla(){
         }
         else {
             // Open this row
-            row.child(formatE(row.data()/* .productos, row.data().corte_inicial */)).show();
+            row.child(formatAlmacen(row.data()/* .productos, row.data().corte_inicial */)).show();
             tr.addClass('shown');
         }
     });
@@ -193,14 +193,14 @@ function tabla(){
 function almacen_excel() {
     var fecha = $('#fechaAlmacen').val();
     $.ajax({
-       url: 'index.php?controller=index&action=excel',
+       url: 'index.php?controller=almacenSemanal&action=excel',
        method: 'POST',
        data: { 'fechaA': fecha },
        success: function(data) {
            if (data) {
                console.log(data);
-               /* window.location.href = "http://localhost:8080/local/dev/adm/demo2/almacen.xlsx"; */
-               window.location.href = "http://demo.test/almacen.xlsx";
+               window.location.href = "http://localhost:8080/local/dev/adm/demo2/almacenSemanal.xlsx";
+               /* window.location.href = "http://demo.test/almacenSemanal.xlsx"; */
            } else { console.log("Sin datos") }
      }
  })

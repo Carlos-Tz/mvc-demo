@@ -26,19 +26,3 @@ function launchAction($controllerObj)
         $controllerObj->run(DEFAULT_ACTION);
     }
 }
-
-/* function cargarControlador($controller){
-switch ($controller) {
-        case 'employees':
-            $strFileController = 'controller/employeesController.php';
-            require_once $strFileController;
-            $controllerObj = new employeesController();
-            break;
-        default:
-            $strFileController = 'controller/employeesController.php';
-            require_once $strFileController;
-            $controllerObj = new EmployeesController();
-            break;
-    }
-    return $controllerObj;
-} */

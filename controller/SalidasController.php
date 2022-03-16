@@ -1,6 +1,6 @@
 <?php
 
-class IndexController {
+class SalidasController {
     private $conectar;
     private $Connection;
 
@@ -26,7 +26,7 @@ class IndexController {
     }
 
     public function index() {
-        $this->view("index", array(
+        $this->view("salidas", array(
             "title" => "INDEX"
         ));
     }
