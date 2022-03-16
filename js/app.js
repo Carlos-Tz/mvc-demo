@@ -199,8 +199,8 @@ function almacen_excel() {
        success: function(data) {
            if (data) {
                console.log(data);
-               window.location.href = "http://localhost:8080/local/dev/adm/demo2/almacen.xlsx";
-               /* window.location.href = "http://demo.test/almacen.xlsx"; */
+               /* window.location.href = "http://localhost:8080/local/dev/adm/demo2/almacen.xlsx"; */
+               window.location.href = "http://demo.test/almacen.xlsx";
            } else { console.log("Sin datos") }
      }
  })

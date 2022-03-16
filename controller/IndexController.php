@@ -168,16 +168,14 @@ class IndexController {
         $sheet->setCellValue('C'.$fila, "CORTE FINAL") ;
         $sheet->setCellValue('D'.$fila, "GASTO") ;
         $sheet->setCellValue('E'.$fila, "COMPRAS") ;
-        /* $sheet->setCellValue('F'.$fila, "COSTO") ; */
-        $sheet->getStyle('A1:K1')->getFont()->setBold(true)->setSize(12);
-        $sheet->getStyle('A2:K2')->getFont()->setBold(true)->setSize(12);
-        $sheet->getStyle('A1:K1')->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A2:K2')->getAlignment()->setHorizontal('center');
-        $sheet->getStyle('A1:K1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00ac69');
-        $sheet->getStyle('A2:K2')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00ac69');
-        $sheet->getStyle('A1:K1')->getFont()->getColor()->setRGB('FFFFFF');
-        $sheet->getStyle('A2:K2')->getFont()->getColor()->setRGB('FFFFFF');
-        /* $sheet->getStyle('B')->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_USD_SIMPLE); */
+        $sheet->getStyle('A1:E1')->getFont()->setBold(true)->setSize(12);
+        $sheet->getStyle('A2:E2')->getFont()->setBold(true)->setSize(12);
+        $sheet->getStyle('A1:E1')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A2:E2')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A1:E1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00ac69');
+        $sheet->getStyle('A2:E2')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00ac69');
+        $sheet->getStyle('A1:E1')->getFont()->getColor()->setRGB('FFFFFF');
+        $sheet->getStyle('A2:E2')->getFont()->getColor()->setRGB('FFFFFF');
         $sheet->freezePane('A3') ;
         $fila++;
         $total_inicial = 0;
@@ -185,6 +183,52 @@ class IndexController {
         $total_salidas = 0;
         $total_final = 0;
         foreach ($data as $rubro):
+            $total_inicial += $rubro['corte_inicial'];
+            $total_entradas += $rubro['sub_entradas'];
+            $total_salidas += $rubro['sub_salidas'];
+            $total_final += $rubro['corte_final'];
+            $sheet->getStyle('A'.$fila.':E'.$fila)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('33CC66');
+            $sheet->getStyle('A'.$fila.':E'.$fila)->getFont()->setSize(12);
+            $sheet->getStyle('B'.$fila.':E'.$fila)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+    
+            $sheet->setCellValue('A'.$fila, strtoupper($rubro['rubro']));
+            $sheet->setCellValue('B'.$fila, $rubro['corte_inicial']);
+            $sheet->setCellValue('C'.$fila, $rubro['corte_final']);
+            $sheet->setCellValue('D'.$fila, $rubro['sub_salidas']);
+            $sheet->setCellValue('E'.$fila, $rubro['sub_entradas']);
+            $fila++ ;
+            endforeach;
+            $fila++;
+        $sheet->getStyle('A'.$fila.':E'.$fila)->getFont()->setBold(true)->setSize(12);
+        $sheet->getStyle('B'.$fila.':E'.$fila)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+        $sheet->getStyle('A'.$fila.':E'.$fila)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('52BE4F');
+
+        $sheet->setCellValue('A'.$fila, 'TOTAL: ');
+        $sheet->setCellValue('B'.$fila, $total_inicial);
+        $sheet->setCellValue('C'.$fila, $total_final);
+        $sheet->setCellValue('D'.$fila, $total_salidas);
+        $sheet->setCellValue('E'.$fila, $total_entradas);
+        $sheet->getColumnDimension("A")->setAutoSize(true);
+        $sheet->getColumnDimension("B")->setAutoSize(true);
+        $sheet->getColumnDimension("C")->setAutoSize(true);
+        $sheet->getColumnDimension("D")->setAutoSize(true);
+        $sheet->getColumnDimension("E")->setAutoSize(true);
+        
+        foreach ($data as $rubro):
+            $sheet = $spreadsheet->createSheet();
+            $titulo = ucwords($rubro['rubro']);
+            $sheet->setTitle($titulo);
+            $fila = 1;
+            $sheet->setCellValue('A'.$fila, "CONCEPTO") ;
+            $sheet->setCellValue('B'.$fila, "CORTE INICIAL") ;
+            $sheet->setCellValue('C'.$fila, "CORTE FINAL") ;
+            $sheet->setCellValue('D'.$fila, "GASTO") ;
+            $sheet->setCellValue('E'.$fila, "COMPRAS") ;
+            $sheet->getStyle('A1:E1')->getFont()->setBold(true)->setSize(12);
+            $sheet->getStyle('A1:E1')->getAlignment()->setHorizontal('center');
+            $sheet->getStyle('A1:E1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00ac69');
+            $sheet->getStyle('A1:E1')->getFont()->getColor()->setRGB('FFFFFF');
+            $fila++;
             $sheet->getStyle('A'.$fila.':E'.$fila)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('33CC66');
             $sheet->getStyle('A'.$fila.':E'.$fila)->getFont()->setSize(12);
             $sheet->getStyle('B'.$fila.':E'.$fila)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
@@ -208,6 +252,8 @@ class IndexController {
             $sheet->setCellValue('I'.$fila, "SALIDAS VALOR MONETARIO") ;
             $sheet->setCellValue('J'.$fila, "EXISTENCIA FINAL") ;
             $sheet->setCellValue('K'.$fila, "VALOR MONETARIO FINAL") ;
+            $sheet->freezePane('A4') ;
+
             $fila++ ;
             
             foreach ($rubro['productos'] as $producto):
@@ -264,33 +310,20 @@ class IndexController {
             $sheet->setCellValue('I'.$fila, $rubro['sub_salidas']);
             $sheet->setCellValue('K'.$fila, $rubro['corte_final']);
             $fila++;
-            $total_inicial += $rubro['corte_inicial'];
-            $total_entradas += $rubro['sub_entradas'];
-            $total_salidas += $rubro['sub_salidas'];
-            $total_final += $rubro['corte_final'];
+            $sheet->getColumnDimension("A")->setAutoSize(true);
+            $sheet->getColumnDimension("B")->setAutoSize(true);
+            $sheet->getColumnDimension("C")->setAutoSize(true);
+            $sheet->getColumnDimension("D")->setAutoSize(true);
+            $sheet->getColumnDimension("E")->setAutoSize(true);
+            $sheet->getColumnDimension("F")->setAutoSize(true);
+            $sheet->getColumnDimension("G")->setAutoSize(true);
+            $sheet->getColumnDimension("H")->setAutoSize(true);
+            $sheet->getColumnDimension("I")->setAutoSize(true);
+            $sheet->getColumnDimension("J")->setAutoSize(true);
+            $sheet->getColumnDimension("K")->setAutoSize(true);
+
             endforeach;
-            $fila++;
-        $sheet->getStyle('A'.$fila.':E'.$fila)->getFont()->setBold(true)->setSize(12);
-        $sheet->getStyle('B'.$fila.':E'.$fila)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-        $sheet->getStyle('A'.$fila.':E'.$fila)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('52BE4F');
-
-        $sheet->setCellValue('A'.$fila, 'TOTAL: ');
-        $sheet->setCellValue('B'.$fila, $total_inicial);
-        $sheet->setCellValue('C'.$fila, $total_final);
-        $sheet->setCellValue('D'.$fila, $total_entradas);
-        $sheet->setCellValue('E'.$fila, $total_salidas);
-        $sheet->getColumnDimension("A")->setAutoSize(true);
-        $sheet->getColumnDimension("B")->setAutoSize(true);
-        $sheet->getColumnDimension("C")->setAutoSize(true);
-        $sheet->getColumnDimension("D")->setAutoSize(true);
-        $sheet->getColumnDimension("E")->setAutoSize(true);
-        $sheet->getColumnDimension("F")->setAutoSize(true);
-        $sheet->getColumnDimension("G")->setAutoSize(true);
-        $sheet->getColumnDimension("H")->setAutoSize(true);
-        $sheet->getColumnDimension("I")->setAutoSize(true);
-        $sheet->getColumnDimension("J")->setAutoSize(true);
-        $sheet->getColumnDimension("K")->setAutoSize(true);
-
+            
         $filename = 'almacen.xlsx' ;
 
         ob_clean();
