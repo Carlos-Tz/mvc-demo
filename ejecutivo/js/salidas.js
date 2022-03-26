@@ -1,29 +1,50 @@
-function formatEntradas(d) {
+$(document).ready(function(){
+    $("#salidas").click(function() {
+        if($('#cont_s').is(':hidden')){
+            $('#cont_s').show();
+        }
+        if ($.fn.DataTable.isDataTable("#table-salidas")) {
+            $("#table-salidas").dataTable().fnDestroy();
+            $('#table-salidas tbody').remove();
+            getTableSalidas($('#fechaInicio').val(), $('#fechaFin').val());
+        }else{
+            getTableSalidas($('#fechaInicio').val(), $('#fechaFin').val());
+        }
+    });
+});
+function formatSalidas(d) {
     var tr = '';
     for (const p in d) {
-        tr += '<tr><td>' + d[p].p.toUpperCase() + '</td><td>' + d[p].cantidad.toFixed(3) + '</td><td>' + d[p].u.toUpperCase() + '</td><td>' + formatter.format(d[p].subtotal) + '</td></tr>';
+        tr += '<tr><td>' + d[p].p.toUpperCase() + '</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>';
+        for (const p_r in d[p].ranc_prod){
+            tr += '<tr><td></td><td>' + d[p].ranc_prod[p_r].r.toUpperCase() + '</td><td>'+ d[p].ranc_prod[p_r].total_c.toFixed(3) +'</td><td>' + d[p].ranc_prod[p_r].sect_prod[0].u.toUpperCase() + '</td><td>' + formatter.format(d[p].ranc_prod[p_r].total_s) + '</td><td>' + formatter.format(d[p].ranc_prod[p_r].total_h) + '</td><td>' + d[p].ranc_prod[p_r].dosis_ha.toFixed(3) + '</td></tr>';
+        }
     }
     // `d` is the original data object for the row
     return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
-        '<tr><td>Producto</td><td>Cantidad</td><td>Unidad</td><td>Subtotal</td></tr>' +
+        '<tr><td>Producto</td><td>Rancho</td><td>Cantidad</td><td>Unidad</td><td>Costo</td><td>Costo por héctarea</td><td>Dosis promedio por ha</td></tr>' +
         tr +
         '</table>';
 }
 
-function getTableEntradas(fechaI, fechaF){
-    var table = $('#table-entradas').DataTable({
-        'processing': true,
-        'serverSide': true,
+const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2
+});
+
+function getTableSalidas(fechaI, fechaF){
+    var table = $('#table-salidas').DataTable({
+        /* 'processing': true,
+        'serverSide': true, */
         'serverMethod': 'post',
         'info': false,
         'dom': 'frti',
         'stateSave': true,
-        'responsive': true,
-        "autoWidth": true,
-        "scrollX": "auto",
         'searching': false,
+        "ordering": false,
         'ajax': {
-            'url': 'table-entradas.php',
+            'url': 'index.php?c=salidas&action=table',
             'data': { 'fechaI': fechaI, 'fechaF': fechaF },
             'type': 'post',
         },
@@ -77,8 +98,8 @@ function getTableEntradas(fechaI, fechaF){
             );
         }
     });
-    
-    $('#table-entradas tbody').on('click', 'td.dt-control', function () {
+
+    $('#table-salidas tbody').on('click', 'td.dt-control', function () {
         var tr = $(this).closest('tr');
         var row = table.row(tr);
         if (row.child.isShown()) {
@@ -88,57 +109,23 @@ function getTableEntradas(fechaI, fechaF){
         }
         else {
             // Open this row
-            row.child(formatEntradas(row.data().productos)).show();
+            row.child(formatSalidas(row.data().productos)).show();
             tr.addClass('shown');
         }
     });
 }
 
-$(document).ready(function () {     
-    /* $('#cont_e').hide();   
-    $('#cont_s').hide(); */   
-    $("#entradas").click(function() {
-        if($('#cont_e').is(':hidden')){
-            $('#cont_e').show();
-        }
-        if($('#cont_s').is(':visible')){
-            $('#cont_s').hide();
-        }
-        if ($.fn.DataTable.isDataTable("#table-entradas")) {
-            $("#table-entradas").dataTable().fnDestroy();
-            $('#table-entradas tbody').remove();
-            getTableEntradas($('#fechaInicio').val(), $('#fechaFin').val());
-        }else{
-            getTableEntradas($('#fechaInicio').val(), $('#fechaFin').val());
-        }
-    });
-    $("#salidas").click(function() {
-        if($('#cont_e').is(':visible')){
-            $('#cont_e').hide();
-        }
-        if($('#cont_s').is(':hidden')){
-            $('#cont_s').show();
-        }
-        if ($.fn.DataTable.isDataTable("#table-salidas")) {
-            $("#table-salidas").dataTable().fnDestroy();
-            $('#table-salidas tbody').remove();
-            getTableSalidas($('#fechaInicio').val(), $('#fechaFin').val());
-        }else{
-            getTableSalidas($('#fechaInicio').val(), $('#fechaFin').val());
-        }
-    });
-});
-
-function entradas_excel() {
-     $.ajax({
-        url: 'table-entradas-excel.php',
-        method: 'POST',
-        data: { 'fechaI': $('#fechaInicio').val(), 'fechaF': $('#fechaFin').val() },
-        success: function(data) {
-            if (!data.error) {
-                console.log(data);
-                window.location.href = "http://inomac.test/entradas.xlsx";
-            } else { console.log("Error en funcion") }
-      }
-  })
+function salidas_excel() {
+    $.ajax({
+       url: 'index.php?c=salidas&action=excel',
+       method: 'POST',
+       data: { 'fechaI': $('#fechaInicio').val(), 'fechaF': $('#fechaFin').val() },
+       success: function(data) {
+           if (!data.error) {
+               /* console.log(data); */
+               /* window.location.href = "https://pruebas.inomac.mx/ejecutivo/salidas.xlsx"; */
+               window.location.href = "http://localhost/inomac/ejecutivo/salidas.xlsx";
+           } else { console.log("Error en funcion") }
+     }
+ })
 }

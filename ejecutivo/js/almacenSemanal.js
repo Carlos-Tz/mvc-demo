@@ -13,11 +13,12 @@ $(document).ready(function () {
     });
 });
 
-/* const formatter = new Intl.NumberFormat('en-US', {
+const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 2
-}); */
+});
+
 function formatAlmacen(data) {
     var tr = '';
     var products = data.productos;
@@ -82,13 +83,9 @@ function tablaAlmacen(){
         'searching': false,
         "ordering": false,
         'ajax': {
-            'url': 'index.php?controller=almacenSemanal&action=table',
+            'url': 'index.php?c=almacenSemanal&action=table',
             'type': 'post',
             'data': { 'fechaA': fecha },
-            /* success: function(data) {
-                if (!data.error) { console.log(data); }
-                else { alert("Error en funcion") }
-            } */
         },
         'columns': [
             {
@@ -193,14 +190,14 @@ function tablaAlmacen(){
 function almacen_excel() {
     var fecha = $('#fechaAlmacen').val();
     $.ajax({
-       url: 'index.php?controller=almacenSemanal&action=excel',
+       url: 'index.php?c=almacenSemanal&action=excel',
        method: 'POST',
        data: { 'fechaA': fecha },
        success: function(data) {
            if (data) {
-               console.log(data);
-               window.location.href = "http://localhost:8080/local/dev/adm/demo2/almacenSemanal.xlsx";
-               /* window.location.href = "http://demo.test/almacenSemanal.xlsx"; */
+               /* console.log(data); */
+               /* window.location.href = "https://pruebas.inomac.mx/ejecutivo/almacenSemanal.xlsx"; */
+               window.location.href = "http://localhost/inomac/ejecutivo/almacenSemanal.xlsx";
            } else { console.log("Sin datos") }
      }
  })

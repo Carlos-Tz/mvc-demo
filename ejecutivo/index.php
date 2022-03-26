@@ -1,8 +1,8 @@
 <?php
 
 require_once 'config/global.php';
-if (isset($_GET["controller"])) {
-    $controllerObj = cargarControlador($_GET["controller"]);
+if (isset($_GET["c"])) {
+    $controllerObj = cargarControlador($_GET["c"]);
     launchAction($controllerObj);
 } else {
     $controllerObj = cargarControlador(DEFAULT_CONTROLLER);

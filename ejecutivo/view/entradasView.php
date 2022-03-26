@@ -1,5 +1,5 @@
 <?php
-include 'cabecera.php';
+include("../utils/cabecera.php");
 date_default_timezone_set('America/Mexico_City');
 ?>
 <link href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" rel="stylesheet" crossorigin="anonymous" />
@@ -22,14 +22,17 @@ date_default_timezone_set('America/Mexico_City');
                 </div>
             </div>
             <div class="col-md-4">
-                <button class="btn btn-outline-success btn-block" id="entradas">ENTRADAS</button>
-                <button class="btn btn-outline-primary btn-block" id="salidas" name="salidas">SALIDAS</button>
+                <div class="form-group ">
+                    <label for="sub"></label>
+                    <button class="btn btn-outline-success btn-block" id="entradas">GENERAR</button>
+                </div>
+                <!-- <button class="btn btn-outline-primary btn-block" id="salidas" name="salidas">SALIDAS</button> -->
             </div>
         </div>
         
         <div class="container mt-5" id="cont_e" style="display:none;">
             <h2 style="margin-bottom: 30px;">Entradas</h2>
-            <button type="button" class="btn btn-success" onclick="entradas_excel()">Excel</button>
+            <button type="button" class="btn btn-secondary" onclick="entradas_excel()">Excel</button>
             <table class="table table-striped table-bordered table-hover" id="table-entradas" class="display" style="width:100%">
                 <thead>
                     <tr>
@@ -71,7 +74,6 @@ date_default_timezone_set('America/Mexico_City');
     </div>
 </div> <!-- card-body -->
 
-<?php include "piePagina.php";
-?>
+<?php include_once("../utils/piePagina.php") ;?>
 
-<script src="<?= DIR_S ?>js/entradas.js"></script>
+<script src="<?= DIR_S ?>ejecutivo/js/entradas.js"></script>

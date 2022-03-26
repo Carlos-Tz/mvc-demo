@@ -1,10 +1,10 @@
 <?php
 
-    define('DIR_A','http://localhost:8080/local/dev/adm/demo2/cap_humano/');
-    /* define('DIR_A','http://demo.test/cap_humano/'); */
+    /* define('DIR_A','http://localhost:8080/local/dev/adm/demo2/cap_humano/'); */
+    define('DIR_A','http://localhost/inomac/cap_humano/');
 
-define('DIR_S','http://localhost:8080/local/dev/adm/demo2/');
-/* define('DIR_S','http://demo.test/'); */
+/* define('DIR_S','http://localhost:8080/local/dev/adm/demo2/'); */
+define('DIR_S','http://localhost/inomac/');
 
 
 

@@ -1,5 +1,5 @@
 <?php
-include 'cabecera.php';
+include("../utils/cabecera.php");
 date_default_timezone_set('America/Mexico_City');
 ?>
 <link href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" rel="stylesheet" crossorigin="anonymous" />
@@ -7,7 +7,7 @@ date_default_timezone_set('America/Mexico_City');
 
 <div class="card-body">
     <div class="container-fluid">
-        <H1>Almacen Semanal</H1>
+        <H1>Almacen Mensual</H1>
         <div class="row py-2  px-2" style="background-color: #e3e6ec">
             <div class="col-md-2">
                 <label for="sub">Fecha :</label>
@@ -23,10 +23,10 @@ date_default_timezone_set('America/Mexico_City');
         </div>
         <div id="btn_excel" style="display:none;" class="row">
             <div class="col-md-2">
-                <button type="button" class="btn btn-secondary mt-2" onclick="almacen_excel()">Excel</button>
+                <button type="button" class="btn btn-secondary mt-2" onclick="almacen_mensual_excel()">Excel</button>
             </div>
             <div class="col-md-8 mt-3">
-                <h6>Semana de: <span id="f_i"></span> a <span id="f_f"></span> </h6>
+                <h6>Mes de: <span id="f_i"></span> a <span id="f_f"></span> </h6>
             </div>
         </div>
         <table id="table-almacen" class="table table-striped table-bordered table-hover" style="width: 100%">
@@ -55,7 +55,6 @@ date_default_timezone_set('America/Mexico_City');
     </div>
 </div> <!-- card-body -->
 
-<?php include "piePagina.php";
-?>
+<?php include_once("../utils/piePagina.php") ;?>
 
-<script src="<?= DIR_S ?>js/almacenSemanal.js"></script>
+<script src="<?= DIR_S ?>ejecutivo/js/almacenMensual.js"></script>
