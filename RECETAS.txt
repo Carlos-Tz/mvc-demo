@@ -1,0 +1,46 @@
+CREATE TABLE receta (
+  id_receta int(11) NOT NULL,
+  num_subrancho int(11) NOT NULL,  
+  fecha date NOT NULL,
+  status varchar(10) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  justificacion text CHARACTER SET utf8 COLLATE utf8_spanish_ci
+)   ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+ALTER TABLE receta
+  ADD PRIMARY KEY (id_receta) ;
+
+ALTER TABLE receta
+  MODIFY id_receta int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
+
+CREATE TABLE receta_detalle (
+  id_receta_detalle int(11) NOT NULL,
+  id_receta int(11) NOT NULL,
+  id_prod int(11) NOT NULL,
+  id_sector varchar(2) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  dosis_hectarea float(11,5) DEFAULT NULL,
+  dosis_total float(11,5) NOT NULL, 
+  status  varchar(10) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  hora_inicio time(6) DEFAULT NULL,
+  hora_fin time(6) DEFAULT NULL,
+  operario varchar(20) CHARACTER SET utf8 COLLATE utf8_spanish_ci DEFAULT NULL,
+  aut_tecnica varchar(90) CHARACTER SET latin1 COLLATE latin1_spanish_ci DEFAULT NULL,
+  maquinaria varchar(30) CHARACTER SET utf8 COLLATE utf8_spanish_ci DEFAULT NULL,
+  metodo varchar(20) CHARACTER SET utf8 COLLATE utf8_spanish_ci DEFAULT NULL,
+  clima varchar(20) CHARACTER SET utf8 COLLATE utf8_spanish_ci DEFAULT NULL,
+  ph float(11,4) DEFAULT NULL,
+  phv1 float(11,4) DEFAULT NULL,
+  phv5 float(11,4) DEFAULT NULL,
+  cev1 float(11,4) DEFAULT NULL,
+  cev5 float(11,4) DEFAULT NULL,
+  riego float(11,4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+
+ALTER TABLE receta_detalle
+  ADD PRIMARY KEY (id_receta_detalle),
+  ADD KEY id_receta (id_receta),
+  ADD KEY id_prod (id_prod),
+ ADD KEY id_sector (id_sector);
+
+ALTER TABLE receta_detalle
+  MODIFY id_receta_detalle int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
