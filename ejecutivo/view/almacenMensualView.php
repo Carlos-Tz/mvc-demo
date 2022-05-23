@@ -7,29 +7,52 @@ date_default_timezone_set('America/Mexico_City');
 
 <div class="card-body">
     <div class="container-fluid">
-        <H1>Almacen Mensual</H1>
+        <H1> <?php echo $datos['title'] ?></H1>
         <div class="row py-2  px-2" style="background-color: #e3e6ec">
-            <div class="col-md-2">
-                <label for="sub">Fecha :</label>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <input type="date" class="form-control" required name="fechaAlmacen" id="fechaAlmacen" value="<?= date("Y-m-d")?>">
-                </div>
+            <div class="col-md-1">
+                <label for="sub">Mes :</label>
             </div>
             <div class="col-md-3">
-                <button class="btn btn-outline-success btn-block" id="almacen">Generar</button>
+                <div class="form-group">
+                    <!-- <input type="date" class="form-control" required name="fechaAlmacen" id="fechaAlmacen" value="<?= date("Y-m-d")?>"> -->
+                    <select name="mes" id="mes" class="form-control">
+                        <option value="ENERO">Enero</option>
+                        <option value="FEBRERO">Febrero</option>
+                        <option value="MARZO">Marzo</option>
+                        <option value="ABRIL">Abril</option>
+                        <option value="MAYO">Mayo</option>
+                        <option value="JUNIO">Junio</option>
+                        <option value="JULIO">Julio</option>
+                        <option value="AGOSTO">Agosto</option>
+                        <option value="SEPTIEMBRE">Septiembre</option>
+                        <option value="OCTUBRE">Octubre</option>
+                        <option value="NOVIEMBRE">Noviembre</option>
+                        <option value="DICIEMBRE">Diciembre</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <label for="sub">Ciclo :</label>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <select name="ciclo" id="ciclo" class="form-control">
+                        <?php foreach ($datos["cicles"] as $cicle) { ?>
+                            <option value="<?php echo $cicle['id_ciclo']; ?>"><?php echo $cicle['ciclo']; ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-outline-success btn-block" id="almacen-mensual">Generar</button>
             </div>
         </div>
-        <div id="btn_excel" style="display:none;" class="row">
+        <div id="btn_excel_mensual" style="display:none;" class="row">
             <div class="col-md-2">
                 <button type="button" class="btn btn-secondary mt-2" onclick="almacen_mensual_excel()">Excel</button>
             </div>
-            <div class="col-md-8 mt-3">
-                <h6>Mes de: <span id="f_i"></span> a <span id="f_f"></span> </h6>
-            </div>
         </div>
-        <table id="table-almacen" class="table table-striped table-bordered table-hover" style="width: 100%">
+        <table id="table-almacen-mensual" class="table table-striped table-bordered table-hover" style="width: 100%">
             <thead>
                 <tr>
                     <th></th>

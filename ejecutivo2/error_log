@@ -1,0 +1,73 @@
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Constant DIR_A already defined in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 2
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: agroquimico in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 78
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: i in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 78
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: fertilizante in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 79
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: i in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 79
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: electronico in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 80
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: i in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 80
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: ferreteria in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 81
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: i in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 81
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: riego in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 82
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: i in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 82
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: papeleria in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 83
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: i in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 83
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: inocuidad in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 84
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: i in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 84
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: acido in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 85
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: i in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 85
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: fumigacion in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 86
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: i in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 86
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: agricola in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 87
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: i in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 87
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: otros in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 88
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: i in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 88
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: servicios in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 89
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: i in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 89
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: vehiculos in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 90
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: i in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 90
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: infraestructura in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 91
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: i in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 91
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: colores in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 97
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 97
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: agroquimico in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 135
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: pos in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 135
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: fertilizante in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 136
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: pos in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 136
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: electronio in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 137
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: pos in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 137
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: ferreteria in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 138
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: pos in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 138
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: riego in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 139
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: pos in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 139
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: papeleria in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 140
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: pos in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 140
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: inocuidad in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 141
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: pos in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 141
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: acido in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 142
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: pos in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 142
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: fumigacion in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 143
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: pos in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 143
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: agricola in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 144
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: pos in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 144
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: otros in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 145
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: pos in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 145
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: servicios in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 146
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: pos in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 146
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: vehiculos in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 147
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: pos in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 147
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: infraestructura in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 148
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: pos in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 148
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: colores in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 154
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 154
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: tablas in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 186
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 186
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: totales in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 200
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 200
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: colores in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 211
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 211
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: sub_rancho in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 246
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 246
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: totales in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 260
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 260
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Notice:  Undefined variable: colores in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 271
+[07-Apr-2022 20:08:34 America/Mexico_City] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in /home/inomacmx/pruebas.inomac.mx/utils/piePagina.php on line 271

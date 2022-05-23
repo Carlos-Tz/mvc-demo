@@ -13,6 +13,7 @@ class AlmacenMensualController {
         require_once  __DIR__ . "/../core/Conectar.php";
         require_once  __DIR__ . "/../model/existence.php";
         require_once  __DIR__ . "/../model/movement.php";
+        require_once  __DIR__ . "/../model/monthlyExistence.php";
         $this->conectar = new Conectar();
         $this->Connection = $this->conectar->Connection();
     }
@@ -39,30 +40,52 @@ class AlmacenMensualController {
     }
 
     public function index() {
+        $monthlyExistence = new MonthlyExistence($this->Connection);
+        $cicles = $monthlyExistence->getCicle();
         $this->view("almacenMensual", array(
-            "title" => "INDEX"
+            "cicles" => $cicles,
+            "title" => "Almacen Mensual"
         ));
     }
 
+    public function month($mes){
+        switch ($mes) {
+            case 'ENERO': return '01'; break;
+            case 'FEBRERO': return '02'; break;
+            case 'MARZO': return '03'; break;
+            case 'ABRIL': return '04'; break;
+            case 'MAYO': return '05'; break;
+            case 'JUNIO': return '06'; break;
+            case 'JULIO': return '07'; break;
+            case 'AGOSTO': return '08'; break;
+            case 'SEPTIEMBRE': return '09'; break;
+            case 'OCTUBRE': return '10'; break;
+            case 'NOVIEMBRE': return '11'; break;
+            case 'DICIEMBRE': return '12'; break;
+            default: return ''; break;
+        }
+    }
+
     public function table() {
-        $fecha = new DateTime($_POST['fechaA'], new DateTimeZone('America/Mexico_City'));
-        $semana = intval($fecha->format('W'));
-        $anio = intval($fecha->format('Y'));
-        $f_inicio = clone $fecha->setISODate($anio, $semana);
-        $f_fin = $fecha->modify('+6 days');
-        $week = $semana - 1;
-        $f_i = $f_inicio->format('Y-m-d');
-        $f_f = $f_fin->format('Y-m-d');
-        
+        $mes = $_POST['mes'];
+        $ciclo = $_POST['ciclo'];
         $data = array();
-        if ($fecha){
-            $existence = new Existence($this->Connection);
-            $existences = $existence->getAll($week);
+        $monthlyExistence = new MonthlyExistence($this->Connection);
+        $monthlyExistences = $monthlyExistence->getAll($mes, $ciclo);
+        if ($monthlyExistences){
+            $anio = $monthlyExistences[0]['anio'];
+            $month = $this->month($mes);
+            $start_date = $anio."-".$month."-01";
+            $end_date = date("Y-m-t", strtotime($start_date));
+            //print_r($monthlyExistences[0]['anio']);
+            //echo json_encode($monthlyExistences);
+            /*$existence = new Existence($this->Connection);
+            $existences = $existence->getAll($mes);*/
             $movement = new Movement($this->Connection);
-            $entries = $movement->getAllEntries($f_i, $f_f);
-            $outputs = $movement->getAllOutputs($f_i, $f_f);
+            $entries = $movement->getAllEntries($start_date, $end_date);
+            $outputs = $movement->getAllOutputs($start_date, $end_date);
             foreach ($this->rubros as $key_rubro => $value_rubro) :
-                $rub[$key_rubro] = array_filter($existences, function ($row) use ($value_rubro) {
+                $rub[$key_rubro] = array_filter($monthlyExistences, function ($row) use ($value_rubro) {
                 return strtolower($row['clasificacion']) == $value_rubro;
             });
             $id = '';
@@ -102,25 +125,21 @@ class AlmacenMensualController {
     }
 
     public function excel() {
-        $fecha = new DateTime($_POST['fechaA'], new DateTimeZone('America/Mexico_City'));
-        $semana = intval($fecha->format('W'));
-        $anio = intval($fecha->format('Y'));
-        $f_inicio = clone $fecha->setISODate($anio, $semana);
-        $f_fin = $fecha->modify('+6 days');
-        $week = $semana - 1;
-        $f_i = $f_inicio->format('Y-m-d');
-        $f_f = $f_fin->format('Y-m-d');
-        
+        $mes = $_POST['mes'];
+        $ciclo = $_POST['ciclo'];
         $data = array();
-        if ($fecha){
-            $existence = new Existence($this->Connection);
-            $existences = $existence->getAll($week);
-            if (!$existences) return false;
+        $monthlyExistence = new MonthlyExistence($this->Connection);
+        $monthlyExistences = $monthlyExistence->getAll($mes, $ciclo);
+        if ($monthlyExistences){
+            $anio = $monthlyExistences[0]['anio'];
+            $month = $this->month($mes);
+            $start_date = $anio."-".$month."-01";
+            $end_date = date("Y-m-t", strtotime($start_date));
             $movement = new Movement($this->Connection);
-            $entries = $movement->getAllEntries($f_i, $f_f);
-            $outputs = $movement->getAllOutputs($f_i, $f_f);
+            $entries = $movement->getAllEntries($start_date, $end_date);
+            $outputs = $movement->getAllOutputs($start_date, $end_date);
             foreach ($this->rubros as $key_rubro => $value_rubro) :
-                $rub[$key_rubro] = array_filter($existences, function ($row) use ($value_rubro) {
+                $rub[$key_rubro] = array_filter($monthlyExistences, function ($row) use ($value_rubro) {
                 return strtolower($row['clasificacion']) == $value_rubro;
             });
             $id = '';
@@ -150,6 +169,8 @@ class AlmacenMensualController {
                     array_push($data, array('rubro' => $this->rubros[$key_rubro], 'corte_inicial' => $corte_inicial, 'productos' => $products, 'sub_entradas' => $sub_entradas, 'sub_salidas' => $sub_salidas, 'corte_final' => $corte_final));
                 endif;
             endforeach;
+        }else {
+            return false;
         }
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
@@ -158,10 +179,10 @@ class AlmacenMensualController {
         $fila = 1;
 
         $sheet->setCellValue('A'.$fila, "ALMACEN") ;
-        $sheet->setCellValue('B'.$fila, "SEMANA") ;
-        $sheet->setCellValue('C'.$fila, $f_i) ;
+        $sheet->setCellValue('B'.$fila, "MES") ;
+        $sheet->setCellValue('C'.$fila, $start_date) ;
         $sheet->setCellValue('D'.$fila, "---") ;
-        $sheet->setCellValue('E'.$fila, $f_f) ;
+        $sheet->setCellValue('E'.$fila, $end_date) ;
         $fila++;
         $sheet->setCellValue('A'.$fila, "CONCEPTO") ;
         $sheet->setCellValue('B'.$fila, "CORTE INICIAL") ;
@@ -215,116 +236,117 @@ class AlmacenMensualController {
         $sheet->getColumnDimension("E")->setAutoSize(true);
         
         foreach ($data as $rubro):
-            $sheet = $spreadsheet->createSheet();
-            $titulo = ucwords($rubro['rubro']);
-            $sheet->setTitle($titulo);
-            $fila = 1;
-            $sheet->setCellValue('A'.$fila, "CONCEPTO") ;
-            $sheet->setCellValue('B'.$fila, "CORTE INICIAL") ;
-            $sheet->setCellValue('C'.$fila, "CORTE FINAL") ;
-            $sheet->setCellValue('D'.$fila, "GASTO") ;
-            $sheet->setCellValue('E'.$fila, "COMPRAS") ;
-            $sheet->getStyle('A1:E1')->getFont()->setBold(true)->setSize(12);
-            $sheet->getStyle('A1:E1')->getAlignment()->setHorizontal('center');
-            $sheet->getStyle('A1:E1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00ac69');
-            $sheet->getStyle('A1:E1')->getFont()->getColor()->setRGB('FFFFFF');
-            $fila++;
-            $sheet->getStyle('A'.$fila.':E'.$fila)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('33CC66');
-            $sheet->getStyle('A'.$fila.':E'.$fila)->getFont()->setSize(12);
-            $sheet->getStyle('B'.$fila.':E'.$fila)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+            if ($rubro['sub_entradas'] > 0 || $rubro['sub_salidas'] > 0){
+                $sheet = $spreadsheet->createSheet();
+                $titulo = ucwords($rubro['rubro']);
+                $sheet->setTitle($titulo);
+                $fila = 1;
+                $sheet->setCellValue('A'.$fila, "CONCEPTO") ;
+                $sheet->setCellValue('B'.$fila, "CORTE INICIAL") ;
+                $sheet->setCellValue('C'.$fila, "CORTE FINAL") ;
+                $sheet->setCellValue('D'.$fila, "GASTO") ;
+                $sheet->setCellValue('E'.$fila, "COMPRAS") ;
+                $sheet->getStyle('A1:E1')->getFont()->setBold(true)->setSize(12);
+                $sheet->getStyle('A1:E1')->getAlignment()->setHorizontal('center');
+                $sheet->getStyle('A1:E1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('00ac69');
+                $sheet->getStyle('A1:E1')->getFont()->getColor()->setRGB('FFFFFF');
+                $fila++;
+                $sheet->getStyle('A'.$fila.':E'.$fila)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('33CC66');
+                $sheet->getStyle('A'.$fila.':E'.$fila)->getFont()->setSize(12);
+                $sheet->getStyle('B'.$fila.':E'.$fila)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 
-            $sheet->setCellValue('A'.$fila, strtoupper($rubro['rubro']));
-            $sheet->setCellValue('B'.$fila, $rubro['corte_inicial']);
-            $sheet->setCellValue('C'.$fila, $rubro['corte_final']);
-            $sheet->setCellValue('D'.$fila, $rubro['sub_salidas']);
-            $sheet->setCellValue('E'.$fila, $rubro['sub_entradas']);
-            $fila++ ;
-            $sheet->getStyle('B'.$fila.':K'.$fila)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('DAF7A6');
-            $sheet->getStyle('B'.$fila.':K'.$fila)->getAlignment()->setHorizontal('center');
+                $sheet->setCellValue('A'.$fila, strtoupper($rubro['rubro']));
+                $sheet->setCellValue('B'.$fila, $rubro['corte_inicial']);
+                $sheet->setCellValue('C'.$fila, $rubro['corte_final']);
+                $sheet->setCellValue('D'.$fila, $rubro['sub_salidas']);
+                $sheet->setCellValue('E'.$fila, $rubro['sub_entradas']);
+                $fila++ ;
+                $sheet->getStyle('B'.$fila.':K'.$fila)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('DAF7A6');
+                $sheet->getStyle('B'.$fila.':K'.$fila)->getAlignment()->setHorizontal('center');
 
-            $sheet->setCellValue('B'.$fila, "PRODUCTO") ;
-            $sheet->setCellValue('C'.$fila, "UNIDAD") ;
-            $sheet->setCellValue('D'.$fila, "EXISTENCIA INICIAL") ;
-            $sheet->setCellValue('E'.$fila, "VALOR MONETARIO INICIAL") ;
-            $sheet->setCellValue('F'.$fila, "COMPRAS CANTIDAD") ;
-            $sheet->setCellValue('G'.$fila, "COMPRAS VALOR MONETARIO") ;
-            $sheet->setCellValue('H'.$fila, "SALIDAS CANTIDAD") ;
-            $sheet->setCellValue('I'.$fila, "SALIDAS VALOR MONETARIO") ;
-            $sheet->setCellValue('J'.$fila, "EXISTENCIA FINAL") ;
-            $sheet->setCellValue('K'.$fila, "VALOR MONETARIO FINAL") ;
-            $sheet->freezePane('A4') ;
+                $sheet->setCellValue('B'.$fila, "PRODUCTO") ;
+                $sheet->setCellValue('C'.$fila, "UNIDAD") ;
+                $sheet->setCellValue('D'.$fila, "EXISTENCIA INICIAL") ;
+                $sheet->setCellValue('E'.$fila, "VALOR MONETARIO INICIAL") ;
+                $sheet->setCellValue('F'.$fila, "COMPRAS CANTIDAD") ;
+                $sheet->setCellValue('G'.$fila, "COMPRAS VALOR MONETARIO") ;
+                $sheet->setCellValue('H'.$fila, "SALIDAS CANTIDAD") ;
+                $sheet->setCellValue('I'.$fila, "SALIDAS VALOR MONETARIO") ;
+                $sheet->setCellValue('J'.$fila, "EXISTENCIA FINAL") ;
+                $sheet->setCellValue('K'.$fila, "VALOR MONETARIO FINAL") ;
+                $sheet->freezePane('A4') ;
 
-            $fila++ ;
-            
-            foreach ($rubro['productos'] as $producto):
-                $entradas = 0;
-                $entradas_valor = 0;
-                $salidas = 0;
-                $salidas_valor = 0;
-                $existencia_final = 0;
-                $valor_monetario_final = 0;
-                $valor_monetario_inicial = $producto['p']['importe'];
-                foreach ($producto['entradas'] as $in):
-                    $entradas += $in['cantidad'];
-                    $entradas_valor += $in['importe'];
-                    endforeach;
-                foreach ($producto['salidas'] as $ou):
-                    $salidas += $ou['cantidad'];
-                    $salidas_valor += $ou['importe'];
-                    endforeach;
-                if ($entradas > 0 || $salidas > 0){
-                    $existencia_final = $producto['p']['existencia'] + $entradas - $salidas;
-                    $valor_monetario_final = $valor_monetario_inicial + $entradas_valor - $salidas_valor;
-                    $sheet->getStyle('D'.$fila)->getNumberFormat()->setFormatCode('#,##0.000');
-                    $sheet->getStyle('E'.$fila)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-                    $sheet->getStyle('F'.$fila)->getNumberFormat()->setFormatCode('#,##0.000');
-                    $sheet->getStyle('G'.$fila)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-                    $sheet->getStyle('H'.$fila)->getNumberFormat()->setFormatCode('#,##0.000');
-                    $sheet->getStyle('I'.$fila)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-                    $sheet->getStyle('J'.$fila)->getNumberFormat()->setFormatCode('#,##0.000');
-                    $sheet->getStyle('K'.$fila)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-                    $sheet->setCellValue('B'.$fila, strtoupper($producto['p']['nom_prod']));
-                    $sheet->setCellValue('C'.$fila, strtoupper($producto['p']['unidad_medida']));
-                    $sheet->getStyle('D'.$fila)->getAlignment()->setHorizontal('center');
-                    $sheet->setCellValue('D'.$fila, strtoupper($producto['p']['existencia']));
-                    $sheet->setCellValue('E'.$fila, strtoupper($producto['p']['importe']));
-                    $sheet->getStyle('F'.$fila)->getAlignment()->setHorizontal('center');
-                    $sheet->setCellValue('F'.$fila, strtoupper($entradas));
-                    $sheet->setCellValue('G'.$fila, strtoupper($entradas_valor));
-                    $sheet->getStyle('H'.$fila)->getAlignment()->setHorizontal('center');
-                    $sheet->setCellValue('H'.$fila, strtoupper($salidas));
-                    $sheet->setCellValue('I'.$fila, strtoupper($salidas_valor));
-                    $sheet->getStyle('J'.$fila)->getAlignment()->setHorizontal('center');
-                    $sheet->setCellValue('J'.$fila, strtoupper($existencia_final));
-                    $sheet->setCellValue('K'.$fila, strtoupper($valor_monetario_final));
-                    $fila++;
-                }
+                $fila++ ;
+                
+                foreach ($rubro['productos'] as $producto):
+                    $entradas = 0;
+                    $entradas_valor = 0;
+                    $salidas = 0;
+                    $salidas_valor = 0;
+                    $existencia_final = 0;
+                    $valor_monetario_final = 0;
+                    $valor_monetario_inicial = $producto['p']['importe'];
+                    foreach ($producto['entradas'] as $in):
+                        $entradas += $in['cantidad'];
+                        $entradas_valor += $in['importe'];
+                        endforeach;
+                    foreach ($producto['salidas'] as $ou):
+                        $salidas += $ou['cantidad'];
+                        $salidas_valor += $ou['importe'];
+                        endforeach;
+                    //if ($entradas > 0 || $salidas > 0){
+                        $existencia_final = $producto['p']['existencia'] + $entradas - $salidas;
+                        $valor_monetario_final = $valor_monetario_inicial + $entradas_valor - $salidas_valor;
+                        $sheet->getStyle('D'.$fila)->getNumberFormat()->setFormatCode('#,##0.000');
+                        $sheet->getStyle('E'.$fila)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+                        $sheet->getStyle('F'.$fila)->getNumberFormat()->setFormatCode('#,##0.000');
+                        $sheet->getStyle('G'.$fila)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+                        $sheet->getStyle('H'.$fila)->getNumberFormat()->setFormatCode('#,##0.000');
+                        $sheet->getStyle('I'.$fila)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+                        $sheet->getStyle('J'.$fila)->getNumberFormat()->setFormatCode('#,##0.000');
+                        $sheet->getStyle('K'.$fila)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+                        $sheet->setCellValue('B'.$fila, strtoupper($producto['p']['nom_prod']));
+                        $sheet->setCellValue('C'.$fila, strtoupper($producto['p']['unidad_medida']));
+                        $sheet->getStyle('D'.$fila)->getAlignment()->setHorizontal('center');
+                        $sheet->setCellValue('D'.$fila, strtoupper($producto['p']['existencia']));
+                        $sheet->setCellValue('E'.$fila, strtoupper($producto['p']['importe']));
+                        $sheet->getStyle('F'.$fila)->getAlignment()->setHorizontal('center');
+                        $sheet->setCellValue('F'.$fila, strtoupper($entradas));
+                        $sheet->setCellValue('G'.$fila, strtoupper($entradas_valor));
+                        $sheet->getStyle('H'.$fila)->getAlignment()->setHorizontal('center');
+                        $sheet->setCellValue('H'.$fila, strtoupper($salidas));
+                        $sheet->setCellValue('I'.$fila, strtoupper($salidas_valor));
+                        $sheet->getStyle('J'.$fila)->getAlignment()->setHorizontal('center');
+                        $sheet->setCellValue('J'.$fila, strtoupper($existencia_final));
+                        $sheet->setCellValue('K'.$fila, strtoupper($valor_monetario_final));
+                        $fila++;
+                    //}
+                endforeach;
+                $sheet->getStyle('D'.$fila.':K'.$fila)->getFont()->setSize(12);
+                $sheet->getStyle('D'.$fila.':K'.$fila)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('8CE08A');
+                $sheet->getStyle('E'.$fila.':K'.$fila)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+
+                $sheet->setCellValue('D'.$fila, 'SUBTOTAL: ');
+                $sheet->setCellValue('E'.$fila, $rubro['corte_inicial']);
+                $sheet->setCellValue('G'.$fila, $rubro['sub_entradas']);
+                $sheet->setCellValue('I'.$fila, $rubro['sub_salidas']);
+                $sheet->setCellValue('K'.$fila, $rubro['corte_final']);
+                $fila++;
+                $sheet->getColumnDimension("A")->setAutoSize(true);
+                $sheet->getColumnDimension("B")->setAutoSize(true);
+                $sheet->getColumnDimension("C")->setAutoSize(true);
+                $sheet->getColumnDimension("D")->setAutoSize(true);
+                $sheet->getColumnDimension("E")->setAutoSize(true);
+                $sheet->getColumnDimension("F")->setAutoSize(true);
+                $sheet->getColumnDimension("G")->setAutoSize(true);
+                $sheet->getColumnDimension("H")->setAutoSize(true);
+                $sheet->getColumnDimension("I")->setAutoSize(true);
+                $sheet->getColumnDimension("J")->setAutoSize(true);
+                $sheet->getColumnDimension("K")->setAutoSize(true);
+            }
             endforeach;
-            $sheet->getStyle('D'.$fila.':K'.$fila)->getFont()->setSize(12);
-            $sheet->getStyle('D'.$fila.':K'.$fila)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('8CE08A');
-            $sheet->getStyle('E'.$fila.':K'.$fila)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
-
-            $sheet->setCellValue('D'.$fila, 'SUBTOTAL: ');
-            $sheet->setCellValue('E'.$fila, $rubro['corte_inicial']);
-            $sheet->setCellValue('G'.$fila, $rubro['sub_entradas']);
-            $sheet->setCellValue('I'.$fila, $rubro['sub_salidas']);
-            $sheet->setCellValue('K'.$fila, $rubro['corte_final']);
-            $fila++;
-            $sheet->getColumnDimension("A")->setAutoSize(true);
-            $sheet->getColumnDimension("B")->setAutoSize(true);
-            $sheet->getColumnDimension("C")->setAutoSize(true);
-            $sheet->getColumnDimension("D")->setAutoSize(true);
-            $sheet->getColumnDimension("E")->setAutoSize(true);
-            $sheet->getColumnDimension("F")->setAutoSize(true);
-            $sheet->getColumnDimension("G")->setAutoSize(true);
-            $sheet->getColumnDimension("H")->setAutoSize(true);
-            $sheet->getColumnDimension("I")->setAutoSize(true);
-            $sheet->getColumnDimension("J")->setAutoSize(true);
-            $sheet->getColumnDimension("K")->setAutoSize(true);
-
-            endforeach;
             
-        $filename = 'almacenSemanal.xlsx' ;
+        $filename = 'almacenMensual.xlsx' ;
 
         ob_clean();
         $writer = new Xlsx($spreadsheet);

@@ -1,19 +1,24 @@
 $(document).ready(function () {   
-    $("#almacen-mensual").click(function() {
-        if($('#btn_excel_mensual').is(':hidden')){
-            $('#btn_excel_mensual').show();
+    $("#almacen").click(function() {
+        if($('#btn_excel').is(':hidden')){
+            $('#btn_excel').show();
         }
-        if ($.fn.DataTable.isDataTable("#table-almacen-mensual")) {
-            $("#table-almacen-mensual").dataTable().fnDestroy();
-            $('#table-almacen-mensual tbody').remove();
-            tablaAlmacenMensual();
+        if ($.fn.DataTable.isDataTable("#table-almacen")) {
+            $("#table-almacen").dataTable().fnDestroy();
+            $('#table-almacen tbody').remove();
+            tabla();
         }else{
-            tablaAlmacenMensual();
+            tabla();
         }
     });
 });
 
-function formatAlmacen(data) {
+const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2
+});
+function formatE(data) {
     var tr = '';
     var products = data.productos;
     for (const p in products) {
@@ -32,11 +37,11 @@ function formatAlmacen(data) {
             salidas += parseFloat(products[p].salidas[m].cantidad);
             salidas_valor += parseFloat(products[p].salidas[m].importe);
         }
-        //if (entradas > 0 || salidas > 0){
+        if (entradas > 0 || salidas > 0){
             existencia_final = parseFloat(products[p].p['existencia']) + entradas - salidas;
             valor_monetario_final = valor_monetario_inicial + entradas_valor - salidas_valor;
             tr += '<tr><td>' + products[p].p['nom_prod'].toUpperCase() + '</td><td>' + products[p].p['unidad_medida'].toUpperCase() + '</td><td>' + parseFloat(products[p].p['existencia']).toFixed(3) + '</td><td>'+ formatter.format(valor_monetario_inicial) +'</td><td>' + entradas.toFixed(3) + '</td><td>' + formatter.format(entradas_valor) + '</td><td>'+ salidas.toFixed(3) +'</td><td>'+ formatter.format(salidas_valor) +'</td><td>' + existencia_final.toFixed(3) + '</td><td>'+ formatter.format(valor_monetario_final) +'</td></tr>';
-        //}
+        }
     }
     tr += '<tr><td></td><td></td><td>Subtotal:</td><td>' + formatter.format(data.corte_inicial) + '</td><td></td><td>' + formatter.format(data.sub_entradas) + '</td><td></td><td>' + formatter.format(data.sub_salidas) + '</td><td></td><td>' + formatter.format(data.corte_final) + '</td></tr>';
     return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
@@ -45,32 +50,45 @@ function formatAlmacen(data) {
         '</table>';
 }
 
-const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2
-});
+function startOfWeek(date) {
+    var diff = date.getDate() - date.getDay() + 1;
+    return new Date(date.setDate(diff));
+  }
 
-function tablaAlmacenMensual(){
-    var mes = $('#mes').val();
-    var ciclo = $('#ciclo').val();
+function tabla(){
+    var fecha = $('#fechaAlmacen').val();
+    var f = new Date($('#fechaAlmacen').val());
+    var inicio = startOfWeek(f);
+    var f_inicio =  inicio.getDate() + "/" + (inicio.getMonth() + 1) + "/" + inicio.getFullYear();
+    var fin = inicio;
+    var dias = 6;
+    fin.setDate(fin.getDate() + dias);
+    var f_fin = fin.getDate() + "/" + (fin.getMonth() + 1) + "/" + fin.getFullYear();
+    if (f_inicio && f_fin){
+        $('#f_i').text(f_inicio);
+        $('#f_f').text(f_fin);
+    }
 
-    var table = $('#table-almacen-mensual').DataTable({
-        'pageLength': 50,
-        'dom': 't',
-        /* 'serverMethod': 'post',
+    var table = $('#table-almacen').DataTable({
+        /* 'processing': true, */
+        /* 'serverSide': true, */
+        'serverMethod': 'post',
         'info': false,
-        'dom': 'frtip',
+        'dom': 'frti',
         'stateSave': true,
-        'searching': false,*/
-        "scrollX": "auto",
-        "autoWidth": true,
         'responsive': true,
-        "ordering": false, 
+        "autoWidth": true,
+        "scrollX": "auto",
+        'searching': false,
+        "ordering": false,
         'ajax': {
-            'url': 'index.php?c=almacenMensual&action=table',
+            'url': 'index.php?controller=index&action=table',
             'type': 'post',
-            'data': { 'mes': mes, 'ciclo': ciclo },
+            'data': { 'fechaA': fecha },
+            /* success: function(data) {
+                if (!data.error) { console.log(data); }
+                else { alert("Error en funcion") }
+            } */
         },
         'columns': [
             {
@@ -156,7 +174,7 @@ function tablaAlmacenMensual(){
             $(api.column(5).footer()).html( formatter.format(total_compras) );
         }
     });
-    $('#table-almacen-mensual tbody').on('click', 'td.dt-control', function () {
+    $('#table-almacen tbody').on('click', 'td.dt-control', function () {
         var tr = $(this).closest('tr');
         var row = table.row(tr);
         if (row.child.isShown()) {
@@ -166,24 +184,23 @@ function tablaAlmacenMensual(){
         }
         else {
             // Open this row
-            row.child(formatAlmacen(row.data()/* .productos, row.data().corte_inicial */)).show();
+            row.child(formatE(row.data()/* .productos, row.data().corte_inicial */)).show();
             tr.addClass('shown');
         }
     });
 }
 
-function almacen_mensual_excel() {
-    var mes = $('#mes').val();
-    var ciclo = $('#ciclo').val();
+function almacen_excel() {
+    var fecha = $('#fechaAlmacen').val();
     $.ajax({
-       url: 'index.php?c=almacenMensual&action=excel',
+       url: 'index.php?controller=index&action=excel',
        method: 'POST',
-       data: { 'mes': mes, 'ciclo': ciclo },
+       data: { 'fechaA': fecha },
        success: function(data) {
            if (data) {
-               /* console.log(data); */
-               /* window.location.href = "https://pruebas.inomac.mx/ejecutivo/almacenMensual.xlsx"; */
-               window.location.href = "http://localhost/inomac/ejecutivo/almacenMensual.xlsx";
+               console.log(data);
+               /* window.location.href = "http://localhost:8080/local/dev/adm/demo2/almacen.xlsx"; */
+		window.location.href = "https://pruebas.inomac.mx/ejecutivo2/almacen.xlsx";
            } else { console.log("Sin datos") }
      }
  })
