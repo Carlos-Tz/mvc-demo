@@ -19,21 +19,27 @@ date_default_timezone_set('America/Mexico_City');
             <div class="col-md-4 ">
                 <div class="form-group">
                     <label for="sub">Subrancho:</label>
-                    <select class="select2" style="width: 100%;">
-                        <option value="AL">Alabama</option>                    
-                        <option value="WY">Wyoming</option>
-                        <option value="ok">ok</option>
-                        <option value="in">ing</option>
+                    <select class="select2" style="width: 100%;" id="subrancho">
+                        <option value=""></option>
+                        <?php
+                            foreach ($data['data'] as $key => $va){
+                                echo '<option value="'.$va['num_rancho'].'">'.$va['nombre'].'</option>';
+                            }
+                        ?>
                     </select>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group ">
-                    <label for="sub"><?php echo data1 ?></label>
+                    <label for="sub" id="exa">
+                    </label>
                     <button class="btn btn-outline-success btn-block" id="entradas">GENERAR</button>
                 </div>
                 <!-- <button class="btn btn-outline-primary btn-block" id="salidas" name="salidas">SALIDAS</button> -->
             </div>
+        </div>
+        <div class="row" id="sectores" style="background-color: #e3e6ec">
+
         </div>
     </div>
 </div> <!-- card-body -->

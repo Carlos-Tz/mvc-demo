@@ -42,7 +42,8 @@ function getTableRecetas(){
             {
                 data: 'justificacion'
             }
-        ]/* ,
+        ]
+        /* ,
         'footerCallback': function (row, data, start, end, display) {
             var api = this.api();
             // Remove the formatting to get integer data for summation

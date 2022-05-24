@@ -13,6 +13,7 @@ class RecetasController {
         require_once  __DIR__ . "/../core/Conectar.php";
         require_once  __DIR__ . "/../model/recipe.php";
         require_once  __DIR__ . "/../model/subrancho.php";
+        require_once  __DIR__ . "/../model/sector.php";
         $this->conectar = new Conectar();
         $this->Connection = $this->conectar->Connection();
     }
@@ -32,8 +33,8 @@ class RecetasController {
             case "table":
                 $this->table();
                 break;
-            case "subrancho":
-                $this->subrancho();
+            case "sectores":
+                $this->sectores();
                 break;
             default:
                 $this->index();
@@ -48,12 +49,62 @@ class RecetasController {
     }
 
     public function nueva() {
+        /* $sectores = array();
+
+        if (isset($_POST['id'])){ //echo $_POST['id'];
+            $id = $_POST['id'];
+            $sector = new Sector($this->Connection);
+            $s_data = $sector->getSector($id); //print_r($s_data);
+    
+            foreach ($s_data as $row) {
+                $sectores[] = array(
+                    "id_sector"=>$row['id_sector'],
+                    "num_subrancho"=>$row['num_subrancho'],
+                    "nombre"=>$row['nombre'],
+                    "hectareas"=>$row['hectareas'],
+                );
+            }
+        } */
+
+            $subrancho = new Subrancho($this->Connection);
+            $s_data = $subrancho->getAll();
+            $data1 = array();
+
+            foreach ($s_data as $row) {
+                $data1[] = array(
+                    "id_subrancho"=>$row['id_subrancho'],
+                    "num_rancho"=>$row['num_rancho'],
+                    "nombre"=>$row['nombre'],
+                );
+            }
         $this->view("newReceta", array(
-            "title" => "INDEX"
+            "title" => "Nueva Receta",
+            "data" => $data1,
+            //"sectores" => $sectores
+        ));
+    }
+
+    public function sectores (){
+        $id = $_POST['id'];
+        $sector = new Sector($this->Connection);
+        $s_data = $sector->getSector($id); //print_r($s_data);
+        $sectores = array();
+
+		foreach ($s_data as $row) {
+			$sectores[] = array(
+				"id_sector"=>$row['id_sector'],
+				"num_subrancho"=>$row['num_subrancho'],
+				"nombre"=>$row['nombre'],
+				"hectareas"=>$row['hectareas'],
+			);
+		}
+        $this->view("sectores", array(
+            "title" => "Sectores",
+            "sectores" => $sectores
         ));
     }
     
-    public function subrancho (){
+    /* public function subrancho (){
         $subrancho = new Subrancho($this->Connection);
         $s_data = $subrancho->getAll();
         $data1 = array();
@@ -66,14 +117,11 @@ class RecetasController {
 			);
 		}
         $response = array(
-            /* "draw" => 1, */
-            //  "iTotalRecords" => $totalRecords,
-            // "iTotalDisplayRecords" => $totalRecordwithFilter,
             "data1" => $data1
         );
 
         echo json_encode($response);
-    }
+    } */
 
     public function table() {
         /* $subrancho = new Subrancho($this->Connection);
