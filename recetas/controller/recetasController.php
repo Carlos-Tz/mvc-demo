@@ -12,6 +12,7 @@ class RecetasController {
     public function __construct() {
         require_once  __DIR__ . "/../core/Conectar.php";
         require_once  __DIR__ . "/../model/recipe.php";
+        require_once  __DIR__ . "/../model/subrancho.php";
         $this->conectar = new Conectar();
         $this->Connection = $this->conectar->Connection();
     }
@@ -31,6 +32,9 @@ class RecetasController {
             case "table":
                 $this->table();
                 break;
+            case "subrancho":
+                $this->subrancho();
+                break;
             default:
                 $this->index();
                 break;
@@ -48,14 +52,38 @@ class RecetasController {
             "title" => "INDEX"
         ));
     }
-
-    public function table() {
-
-        $entry = new Recipe($this->Connection);
-        $data = $entry->getAll();
+    
+    public function subrancho (){
+        $subrancho = new Subrancho($this->Connection);
+        $s_data = $subrancho->getAll();
         $data1 = array();
 
-		$draw = $_POST['draw'];
+		foreach ($s_data as $row) {
+			$data1[] = array(
+				"id_subrancho"=>$row['id_subrancho'],
+				"num_subrancho"=>$row['num_subrancho'],
+				"nombre"=>$row['nombre'],
+			);
+		}
+        $response = array(
+            /* "draw" => 1, */
+            //  "iTotalRecords" => $totalRecords,
+            // "iTotalDisplayRecords" => $totalRecordwithFilter,
+            "data1" => $data1
+        );
+
+        echo json_encode($response);
+    }
+
+    public function table() {
+        /* $subrancho = new Subrancho($this->Connection);
+        $s_data = $subrancho->getAll();
+        print_r($s_data);
+ */
+        $recipe = new Recipe($this->Connection);
+        $data = $recipe->getAll();
+        $data1 = array();
+
 		foreach ($data as $row) {
 			$data1[] = array(
 				"id_receta"=>$row['id_receta'],
@@ -65,46 +93,6 @@ class RecetasController {
 				"justificacion"=>$row['justificacion'],
 			);
 		}
-
-        /* foreach ($this->rubros as $key_rubro => $value_rubro) :
-            $rub[$key_rubro] = array_filter($data, function ($row) use ($value_rubro) {
-                return strtolower($row['clasificacion']) == $value_rubro;
-            });
-            $tot[$key_rubro] = 0;
-            $ids_prod_all = array();
-            foreach ($rub[$key_rubro] as $j => $v) :
-                $tot[$key_rubro] += $v['precio_compra']*$v['cantidad'];            
-                array_push($ids_prod_all, $v['id_prod']);
-                endforeach;
-                $ids_prod_unique = array_unique($ids_prod_all, SORT_STRING);
-                $prod_rubro = array();
-            foreach ($ids_prod_unique as $j => $v) :
-                $pro[$j] = array_filter($rub[$key_rubro], function ($row) use ($v){
-                return $row['id_prod'] == $v;
-                });
-                $subtotal = 0;
-                $index = 0;
-                $cantidad = 0;
-                $p = '';
-                $u = '';
-                foreach ($pro[$j] as $l => $val) :
-                    if ($index == 0): 
-                        $p = $val['nom_prod'];
-                        $u = $val['unidad_medida'];
-                    endif;
-                    $subtotal += $val['cantidad']*$val['precio_compra'];
-                    $cantidad += $val['cantidad'];
-                    $index++;
-                endforeach;
-                array_push($prod_rubro, array('p'=>$p, 'subtotal'=>$subtotal, 'cantidad'=>$cantidad, 'u'=>$u));               
-
-                endforeach;
-                if($tot[$key_rubro] > 0):
-                array_push($data1, array('rubro'=> $this->rubros[$key_rubro], 'total'=> $tot[$key_rubro], 'productos' => $prod_rubro));
-                endif;
-            endforeach; */
-
-        // Response
         $response = array(
             "draw" => 1,
             //  "iTotalRecords" => $totalRecords,

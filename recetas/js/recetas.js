@@ -18,10 +18,10 @@ function getTableRecetas(){
         },
         'columns': [
             {
-                className: 'dt-control',
-                orderable: false,
-                data: null,
-                defaultContent: ''
+                data: 'id_receta',
+                render: function(data, type){
+                    return  String(data).padStart(6, '0');
+                }
             },
             {
                 data: 'num_subrancho',
@@ -36,6 +36,12 @@ function getTableRecetas(){
                     return number;
                 } */
             },
+            {
+                data: 'status'
+            },
+            {
+                data: 'justificacion'
+            }
         ]/* ,
         'footerCallback': function (row, data, start, end, display) {
             var api = this.api();

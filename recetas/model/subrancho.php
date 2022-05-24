@@ -1,6 +1,6 @@
 <?php
-class Recipe {
-    private $table = 'receta';
+class Subrancho {
+    private $table = 'subrancho';
     private $Connection;
     public function __construct($Connection) { $this->Connection = $Connection; }
 

@@ -24,22 +24,24 @@ date_default_timezone_set('America/Mexico_City');
             <div class="col-sm-12">
                 <div class="container mt-5" id="cont_e">
                     <h2 style="margin-bottom: 30px;">Recetas</h2>
-                    <button type="button" class="btn btn-secondary" onclick="entradas_excel()">Excel</button>
+                    <!-- <button type="button" class="btn btn-secondary" onclick="entradas_excel()">Excel</button> -->
                     <table class="table table-striped table-bordered table-hover" id="table-recipes" class="display" style="width:100%">
                         <thead>
                             <tr>
-                                <th></th>
+                                <th>Folio</th>
                                 <th>Subrancho</th>
                                 <th>Fecha</th>
+                                <th>Estatus</th>
+                                <th>Justificación</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
-                        <tfoot>
+                        <!-- <tfoot>
                             <tr>
                                 <th colspan="2" style="text-align:right">Total:</th>
                                 <th></th>
                             </tr>
-                        </tfoot>
+                        </tfoot> -->
                     </table>
                 </div>
             </div>
