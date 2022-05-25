@@ -10,6 +10,6 @@
                     </label>
                 </div>
              </div>'; */
-             echo '<option value="'.$va['num_subrancho'].'">'.$va['nombre'].'</option>';
+             echo '<option value="'.$va['id_prod'].'">'.$va['nom_prod'].'</option>';
     }
     echo '</select>';

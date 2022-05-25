@@ -16,3 +16,8 @@ input[type=date]{
 .form-group {
     margin-bottom: 0;
 }
+
+#sectores .select2-container, #productos .select2-container {
+    padding-right: 0.7rem !important;
+    padding-left: 0.7rem !important;
+}
