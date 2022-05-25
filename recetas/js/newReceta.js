@@ -1,6 +1,8 @@
 // In your Javascript (external .js resource or <script> tag)
 $(document).ready(function() {
-    $('.select2').select2();
+    $('.subrancho_s').select2();
+    $('.productos_s').select2();
+    $('.clasificacion_s').select2();
     /* $.ajax({
         type: "POST",
         url: 'index.php?c=recetas&action=subrancho',
@@ -18,10 +20,13 @@ $('#subrancho').on('select2:select', function (e) {
         url: 'index.php?c=recetas&action=sectores',
         data: { 'id': data.id },
         success: function(response){
-            $('#sectores').html(response);
+            $.when($('#sectores').html(response)).done($('.sectores_s').select2())
+            //$('#sectores').html(response);
             
             //console.log(response);
             console.log('done!!');
+        //$('.sectores_s').select2();
+
         }
       });
   });

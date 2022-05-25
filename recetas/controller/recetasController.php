@@ -14,6 +14,7 @@ class RecetasController {
         require_once  __DIR__ . "/../model/recipe.php";
         require_once  __DIR__ . "/../model/subrancho.php";
         require_once  __DIR__ . "/../model/sector.php";
+        require_once  __DIR__ . "/../model/producto.php";
         $this->conectar = new Conectar();
         $this->Connection = $this->conectar->Connection();
     }
@@ -35,6 +36,9 @@ class RecetasController {
                 break;
             case "sectores":
                 $this->sectores();
+                break;
+            case "productos":
+                $this->productos();
                 break;
             default:
                 $this->index();
@@ -73,7 +77,7 @@ class RecetasController {
             foreach ($s_data as $row) {
                 $data1[] = array(
                     "id_subrancho"=>$row['id_subrancho'],
-                    "num_rancho"=>$row['num_rancho'],
+                    "num_subrancho"=>$row['num_subrancho'],
                     "nombre"=>$row['nombre'],
                 );
             }
@@ -84,10 +88,10 @@ class RecetasController {
         ));
     }
 
-    public function sectores (){
+    public function sectores (){ 
         $id = $_POST['id'];
         $sector = new Sector($this->Connection);
-        $s_data = $sector->getSector($id); //print_r($s_data);
+        $s_data = $sector->getSector($id);
         $sectores = array();
 
 		foreach ($s_data as $row) {
@@ -101,6 +105,28 @@ class RecetasController {
         $this->view("sectores", array(
             "title" => "Sectores",
             "sectores" => $sectores
+        ));
+    }
+
+    public function productos (){ 
+        $clasificacion = $_POST['clasificacion'];
+        $producto = new Producto($this->Connection);
+        $s_data = $producto->getProducto($clasificacion);
+        $productos = array();
+
+		foreach ($s_data as $row) {
+			$productos[] = array(
+				"id_prod"=>$row['id_prod'],
+				"existencia"=>$row['existencia'],
+				"nom_prod"=>$row['nom_prod'],
+				"costo_promedio"=>$row['costo_promedio'],
+				"unidad_medida"=>$row['unidad_medida'],
+				"clasificacion"=>$row['clasificacion'],
+			);
+		}
+        $this->view("productos", array(
+            "title" => "productos",
+            "productos" => $productos
         ));
     }
     

@@ -1,7 +1,7 @@
 <?php 
-    echo '<select class="select2 sectores_s" style="width: 100%;" name="states[]" multiple="multiple">';
+    echo '<select class="select2 productos_s" style="width: 100%;" name="states[]" multiple="multiple">';
     
-    foreach ($data['sectores'] as $key => $va){
+    foreach ($data['productos'] as $key => $va){
         /* echo '<div class="col-sm-3 col-md-2">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="'.$va['num_subrancho'].'" id="flexCheckDefault">
