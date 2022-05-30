@@ -55,30 +55,35 @@ date_default_timezone_set('America/Mexico_City');
         <div class="row py-2 px-2" id="productos" style="background-color: #e3e6ec">
         </div>
 
-        <table class="main-table" id="po-table" border="1">
+        <table class="main-table" id="receta_table" border="1">
             <tbody>
                 <tr class="table-header">
+                    <td>Nombre del producto</td>
+                    <!-- <td>DOSIS POR HECTÁREA</td>
                     <td>Sector</td>
-                    <td>Dosis</td>
-                    <td>Course Name</td>
-                    <td>PO 1</td>
-                    <td>PO 2</td>
+                    <td>Dosis total</td> -->
+<!--                     <td>PO 1</td>
+                    <td>PO 2</td> -->
                 </tr>
-                <tr class="default-row">
+                <!-- <tr>
+                    <td></td>
+                    <td></td>
+                </tr> -->
+                <!-- <tr class="default-row">
                     <td>1</td>
                     <td><input type="text" name="course_code[]"></td>
                     <td><input type="text" name="course_name[]"></td>
                     <td><input type="checkbox" name="po1[]" value="Po1"></td>
                     <td><input type="checkbox" name="po2[]" value="Po2"></td>
-                </tr>
+                </tr> -->
             </tbody>
         </table>
-        <button onclick="addRow()">Add Row</button>
+        <!-- <button onclick="addRow()">Add Row</button>
         <button onclick="addCol()">Add Column</button>
 
 
-        <button onclick="removeRow()">Remove Row</button>
-        <button onclick="removeCol()">Remove Column</button>
+        <button onclick="removeCol()">Remove Column</button> -->
+        <!-- <button onclick="removeRow(3)">Remove Row</button> -->
 
     </div>
 </div> <!-- card-body -->

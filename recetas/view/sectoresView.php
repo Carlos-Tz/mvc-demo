@@ -1,5 +1,5 @@
 <?php 
-    echo '<select class="select2 sectores_s" style="width: 100%;" name="states[]" multiple="multiple">';
+    echo '<select class="select2 sectores_s" style="width: 100%;" name="sectores_lista[]" id="sectores_lista" multiple="multiple">';
     
     foreach ($data['sectores'] as $key => $va){
         /* echo '<div class="col-sm-3 col-md-2">
@@ -10,6 +10,6 @@
                     </label>
                 </div>
              </div>'; */
-             echo '<option value="'.$va['num_subrancho'].'">'.$va['nombre'].'</option>';
+             echo '<option value="'.$va['id_sector'].'">'.$va['nombre'].'</option>';
     }
     echo '</select>';
