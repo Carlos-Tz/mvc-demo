@@ -109,9 +109,9 @@ class RecetasController {
     }
 
     public function productos (){ 
-        $clasificacion = $_POST['clasificacion'];
+        //$clasificacion = $_POST['clasificacion'];
         $producto = new Producto($this->Connection);
-        $s_data = $producto->getProducto($clasificacion);
+        $s_data = $producto->getProducto();
         $productos = array();
 
 		foreach ($s_data as $row) {

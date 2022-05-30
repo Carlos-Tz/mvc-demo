@@ -34,15 +34,15 @@ date_default_timezone_set('America/Mexico_City');
                     <label for="sub">Clasificación:</label>
                     <select class="select2 clasificacion_s" style="width: 100%;" id="clasificacion">
                         <option value=""></option>
-                        <option value="fertilizante">Fertilizante</option>
-                        <option value="agroquimico">Agroquimico</option>
+                        <option value="fertilizante">Fertilizante y Agroquimico</option>
+                        <!-- <option value="agroquimico">Agroquimico</option> -->
                     </select>
                 </div>
             </div>
         </div>
         <div class="row px-2" style="background-color: #e3e6ec">
             <div class="col-sm-12">
-                <label for="sub">Sectores:</label>
+                <label for="sub">Sectores:</label> <button id="all" style="margin: 0 0.5rem 0 2.5rem; padding: 0 0.5rem !important;" class="btn btn-outline-success">Todos los sectores</button>
             </div>
         </div>
         <div class="row py-2 px-2" id="sectores" style="background-color: #e3e6ec">
