@@ -48,12 +48,22 @@ date_default_timezone_set('America/Mexico_City');
         <div class="row py-2 px-2" id="sectores" style="background-color: #e3e6ec">
         </div>
         <div class="row px-2" style="background-color: #e3e6ec">
-            <div class="col-sm-12">
+            <div class="col-sm-6">
                 <label for="sub">Productos</label>
+            </div>
+            <div class="col-sm-6">
+            <?php
+            foreach ($data['productos'] as $key => $va) {
+                echo '<li id="' . $va['id_prod'] . '" style="display: none;">Existencia: ' . $va['existencia'] . '</li>';
+            }
+            ?>
             </div>
         </div>
         <div class="row py-2 px-2" id="productos" style="background-color: #e3e6ec">
         </div>
+        <!-- <div id="pp">
+            
+        </div> -->
 
         <table class="main-table" id="receta_table" border="1">
             <tbody>

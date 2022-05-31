@@ -150,6 +150,14 @@ var table = document.getElementById("receta_table");
 function change(val){
     console.log(val.value);
 }
+function show(id){
+    //console.log('id => ' +id);
+    $('li#'+id).show();
+}
+function hide(id){
+    //console.log('id => ' +id);
+    $('li#'+id).hide();
+}
 
 function addRow(producto) {
     var lastrow = table.rows.length;
@@ -158,7 +166,7 @@ function addRow(producto) {
     row.setAttribute("id", producto.id, 0);
 	var cellcol0 = row.insertCell(0);
 	//cellcol0.innerHTML = lastrow;
-	cellcol0.innerHTML = producto.text;
+	cellcol0.innerHTML = '<button class="btn" style="padding: 0 0.5rem !important;" id="'+producto.id+'" onmouseover="show('+producto.id+')" onmouseout="hide('+producto.id+')">'+producto.text+'</button>';
 	/* var cellcol1 = row.insertCell(1);
 	cellcol1.innerHTML = '<input type="text" name="course_code'+lastrow+'" onkeyup="change(this)"></input>';
 	var cellcol2 = row.insertCell(2);

@@ -11,5 +11,12 @@
                 </div>
              </div>'; */
              echo '<option value="'.$va['id_prod'].'">'.$va['nom_prod'].'</option>';
+             //echo '<option value="'.$va.'">'.$va['nom_prod'].'</option>';
     }
     echo '</select>';
+
+    /* echo '<ul>';
+    foreach ($data['productos'] as $key => $va){
+        echo '<li id="'.$va['id_prod'].'">'.$va['existencia'].'</li>';
+    }
+    echo '</ul>'; */
