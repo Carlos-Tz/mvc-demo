@@ -1,4 +1,5 @@
 // In your Javascript (external .js resource or <script> tag)
+var subrancho = 0;
 $(document).ready(function() {
     $('.subrancho_s').select2();
     $('.productos_s').select2();
@@ -15,6 +16,8 @@ $(document).ready(function() {
 });
 $('#subrancho').on('select2:select', function (e) {
     var data = e.params.data;
+    subrancho = data.id;
+    $('#sssub').val(subrancho);
     //console.log(data.id);
     $.ajax({
         type: "POST",
@@ -149,24 +152,32 @@ var table = document.getElementById("receta_table");
 
 function change(val){
     var id = val.id;
+    var sum = 0;
+    var proEx = 0; //console.log(subrancho);
     //console.log(val.value);
-    if (val.value){
+    if (val.value >= 0){
         var arrId = id.split('___');
-        //console.log(arrId);
+        var scp = arrId[0]; //console.log(id);
         var idp = arrId[1]; //console.log(idp);
+        var clp = arrId[2]; //console.log(idp);
         var row = $('tr#'+idp);
         var cells = row[0].cells;
         for (var i = 1; i < cells.length; i++) {
             var td = cells[i];
-            if(i % 2 != 0) {
-                //console.log(td.firstChild.val);
-                console.log(td.firstChild.value);
-            }
-            /* console.log(str);
-            if (str.id == id) { 
-
-            } */
+            if(i % 2 != 0) { sum += parseFloat(td.firstChild.value); }
         }
+        if($('#'+idp+'_pp')[0].value){
+            proEx = parseFloat($('#'+idp+'_pp')[0].value);
+            if(sum > proEx) {
+                alert('Existencia faltante!');
+                $('#'+scp+'___'+idp+'___'+clp).val(0).trigger('change');
+            }else {
+                var re = (proEx - sum);
+                $('#'+idp+'_ppp').val(parseFloat(re).toFixed(2));
+            }
+        }
+        //console.log(parseFloat($('#'+idp+'_pp')[0].value));
+        //console.log(sum);
     
         //console.log(cells);
 
@@ -199,10 +210,10 @@ function addRow(producto) {
 		var cell1 = row.insertCell(i);
         cell1.setAttribute("id", lcol[i].id + producto.id );
         if(i % 2 == 0) {
-            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto.id+'___2" class="form-control" style="padding: 0 0.3rem;" name="pos'+(i)+'" value="0">';
+            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto.id+'___2" class="form-control" style="padding: 0 0.3rem;" name="pos'+(i)+'" value="0" min="0" step="0.01">';
         }else {
             //cell1.setAttribute("id", lcol[i].id + producto.id+'___1');
-            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto.id+'___1" class="form-control" style="padding: 0 0.3rem;" name="pos'+(i)+'" onkeyup="change(this)" value="0">';
+            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto.id+'___1" class="form-control" style="padding: 0 0.3rem;" name="pos'+(i)+'" onchange="change(this)" value="0" min="0" step="0.01">';
         }
 	}
     
@@ -227,8 +238,8 @@ function addCol(sector_value, sector_text) {
 			cell2.innerHTML = "Dosis " + sector_text;
         }
 		else  {
-            cell1.innerHTML = '<input type="number" style="padding: 0 0.3rem;" id="'+sector_text + '___'+ lrow[i].id + '___1" class="form-control" name="pos'+ sector_value +'" onkeyup="change(this)" value="0">';
-            cell2.innerHTML = '<input type="number" style="padding: 0 0.3rem;" id="'+sector_text + '___'+ lrow[i].id + '___2" class="form-control" name="pos'+ sector_value +'" value="0">';
+            cell1.innerHTML = '<input type="number" style="padding: 0 0.3rem;" id="'+sector_text + '___'+ lrow[i].id + '___1" class="form-control" name="pos'+ sector_value +'" onchange="change(this)" value="0" min="0" step="0.01">';
+            cell2.innerHTML = '<input type="number" style="padding: 0 0.3rem;" id="'+sector_text + '___'+ lrow[i].id + '___2" class="form-control" name="pos'+ sector_value +'" value="0" min="0" step="0.01">';
         }
 		
 	}

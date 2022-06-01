@@ -13,6 +13,7 @@ date_default_timezone_set('America/Mexico_City');
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="sub">Fecha:</label>
+                    <input type="number" value="" id="sssub" hidden>
                     <input type="date" class="form-control" required name="fecha" id="fecha" value="<?= (empty($_SESSION['fecha'])) ? date("Y-m-d") : $_SESSION['fecha'] ?>">
                 </div>
             </div>
@@ -48,17 +49,19 @@ date_default_timezone_set('America/Mexico_City');
         <div class="row py-2 px-2" id="sectores" style="background-color: #e3e6ec">
         </div>
         <div class="row px-2" style="background-color: #e3e6ec">
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <label for="sub">Productos</label>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-8">
             <?php
             echo '<ul style="list-style-type: none; margin-bottom: 0;">';
             foreach ($data['productos'] as $key => $va) {
                 echo '<li id="' . $va['id_prod'] . '_cc" style="display: none;">Existencia: ';
-                echo '<input type="number" readonly style="width: 40%; height:1.2rem; border:0; background-color:transparent;" id="' . $va['id_prod'] . '_pp" value="' . $va['existencia'] .'" hidden>';
+                echo '<input type="number" readonly style="width: 35%; height:1.2rem; border:0; background-color:transparent;" id="' . $va['id_prod'] . '_pp" value="' . $va['existencia'] .'" hidden>';
                 echo '<span> '.number_format($va['existencia'], 2, '.', ',').' </span>';
-                echo $va['unidad_medida']. '</li>';
+                echo $va['unidad_medida'];
+                echo ' Restante: ';
+                echo '<input type="number" readonly style="width: 35%; height:1.2rem; border:0; background-color:transparent;" id="' . $va['id_prod'] . '_ppp" value=""></li>';
             }
             echo '</ul>';
             ?>
