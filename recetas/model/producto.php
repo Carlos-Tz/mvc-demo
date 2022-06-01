@@ -15,7 +15,7 @@ class Producto {
         return $result;
     }
     public function getProducto() {
-        $stmt = $this->Connection->prepare('SELECT * FROM producto WHERE (clasificacion = ? OR clasificacion = ?) AND (existencia > 0.009)');
+        $stmt = $this->Connection->prepare('SELECT * FROM producto WHERE (clasificacion = ? OR clasificacion = ?) AND (existencia >= 0.01)');
         //$stmt->bindParam(1, $this->table);
         $stmt->bindParam(1, $this->clasificacion);
         $stmt->bindParam(2, $this->clasificacion2);

@@ -53,9 +53,14 @@ date_default_timezone_set('America/Mexico_City');
             </div>
             <div class="col-sm-6">
             <?php
+            echo '<ul style="list-style-type: none; margin-bottom: 0;">';
             foreach ($data['productos'] as $key => $va) {
-                echo '<li id="' . $va['id_prod'] . '" style="display: none;">Existencia: ' . $va['existencia'] . '</li>';
+                echo '<li id="' . $va['id_prod'] . '_cc" style="display: none;">Existencia: ';
+                echo '<input type="number" readonly style="width: 40%; height:1.2rem; border:0; background-color:transparent;" id="' . $va['id_prod'] . '_pp" value="' . $va['existencia'] .'" hidden>';
+                echo '<span> '.number_format($va['existencia'], 2, '.', ',').' </span>';
+                echo $va['unidad_medida']. '</li>';
             }
+            echo '</ul>';
             ?>
             </div>
         </div>

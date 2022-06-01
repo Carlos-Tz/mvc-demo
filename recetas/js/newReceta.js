@@ -71,8 +71,8 @@ $('#subrancho').on('select2:select', function (e) {
         }); */
 
         $('#sectores_lista').on('select2:unselect', function (evt) {
-            removeCol(evt.params.data.id+'_1');
-            removeCol(evt.params.data.id+'_2');
+            removeCol(evt.params.data.text+'___');
+            removeCol(evt.params.data.text+'___');
             //console.log(evt.params.data.id);
         });
 
@@ -148,20 +148,43 @@ $('#clasificacion').on('select2:select', function (e) {
 var table = document.getElementById("receta_table");
 
 function change(val){
-    console.log(val.value);
+    var id = val.id;
+    //console.log(val.value);
+    if (val.value){
+        var arrId = id.split('___');
+        //console.log(arrId);
+        var idp = arrId[1]; //console.log(idp);
+        var row = $('tr#'+idp);
+        var cells = row[0].cells;
+        for (var i = 1; i < cells.length; i++) {
+            var td = cells[i];
+            if(i % 2 != 0) {
+                //console.log(td.firstChild.val);
+                console.log(td.firstChild.value);
+            }
+            /* console.log(str);
+            if (str.id == id) { 
+
+            } */
+        }
+    
+        //console.log(cells);
+
+    }
 }
 function show(id){
     //console.log('id => ' +id);
-    $('li#'+id).show();
+    $('li#'+id+'_cc').show();
 }
 function hide(id){
     //console.log('id => ' +id);
-    $('li#'+id).hide();
+    $('li#'+id+'_cc').hide();
 }
 
 function addRow(producto) {
     var lastrow = table.rows.length;
-	var lastcol = table.rows[0].cells.length;	
+	var lastcol = table.rows[0].cells.length;
+	var lcol = table.rows[0].cells;	//console.log(lcol[1].id);
 	var row = table.insertRow(lastrow);
     row.setAttribute("id", producto.id, 0);
 	var cellcol0 = row.insertCell(0);
@@ -174,13 +197,20 @@ function addRow(producto) {
 	
 	for(i=1; i<lastcol;i++)	{
 		var cell1 = row.insertCell(i);
-		cell1.innerHTML = '<input type="number" class="form-control" name="pos'+(i)+'"></input>';
+        cell1.setAttribute("id", lcol[i].id + producto.id );
+        if(i % 2 == 0) {
+            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto.id+'___2" class="form-control" style="padding: 0 0.3rem;" name="pos'+(i)+'" value="0">';
+        }else {
+            //cell1.setAttribute("id", lcol[i].id + producto.id+'___1');
+            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto.id+'___1" class="form-control" style="padding: 0 0.3rem;" name="pos'+(i)+'" onkeyup="change(this)" value="0">';
+        }
 	}
     
 }
 
 function addCol(sector_value, sector_text) {
     var lastrow = table.rows.length;
+    var lrow = table.rows;
 	var lastcol = table.rows[0].cells.length;
 	/* var headertxt = table.rows[0].cells[lastcol-1].innerHTML;
 	var headernum = headertxt.slice(headertxt.indexOf("PO")+2);
@@ -188,17 +218,17 @@ function addCol(sector_value, sector_text) {
 	
     //for each row add column
 	for(i=0; i<lastrow;i++)	{
-		var cell1 = table.rows[i].insertCell(lastcol);
-        cell1.setAttribute("id", sector_value + '_1');
+		var cell1 = table.rows[i].insertCell(lastcol); //if (i>0)console.log(lrow[i].id);
+        cell1.setAttribute("id", sector_text + '___' + lrow[i].id );
 		var cell2 = table.rows[i].insertCell(lastcol+1);
-        cell2.setAttribute('id', sector_value + '_2');
+        cell2.setAttribute('id', sector_text + '___' + lrow[i].id );
 		if(i==0){
             cell1.innerHTML = "Sector " + sector_text;
 			cell2.innerHTML = "Dosis " + sector_text;
         }
 		else  {
-            cell1.innerHTML = '<input type="number" class="form-control" name="pos'+ sector_value +'"></input>';
-            cell2.innerHTML = '<input type="number" class="form-control" name="pos'+ sector_value +'"></input>';
+            cell1.innerHTML = '<input type="number" style="padding: 0 0.3rem;" id="'+sector_text + '___'+ lrow[i].id + '___1" class="form-control" name="pos'+ sector_value +'" onkeyup="change(this)" value="0">';
+            cell2.innerHTML = '<input type="number" style="padding: 0 0.3rem;" id="'+sector_text + '___'+ lrow[i].id + '___2" class="form-control" name="pos'+ sector_value +'" value="0">';
         }
 		
 	}
@@ -212,7 +242,7 @@ function removeRow(id){
 	}
 	table.deleteRow(lastrow-1); */
 	//table.deleteRow(row);
-    $("#"+id).remove();
+    $("tr#"+id).remove();
 }
 
 function removeAllC(){
@@ -234,7 +264,7 @@ function removeCol(id){
         //var str = row[0].cells.namedItem(id);
         var str = row[0].cells[i];
 
-        console.log(str.id);
+        //console.log(str.id);
         // If 'Geek_id' matches with the columnName 
         if (str.id == id) { 
             for (var j = 0; j < row.length; j++) {
@@ -246,7 +276,7 @@ function removeCol(id){
     }
 
 	/* var lastcol = (table.rows[0].cells.length)-1; //console.log(lastcol);*/
-	var lastrow = (table.rows.length);
+	//var lastrow = (table.rows.length);
     //console.log(lastcol + ' => ' + lastrow);
 	//disallow first two column removal unless code is add to re-add text box columns vs checkbox columns
 	/* if(lastcol<4){
