@@ -32,11 +32,17 @@ class RecetasController {
             case "nueva":
                 $this->nueva();
                 break;
+            case "guardar":
+                $this->guardar();
+                break;
             case "table":
                 $this->table();
                 break;
             case "sectores":
                 $this->sectores();
+                break;
+            case "sectores_list":
+                $this->sectores_list();
                 break;
             case "productos":
                 $this->productos();
@@ -112,6 +118,27 @@ class RecetasController {
         ));
     }
 
+    public function sectores_list() {
+        $id = $_POST['id'];
+        $sector = new Sector($this->Connection);
+        $s_data = $sector->getSector($id);
+        $sectores = array();
+
+        foreach ($s_data as $row) {
+            $sectores[] = array(
+                "id_sector" => $row['id_sector'],
+                "num_subrancho" => $row['num_subrancho'],
+                "nombre" => $row['nombre'],
+                "hectareas" => $row['hectareas'],
+            );
+        }
+        
+        $this->view("sectores_list", array(
+            "title" => "Sectores",
+            "sectores" => $sectores
+        ));
+    }
+
     public function productos() {
         //$clasificacion = $_POST['clasificacion'];
         $producto = new Producto($this->Connection);
@@ -174,6 +201,20 @@ class RecetasController {
 
         echo json_encode($response);
     } */
+
+    public function guardar(){
+        $subrancho 	=	$_REQUEST['subrancho'];
+    	$fecha 	=	$_REQUEST['fecha'];
+    	$estatus 	=	$_REQUEST['estatus'];
+    	$justificacion 	=	$_REQUEST['justificacion'];
+    	$encargado 	=	$_REQUEST['encargado'];
+    	$equipo 	=	$_REQUEST['equipo'];
+        //$data       =   $subrancho.",'".$fecha."','".$estatus."','".$justificacion."','".$encargado."','".$equipo."'";
+        $recipe = new Recipe($this->Connection);
+    	$res = $recipe->addRecipe($subrancho, $fecha, $estatus, $justificacion, $encargado, $equipo);
+        //print_r($res);
+        return $res;
+    }
 
     public function table() {
         /* $subrancho = new Subrancho($this->Connection);

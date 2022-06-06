@@ -21,3 +21,25 @@ input[type=date]{
     padding-right: 0.7rem !important;
     padding-left: 0.7rem !important;
 }
+
+.fix-width {
+	/*  */
+	/* overflow-y: hidden; */
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+.table {
+	width: 100%;
+	margin-bottom: 0;
+    margin-top: 0.5rem;
+	max-width: none;
+}
+
+.table td {
+    padding: 0 0.3rem !important;
+}
+
+.w-2cm {
+    min-width: 2cm;
+}
