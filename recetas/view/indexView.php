@@ -22,8 +22,8 @@ date_default_timezone_set('America/Mexico_City');
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <div class="container mt-5" id="cont_e">
-                    <h2 style="margin-bottom: 30px;">Recetas</h2>
+                <div class="container mt-1" id="cont_e">
+                    <!-- <h2 style="margin-bottom: 30px;">Recetas</h2> -->
                     <!-- <button type="button" class="btn btn-secondary" onclick="entradas_excel()">Excel</button> -->
                     <table class="table table-striped table-bordered table-hover" id="table-recipes" class="display" style="width:100%">
                         <thead>

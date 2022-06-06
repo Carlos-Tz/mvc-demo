@@ -58,7 +58,7 @@ date_default_timezone_set('America/Mexico_City');
             </div>
             <div class="col-md-4 ">
                 <div class="form-group">
-                    <label for="sub">Justificacón:</label>
+                    <label for="sub">Justificación:</label>
                     <textarea name="justificacion" id="" rows="2" class="form-control" style="resize: none;"></textarea>
                 </div>
             </div>

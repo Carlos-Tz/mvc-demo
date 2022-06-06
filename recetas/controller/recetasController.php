@@ -35,6 +35,9 @@ class RecetasController {
             case "guardar":
                 $this->guardar();
                 break;
+            case "guardar_detalles":
+                $this->guardar_detalles();
+                break;
             case "table":
                 $this->table();
                 break;
@@ -212,6 +215,31 @@ class RecetasController {
         //$data       =   $subrancho.",'".$fecha."','".$estatus."','".$justificacion."','".$encargado."','".$equipo."'";
         $recipe = new Recipe($this->Connection);
     	$res = $recipe->addRecipe($subrancho, $fecha, $estatus, $justificacion, $encargado, $equipo);
+        //print_r($res);
+        return $res;
+    }
+
+    public function guardar_detalles(){
+        $data =	$_REQUEST['datos'];
+        //print_r($data);
+        foreach ($data as $val){
+            $id_receta = $val['id_receta'];
+            $id_prod = $val['id_prod'];
+            $id_sector = $val['id_sector'];
+            $dosis_total = $val['dosis_total'];
+            $dosis_hectarea = $val['dosis_hectarea'];
+            $estatus = 'Programada';
+            print_r($val);
+            print_r($val['id_receta']);
+            $recipe = new Recipe($this->Connection);
+            $res = $recipe->addRecipeDetail($id_receta, $id_prod, $id_sector, $dosis_total, $dosis_hectarea, $estatus);
+        }
+    	/* $fecha 	=	$_REQUEST['fecha'];
+    	$estatus 	=	$_REQUEST['estatus'];
+    	$justificacion 	=	$_REQUEST['justificacion'];
+    	$encargado 	=	$_REQUEST['encargado'];
+    	$equipo 	=	$_REQUEST['equipo'];
+        //$data       =   $subrancho.",'".$fecha."','".$estatus."','".$justificacion."','".$encargado."','".$equipo."'";*/
         //print_r($res);
         return $res;
     }

@@ -1,22 +1,13 @@
 function getTableRecetas(){
     var table = $('#table-recipes').DataTable({
-        /* 'processing': true,
-        'serverSide': true, */
-        'serverMethod': 'post',
-        'info': false,
-        'dom': 'frti',
-        'stateSave': true,
-        'responsive': true,
-        "autoWidth": true,
-        "scrollX": "auto",
-        'searching': false,
-        "ordering": false,
-        'ajax': {
+        dom: 'ltrip',
+        order: [[0, 'desc']],
+        ajax: {
             'url': 'index.php?c=recetas&action=table',
             'data': { /* 'fechaI': fechaI, 'fechaF': fechaF */ },
             'type': 'post',
         },
-        'columns': [
+        columns: [
             {
                 data: 'id_receta',
                 render: function(data, type){

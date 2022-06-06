@@ -25,12 +25,19 @@ class Recipe {
         $result = $stmt->execute();
         $id = $this->Connection->lastInsertId();
         echo $id;
-        //$consulta="insert into ".$tabla." values(null,". $data .")";
-        //$resultado=$this->db->query($consulta);
-        /* if ($id) {
-            return $id;
-        }else {
-            return '';
-        } */
+    }
+
+    public function addRecipeDetail($id_receta, $id_prod, $id_sector, $dosis_total, $dosis_hectarea, $estatus){
+        $stmt = $this->Connection->prepare('INSERT INTO receta_detalle (id_receta, id_prod, id_sector, dosis_hectarea, dosis_total, status) VALUES( ?, ?, ?, ?, ?, ?)');
+        //$stmt->bindParam(1, $this->table);
+        $stmt->bindParam(1, $id_receta);
+        $stmt->bindParam(2, $id_prod);
+        $stmt->bindParam(3, $id_sector);
+        $stmt->bindParam(4, $dosis_hectarea);
+        $stmt->bindParam(5, $dosis_total);
+        $stmt->bindParam(6, $estatus);
+        $result = $stmt->execute();
+        //$id = $this->Connection->lastInsertId();
+        echo $result;
     }
 }
