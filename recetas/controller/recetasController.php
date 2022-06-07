@@ -1,14 +1,10 @@
 <?php
 require '../phpspreadsheet/vendor/autoload.php';
 
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class RecetasController {
     private $conectar;
     private $Connection;
-    private $rubros = ['acido', 'agroquimico', 'ferreteria', 'fertilizante', 'infraestructura', 'inocuidad', 'mano de obra', 'maq. agricola', 'mat. fumigacion', 'mat. riego', 'otros', 'papeleria', 'servicios', 'vehiculos'];
-
 
     public function __construct() {
         require_once  __DIR__ . "/../core/Conectar.php";
@@ -72,7 +68,7 @@ class RecetasController {
 
         foreach ($s_data as $row) {
             $data1[] = array(
-                "id_subrancho" => $row['id_subrancho'],
+                //"id_subrancho" => $row['id_subrancho'],
                 "num_subrancho" => $row['num_subrancho'],
                 "nombre" => $row['nombre'],
             );
@@ -183,27 +179,7 @@ class RecetasController {
             "data" => $productos
         );
         echo json_encode($response);
-        //header("location:".urlsite);
     }
-
-    /* public function subrancho (){
-        $subrancho = new Subrancho($this->Connection);
-        $s_data = $subrancho->getAll();
-        $data1 = array();
-
-		foreach ($s_data as $row) {
-			$data1[] = array(
-				"id_subrancho"=>$row['id_subrancho'],
-				"num_subrancho"=>$row['num_subrancho'],
-				"nombre"=>$row['nombre'],
-			);
-		}
-        $response = array(
-            "data1" => $data1
-        );
-
-        echo json_encode($response);
-    } */
 
     public function guardar(){
         $subrancho 	=	$_REQUEST['subrancho'];
@@ -212,7 +188,6 @@ class RecetasController {
     	$justificacion 	=	$_REQUEST['justificacion'];
     	$encargado 	=	$_REQUEST['encargado'];
     	$equipo 	=	$_REQUEST['equipo'];
-        //$data       =   $subrancho.",'".$fecha."','".$estatus."','".$justificacion."','".$encargado."','".$equipo."'";
         $recipe = new Recipe($this->Connection);
     	$res = $recipe->addRecipe($subrancho, $fecha, $estatus, $justificacion, $encargado, $equipo);
         //print_r($res);
@@ -234,21 +209,10 @@ class RecetasController {
             $recipe = new Recipe($this->Connection);
             $res = $recipe->addRecipeDetail($id_receta, $id_prod, $id_sector, $dosis_total, $dosis_hectarea, $estatus);
         }
-    	/* $fecha 	=	$_REQUEST['fecha'];
-    	$estatus 	=	$_REQUEST['estatus'];
-    	$justificacion 	=	$_REQUEST['justificacion'];
-    	$encargado 	=	$_REQUEST['encargado'];
-    	$equipo 	=	$_REQUEST['equipo'];
-        //$data       =   $subrancho.",'".$fecha."','".$estatus."','".$justificacion."','".$encargado."','".$equipo."'";*/
-        //print_r($res);
         return $res;
     }
 
     public function table() {
-        /* $subrancho = new Subrancho($this->Connection);
-        $s_data = $subrancho->getAll();
-        print_r($s_data);
- */
         $recipe = new Recipe($this->Connection);
         $data = $recipe->getAll();
         $data1 = array();
@@ -264,8 +228,6 @@ class RecetasController {
         }
         $response = array(
             "draw" => 1,
-            //  "iTotalRecords" => $totalRecords,
-            // "iTotalDisplayRecords" => $totalRecordwithFilter,
             "aaData" => $data1
         );
 

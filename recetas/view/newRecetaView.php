@@ -100,42 +100,19 @@ date_default_timezone_set('America/Mexico_City');
                 <tbody>
                     <tr class="table-header">
                         <td style="min-width: 4cm;">Nombre del producto</td>
-                        <!-- <td>DOSIS POR HECTÁREA</td>
-                        <td>Sector</td>
-                        <td>Dosis total</td> -->
-    <!--                     <td>PO 1</td>
-                        <td>PO 2</td> -->
                     </tr>
-                    <!-- <tr>
-                        <td></td>
-                        <td></td>
-                    </tr> -->
-                    <!-- <tr class="default-row">
-                        <td>1</td>
-                        <td><input type="text" name="course_code[]"></td>
-                        <td><input type="text" name="course_name[]"></td>
-                        <td><input type="checkbox" name="po1[]" value="Po1"></td>
-                        <td><input type="checkbox" name="po2[]" value="Po2"></td>
-                    </tr> -->
                 </tbody>
             </table>
         </div>
 
         <div class="row py-4 px-2">
             <div class="col-sm-4">
-                <!-- <a href="index.php?c=recetas&action=guardar" id="save" class="btn btn-outline-success btn-block">Guardar Receta</a> -->
                 <button type="submit" class="btn btn-outline-success btn-block">Guardar Receta</button>
             </div>
             <div class="col-sm-4">
                 <button id="cancel" class="btn btn-outline-danger btn-block">Cancelar</button>
             </div>
         </div>
-        <!-- <button onclick="addRow()">Add Row</button>
-        <button onclick="addCol()">Add Column</button>
-
-
-        <button onclick="removeCol()">Remove Column</button> -->
-        <!-- <button onclick="removeRow(3)">Remove Row</button> -->
 
         </form>
     </div>
