@@ -9,34 +9,35 @@ date_default_timezone_set('America/Mexico_City');
 <div class="card-body">
     <div class="container-fluid">
         <form action="" method="POST" id="form">
-        <H1>Nueva Receta</H1>
+        <H1>Editar Receta</H1>
         <div class="row py-2  px-2" style="background-color: #e3e6ec">
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="sub">Fecha:</label>
-                    <input type="number" value="" id="sssub" hidden>
+                    <input type="number" value="<?php echo $data['receta'][0]['num_subrancho'] ?>" id="sssub" hidden>
+                    <input type="number" value="<?php echo $data['receta'][0]['id_receta'] ?>" id="id_receta" hidden>
                     <input type="text" name="estatus" value="Programada" hidden>
-                    <input type="date" class="form-control" required name="fecha" id="fecha" value="<?= (empty($_SESSION['fecha'])) ? date("Y-m-d") : $_SESSION['fecha'] ?>" required>
+                    <input type="date" class="form-control" name="fecha" id="fecha" value="<?php echo $data['receta'][0]['fecha'] ?>" required readonly>
                 </div>
             </div>
             <div class="col-md-4 ">
                 <div class="form-group">
                     <label for="sub">Subrancho:</label>
-                    <select class="select2 subrancho_s" style="width: 100%;" id="subrancho" name="subrancho" required>
-                        <option value=""></option>
-                        <?php
+                    <select class="select2 subrancho_s" style="width: 100%;" id="subrancho" name="subrancho" required disabled>
+                        <option value="<?php echo $data['receta'][0]['num_subrancho'] ?>"><?php echo $data['receta'][0]['nombre'] ?></option>
+                        <!-- <?php
                         foreach ($data['data'] as $key => $va) {
                             echo '<option value="' . $va['num_subrancho'] . '">' . $va['nombre'] . '</option>';
                         }
-                        ?>
+                        ?> -->
                     </select>
                 </div>
             </div>
             <div class="col-md-4 ">
                 <div class="form-group">
                     <label for="sub">Clasificación:</label>
-                    <select class="select2 clasificacion_s" style="width: 100%;" id="clasificacion" required>
-                        <option value=""></option>
+                    <select class="select2 clasificacion_s" style="width: 100%;" id="clasificacion" required disabled>
+                        <!-- <option value=""></option> -->
                         <option value="fertilizante">Fertilizante y Agroquimico</option>
                         <!-- <option value="agroquimico">Agroquimico</option> -->
                     </select>
@@ -47,19 +48,19 @@ date_default_timezone_set('America/Mexico_City');
             <div class="col-md-4 ">
                 <div class="form-group">
                     <label for="sub">Encargado:</label>
-                    <textarea name="encargado" id="" rows="2" class="form-control" style="resize: none;" required></textarea>
+                    <textarea name="encargado" id="" rows="2" class="form-control" style="resize: none;" required readonly><?php echo $data['receta'][0]['encargado'] ?></textarea>
                 </div>
             </div>
             <div class="col-md-4 ">
                 <div class="form-group">
                     <label for="sub">Equipo de aplicación:</label>
-                    <textarea name="equipo" id="" rows="2" class="form-control" style="resize: none;" required></textarea>
+                    <textarea name="equipo" id="" rows="2" class="form-control" style="resize: none;" required readonly><?php echo $data['receta'][0]['equipo'] ?></textarea>
                 </div>
             </div>
             <div class="col-md-4 ">
                 <div class="form-group">
                     <label for="sub">Justificación:</label>
-                    <textarea name="justificacion" id="" rows="2" class="form-control" style="resize: none;" required></textarea>
+                    <textarea name="justificacion" id="" rows="2" class="form-control" style="resize: none;" required readonly><?php echo $data['receta'][0]['justificacion'] ?></textarea>
                 </div>
             </div>
         </div>
@@ -120,4 +121,4 @@ date_default_timezone_set('America/Mexico_City');
 
 <?php include_once("../utils/piePagina.php"); ?>
 
-<script src="<?= DIR_S ?>recetas/js/newReceta.js"></script>
+<script src="<?= DIR_S ?>recetas/js/editReceta.js"></script>

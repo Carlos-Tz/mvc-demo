@@ -1,7 +1,7 @@
 
 var table = document.getElementById("receta_table");
 var url = 'http://localhost/inomac/recetas';
-var subrancho = 0;
+//var subrancho = 0;
 $(document).ready(function() {
     $('.subrancho_s').select2();
     $('.productos_s').select2();
@@ -11,6 +11,105 @@ $(document).ready(function() {
             return false;
         }
     });
+    var id_subrancho = $('#sssub').val();
+    var id_receta = $('#id_receta').val();
+    //console.log(data.id);
+    $.ajax({
+        type: "POST",
+        url: 'index.php?c=recetas&action=sectores',
+        data: { 'id': id_subrancho },
+        success: function(response){
+            $.when($('#sectores').html(response)).done($('.sectores_s').select2()).done(
+                $('#all').click(function(e){
+                    e.preventDefault();
+                    var row = table.rows;
+                    var cc = row[0].cells.length;
+                    let text = "¿Confirma que desea borrar la tabla y agregar todos los sectores?";
+                    if(row.length > 1 && cc > 1){
+                        if (confirm(text) == true) {
+                            $(".sectores_s > option").prop("selected", "selected");
+                            $(".sectores_s").trigger('select2:select');
+                            $(".sectores_s").trigger('change');
+                        }
+                    }else{
+                        $(".sectores_s > option").prop("selected", "selected");
+                        $(".sectores_s").trigger('select2:select');
+                        $(".sectores_s").trigger('change');
+                    }
+                            
+                }),
+                $.ajax({
+                    type: "POST",
+                    url: 'index.php?c=recetas&action=get_detalles',
+                    data: { 'id': id_receta },
+                    success: function(response){                        
+                        console.log(response.length);
+                    }
+                })
+            );
+
+            $('#sectores_lista').on('select2:select', function (evt) {
+                if(evt.params){
+                    addCol(evt.params.data.id, evt.params.data.text);
+                } else {
+                    removeAllC();
+                    for (let va of evt.target.selectedOptions){
+                        //console.log(va.value + ' => ' + va.text);
+                        addCol(va.value, va.text);
+                    }
+                }
+            });
+            $('#sectores_lista').on('select2:unselecting', function (evt) {
+                let text = "¿Confirma que desea eliminar este sector de la tabla?";
+                if (confirm(text) == true) {
+                  } else {
+                      evt.preventDefault();
+                  }
+            });
+
+            $('#sectores_lista').on('select2:unselect', function (evt) {
+                removeCol(evt.params.data.text+'___'+evt.params.data.id+'___');
+                removeCol(evt.params.data.text+'___'+evt.params.data.id+'___');
+                //console.log(evt.params.data.id);
+            });
+        }
+      });
+
+    $.ajax({
+        type: "POST",
+        url: 'index.php?c=recetas&action=sectores_list',
+        data: { 'id': id_subrancho },
+        success: function(response){
+            $.when($('#ssectores').html(response))
+        }
+    })
+    //var data = e.params.data;
+    //console.log(data.id);
+    $.ajax({
+        type: "POST",
+        url: 'index.php?c=recetas&action=productos',
+        data: { },
+        success: function(response){
+            $.when($('#productos').html(response)).done($('.productos_s').select2());
+            
+        $('#productos_lista').on('select2:select', function (evt) {
+              addRow(evt.params.data);
+        });
+        $('#productos_lista').on('select2:unselecting', function (evt) {
+            let text = "¿Confirma que desea eliminar este producto de la tabla?";
+            if (confirm(text) == true) {
+                console.log('se ha aceptado la eliminacin!');
+              } else {
+                  evt.preventDefault();
+                console.log('ha cancelado la eliminacion');
+              }
+        });
+        $('#productos_lista').on('select2:unselect', function (evt) {
+            removeRow(evt.params.data.id);
+        });
+
+        }
+      });
 });
 $('#form').submit(function(e){
     e.preventDefault();
@@ -65,103 +164,6 @@ $('#cancel').click(function(e){
         location.href = url;
     }
 });
-$('#subrancho').on('select2:select', function (e) {
-    var data = e.params.data;
-    subrancho = data.id;
-    $('#sssub').val(subrancho);
-    //console.log(data.id);
-    $.ajax({
-        type: "POST",
-        url: 'index.php?c=recetas&action=sectores',
-        data: { 'id': data.id },
-        success: function(response){
-            $.when($('#sectores').html(response)).done($('.sectores_s').select2()).done(
-                $('#all').click(function(e){
-                    e.preventDefault();
-                    var row = table.rows;
-                    var cc = row[0].cells.length;
-                    let text = "¿Confirma que desea borrar la tabla y agregar todos los sectores?";
-                    if(row.length > 1 && cc > 1){
-                        if (confirm(text) == true) {
-                            $(".sectores_s > option").prop("selected", "selected");
-                            $(".sectores_s").trigger('select2:select');
-                            $(".sectores_s").trigger('change');
-                        }
-                    }else{
-                        $(".sectores_s > option").prop("selected", "selected");
-                        $(".sectores_s").trigger('select2:select');
-                        $(".sectores_s").trigger('change');
-                    }
-                            
-                })
-            );
-
-            $('#sectores_lista').on('select2:select', function (evt) {
-                if(evt.params){
-                    addCol(evt.params.data.id, evt.params.data.text);
-                } else {
-                    removeAllC();
-                    for (let va of evt.target.selectedOptions){
-                        //console.log(va.value + ' => ' + va.text);
-                        addCol(va.value, va.text);
-                    }
-                }
-            });
-            $('#sectores_lista').on('select2:unselecting', function (evt) {
-                let text = "¿Confirma que desea eliminar este sector de la tabla?";
-                if (confirm(text) == true) {
-                  } else {
-                      evt.preventDefault();
-                  }
-            });
-
-            $('#sectores_lista').on('select2:unselect', function (evt) {
-                removeCol(evt.params.data.text+'___'+evt.params.data.id+'___');
-                removeCol(evt.params.data.text+'___'+evt.params.data.id+'___');
-                //console.log(evt.params.data.id);
-            });
-        }
-      });
-
-    $.ajax({
-        type: "POST",
-        url: 'index.php?c=recetas&action=sectores_list',
-        data: { 'id': data.id },
-        success: function(response){
-            $.when($('#ssectores').html(response))
-        }
-    })
-  });
-
-$('#clasificacion').on('select2:select', function (e) {
-    var data = e.params.data;
-    //console.log(data.id);
-    $.ajax({
-        type: "POST",
-        url: 'index.php?c=recetas&action=productos',
-        data: { 'clasificacion': data.id },
-        success: function(response){
-            $.when($('#productos').html(response)).done($('.productos_s').select2());
-            
-        $('#productos_lista').on('select2:select', function (evt) {
-              addRow(evt.params.data);
-        });
-        $('#productos_lista').on('select2:unselecting', function (evt) {
-            let text = "¿Confirma que desea eliminar este producto de la tabla?";
-            if (confirm(text) == true) {
-                console.log('se ha aceptado la eliminacin!');
-              } else {
-                  evt.preventDefault();
-                console.log('ha cancelado la eliminacion');
-              }
-        });
-        $('#productos_lista').on('select2:unselect', function (evt) {
-            removeRow(evt.params.data.id);
-        });
-
-        }
-      });
-  });
 
 
 function change(val){

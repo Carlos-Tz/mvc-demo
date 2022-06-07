@@ -6,7 +6,16 @@ class Recipe {
 
     public function getAll() {
         /* $stmt = $this->Connection->prepare("SELECT * FROM '".$this->table."'" ); */
-        $stmt = $this->Connection->prepare("SELECT * FROM ".$this->table );
+        $stmt = $this->Connection->prepare("SELECT receta.id_receta, receta.num_subrancho, receta.fecha, receta.status, receta.justificacion, subrancho.nombre as nombre FROM receta, subrancho WHERE receta.num_subrancho = subrancho.num_subrancho" );
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        $this->Connection = null; //cierre de conexión
+        return $result;
+    }
+
+    public function getRecipe($id){
+        $stmt = $this->Connection->prepare("SELECT receta.id_receta, receta.num_subrancho, receta.fecha, receta.status, receta.justificacion, receta.encargado, receta.equipo, subrancho.nombre as nombre FROM receta, subrancho WHERE (receta.num_subrancho = subrancho.num_subrancho) AND receta.id_receta = ?" );
+        $stmt->bindParam(1, $id);
         $stmt->execute();
         $result = $stmt->fetchAll();
         $this->Connection = null; //cierre de conexión

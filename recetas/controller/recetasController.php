@@ -9,6 +9,7 @@ class RecetasController {
     public function __construct() {
         require_once  __DIR__ . "/../core/Conectar.php";
         require_once  __DIR__ . "/../model/recipe.php";
+        require_once  __DIR__ . "/../model/detailrecipe.php";
         require_once  __DIR__ . "/../model/subrancho.php";
         require_once  __DIR__ . "/../model/sector.php";
         require_once  __DIR__ . "/../model/producto.php";
@@ -28,11 +29,17 @@ class RecetasController {
             case "nueva":
                 $this->nueva();
                 break;
+            case "editar":
+                $this->editar();
+                break;
             case "guardar":
                 $this->guardar();
                 break;
             case "guardar_detalles":
                 $this->guardar_detalles();
+                break;
+            case "get_detalles":
+                $this->get_detalles();
                 break;
             case "table":
                 $this->table();
@@ -92,6 +99,61 @@ class RecetasController {
             "title" => "Nueva Receta",
             "data" => $data1,
             "productos" => $productos
+            //"sectores" => $sectores
+        ));
+    }
+
+    public function editar() {
+        $recipe = new Recipe($this->Connection);
+        $id = $_GET['id'];
+        $receta_data = $recipe->getRecipe($id); 
+        $receta = array();
+        foreach ($receta_data as $row) {
+            $receta[] = array(
+                //"id_subrancho" => $row['id_subrancho'],
+                "id_receta" => $row['id_receta'],
+                "num_subrancho" => $row['num_subrancho'],
+                "nombre" => $row['nombre'],
+                "fecha" => $row['fecha'],
+                "status" => $row['status'],
+                "justificacion" => $row['justificacion'],
+                "encargado" => $row['encargado'],
+                "equipo" => $row['equipo'],
+            );
+        }
+        //print_r($receta);
+
+        $subrancho = new Subrancho($this->Connection);
+        $s_data = $subrancho->getAll();
+        $data1 = array();
+
+        foreach ($s_data as $row) {
+            $data1[] = array(
+                //"id_subrancho" => $row['id_subrancho'],
+                "num_subrancho" => $row['num_subrancho'],
+                "nombre" => $row['nombre'],
+            );
+        }
+
+        $producto = new Producto($this->Connection);
+        $p_data = $producto->getProducto();
+        $productos = array();
+
+        foreach ($p_data as $row) {
+            $productos[] = array(
+                "id_prod" => $row['id_prod'],
+                "existencia" => $row['existencia'],
+                "nom_prod" => $row['nom_prod'],
+                "costo_promedio" => $row['costo_promedio'],
+                "unidad_medida" => $row['unidad_medida'],
+                "clasificacion" => $row['clasificacion'],
+            );
+        }
+        $this->view("EditReceta", array(
+            "title" => "Editar Receta",
+            "data" => $data1,
+            "productos" => $productos,
+            "receta" => $receta
             //"sectores" => $sectores
         ));
     }
@@ -212,6 +274,25 @@ class RecetasController {
         return $res;
     }
 
+    public function get_detalles(){
+        $id = intval($_REQUEST['id']);
+        $det_rec = new RecipeDetail($this->Connection);
+        $data_det = $det_rec->getAll($id);
+        $data = array();
+        foreach ($data_det as $row) {
+            $data[] = array(
+                "id_receta_detalle" => $row['id_receta_detalle'],
+                "id_receta" => $row['id_receta'],
+                "id_prod" => $row['id_prod'],
+                "id_sector" => $row['id_sector'],
+                "dosis_hectarea" => $row['dosis_hectarea'],
+                "dosis_total" => $row['dosis_total'],
+                "status" => $row['status']
+            );
+        }
+        echo json_encode($data);
+    }
+
     public function table() {
         $recipe = new Recipe($this->Connection);
         $data = $recipe->getAll();
@@ -220,10 +301,13 @@ class RecetasController {
         foreach ($data as $row) {
             $data1[] = array(
                 "id_receta" => $row['id_receta'],
-                "num_subrancho" => $row['num_subrancho'],
+                "nombre" => $row['nombre'],
                 "fecha" => $row['fecha'],
                 "status" => $row['status'],
                 "justificacion" => $row['justificacion'],
+                "options" => 
+                '<a href="index.php?c=recetas&action=editar&id='.$row['id_receta'].'"  data-toggle="tooltip" title="Editar" class="btn btn-sm btn-info"> <i class="fa-solid fa-pen"></i> </a>'
+                /* <a href="index.php?action=delete&id='.$row['id_receta'].'"  data-toggle="tooltip" title="Eliminar" class="btn btn-sm btn-danger"> <i class="fa-solid fa-trash"></i> </a>' */
             );
         }
         $response = array(

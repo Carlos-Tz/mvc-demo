@@ -15,7 +15,7 @@ function getTableRecetas(){
                 }
             },
             {
-                data: 'num_subrancho',
+                data: 'nombre',
                 render: function (data, type) {
                     return data.toUpperCase();
                 }
@@ -31,7 +31,7 @@ function getTableRecetas(){
                 data: 'status'
             },
             {
-                data: 'justificacion'
+                data: 'options'
             }
         ]
     });
