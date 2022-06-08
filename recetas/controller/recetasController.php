@@ -287,10 +287,12 @@ class RecetasController {
                 "id_sector" => $row['id_sector'],
                 "dosis_hectarea" => $row['dosis_hectarea'],
                 "dosis_total" => $row['dosis_total'],
-                "status" => $row['status']
+                "status" => $row['status'],
+                "nombre_s" => $row['nombre_s'],
             );
         }
         echo json_encode($data);
+        //print_r($data);
     }
 
     public function table() {

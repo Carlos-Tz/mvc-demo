@@ -1,6 +1,7 @@
 
 var table = document.getElementById("receta_table");
 var url = 'http://localhost/inomac/recetas';
+//var productos_g = []
 //var subrancho = 0;
 $(document).ready(function() {
     $('.subrancho_s').select2();
@@ -43,7 +44,42 @@ $(document).ready(function() {
                     url: 'index.php?c=recetas&action=get_detalles',
                     data: { 'id': id_receta },
                     success: function(response){                        
-                        console.log(response.length);
+                        //console.log(response);
+                        let data = JSON.parse(response);
+                        let sectores = [];
+                        let productos = [];
+                        for(let va of data){
+                            sectores.push(va.id_sector);
+                            productos.push(va.id_prod);
+                            //console.log(va);
+                            //console.log(va.id_prod);
+                            //var row = $('tr#'+va.id_prod); console.log(row)
+                        }
+                        let sectores_u = sectores.filter((item,index)=>{
+                            return sectores.indexOf(item) === index;
+                        })
+                        let productos_u = productos.filter((item,index)=>{
+                            return productos.indexOf(item) === index;
+                        })
+                        //console.log(sectores_u);
+                        //console.log(productos_u);
+                        $('.sectores_s').val(sectores_u);
+                        $(".sectores_s").trigger('select2:select');
+                        $('.sectores_s').trigger('change'); 
+                        //productos_g = productos_u;
+                        //console.log($('.productos_s'))
+                        //console.log($('.sectores_s'))
+                        $('.productos_s').val(productos_u);
+                        $(".productos_s").trigger('select2:select');
+                        $('.productos_s').trigger('change'); 
+                        for(let va of data){
+                            let dosis_t = parseInt(va.dosis_total).toFixed(2);
+                            let dosis_h = parseInt(va.dosis_hectarea).toFixed(2);
+                            var inp = $('input#'+va.nombre_s+'___'+va.id_sector+'___'+va.id_prod+'___1').val(dosis_t).trigger('change');
+                            var inp2 = $('input#'+va.nombre_s+'___'+va.id_sector+'___'+va.id_prod+'___2').val(dosis_h).trigger('change');
+                        }
+                        //var inp = $('input#A1___1___2889___1'); console.log(inp)
+
                     }
                 })
             );
@@ -90,10 +126,17 @@ $(document).ready(function() {
         url: 'index.php?c=recetas&action=productos',
         data: { },
         success: function(response){
-            $.when($('#productos').html(response)).done($('.productos_s').select2());
+            $.when($('#productos').html(response)).done($('.productos_s').select2())
             
         $('#productos_lista').on('select2:select', function (evt) {
-              addRow(evt.params.data);
+            if(evt.params){
+                addRow(evt.params.data.id, evt.params.data.text);
+            } else {
+                for (let va of evt.target.selectedOptions){
+                    addRow(va.value, va.text);
+                }
+            }
+              //addRow(evt.params.data);
         });
         $('#productos_lista').on('select2:unselecting', function (evt) {
             let text = "¿Confirma que desea eliminar este producto de la tabla?";
@@ -230,25 +273,25 @@ function hide(id){
     $('li#'+id+'_cc').hide();
 }
 
-function addRow(producto) {
+function addRow(producto_id, producto_text) {
     var lastrow = table.rows.length;
 	var lastcol = table.rows[0].cells.length;
 	var lcol = table.rows[0].cells;	//console.log(lcol[1].id);
 	var row = table.insertRow(lastrow);
-    row.setAttribute("id", producto.id, 0);
+    row.setAttribute("id", producto_id, 0);
 	var cellcol0 = row.insertCell(0);
 	//cellcol0.innerHTML = lastrow;
-	cellcol0.innerHTML = '<button type="button" class="btn" style="padding: 0 0.5rem !important;" id="'+producto.id+'">'+producto.text+'</button>';
+	cellcol0.innerHTML = '<button type="button" class="btn" style="padding: 0 0.5rem !important;" id="'+producto_id+'">'+producto_text+'</button>';
 	
 	
 	for(i=1; i<lastcol;i++)	{
 		var cell1 = row.insertCell(i);
-        cell1.setAttribute("id", lcol[i].id + producto.id ); //console.log(lcol[i].id);
+        cell1.setAttribute("id", lcol[i].id + producto_id ); //console.log(lcol[i].id);
         if(i % 2 == 0) {
-            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto.id+'___2" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" name="pos'+(i)+'" onchange="change1(this)" value="0" min="0" step="0.01" onfocus="show('+producto.id+')" onblur="hide('+producto.id+')">';
+            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto_id+'___2" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" name="pos'+(i)+'" onchange="change1(this)" value="0" min="0" step="0.01" onfocus="show('+producto_id+')" onblur="hide('+producto_id+')">';
         }else {
             //cell1.setAttribute("id", lcol[i].id + producto.id+'___1');
-            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto.id+'___1" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" name="pos'+(i)+'" onchange="change(this)" value="0" min="0" step="0.01" onfocus="show('+producto.id+')" onblur="hide('+producto.id+')">';
+            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto_id+'___1" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" name="pos'+(i)+'" onchange="change(this)" value="0" min="0" step="0.01" onfocus="show('+producto_id+')" onblur="hide('+producto_id+')">';
         }
 	}
 }
