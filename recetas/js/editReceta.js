@@ -158,14 +158,14 @@ $('#form').submit(function(e){
     e.preventDefault();
     var row = table.rows;
     var cc = row[0].cells.length;
-    let text = "¿Confirma que desea guardar la receta?";
+    let text = "¿Confirma que desea actualizar la receta?";
     if(row.length > 1 && cc > 1){
         if (confirm(text) == true) {
             $.ajax({
-                url: 'index.php?c=recetas&action=guardar',
+                url: 'index.php?c=recetas&action=eliminar',
                 type: 'post',
-                data:$('#form').serialize(),
-                success: function(res){
+                data: { 'id': id_receta },
+                success: function(res){ console.log(res);
                     var id = parseInt(res);
                     var datos = [];
         

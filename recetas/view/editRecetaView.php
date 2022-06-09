@@ -108,7 +108,7 @@ date_default_timezone_set('America/Mexico_City');
 
         <div class="row py-4 px-2">
             <div class="col-sm-4">
-                <button type="submit" class="btn btn-outline-success btn-block">Guardar Receta</button>
+                <button type="submit" class="btn btn-outline-success btn-block">Actualizar Receta</button>
             </div>
             <div class="col-sm-4">
                 <button id="cancel" class="btn btn-outline-danger btn-block">Cancelar</button>

@@ -35,6 +35,9 @@ class RecetasController {
             case "guardar":
                 $this->guardar();
                 break;
+            case "eliminar":
+                $this->eliminar();
+                break;
             case "guardar_detalles":
                 $this->guardar_detalles();
                 break;
@@ -254,6 +257,17 @@ class RecetasController {
     	$res = $recipe->addRecipe($subrancho, $fecha, $estatus, $justificacion, $encargado, $equipo);
         //print_r($res);
         return $res;
+    }
+
+    public function eliminar(){
+        $id = $_POST['id'];
+        $det_rec = new RecipeDetail($this->Connection);
+        $res = $det_rec->delete($id);
+        if ($res) {
+            return true; 
+        }else {
+            return false;
+        }
     }
 
     public function guardar_detalles(){

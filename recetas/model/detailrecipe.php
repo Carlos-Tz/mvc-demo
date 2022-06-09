@@ -16,4 +16,14 @@ class RecipeDetail {
         return $result;
     }
 
+    public function delete($id){
+        $stmt = $this->Connection->prepare("DELETE FROM receta_detalle WHERE id_receta = ". $id );
+        $res = $stmt->execute();
+        if ($res) {
+            return true; 
+        }else {
+            return false;
+        }
+    }
+
 }
