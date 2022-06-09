@@ -57,7 +57,10 @@ class RecetasController {
                 $this->productos();
                 break;
             case "getProducts":
-                $this->getProducts()();
+                $this->getProducts();
+                break;
+            case "calcular":
+                $this->calcular();
                 break;
             default:
                 $this->index();
@@ -104,6 +107,14 @@ class RecetasController {
             "productos" => $productos
             //"sectores" => $sectores
         ));
+    }
+
+    public function calcular(){
+        $id = $_POST['id']; //echo $id;
+        $id_r = $_POST['id_r']; //echo $id;
+        $det_rec = new RecipeDetail($this->Connection);
+        $res = $det_rec->calcular($id, $id_r);
+        echo $res;
     }
 
     public function editar() {
@@ -260,14 +271,9 @@ class RecetasController {
     }
 
     public function eliminar(){
-        $id = $_POST['id'];
+        $id = $_POST['id']; //echo $id;
         $det_rec = new RecipeDetail($this->Connection);
         $res = $det_rec->delete($id);
-        if ($res) {
-            return true; 
-        }else {
-            return false;
-        }
     }
 
     public function guardar_detalles(){

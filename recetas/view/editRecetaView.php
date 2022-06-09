@@ -73,19 +73,25 @@ date_default_timezone_set('America/Mexico_City');
         <div class="row py-2 px-2" id="sectores" style="background-color: #e3e6ec">
         </div>
         <div class="row px-2" style="background-color: #e3e6ec">
-            <div class="col-sm-4">
+            <div class="col-sm-12 col-md-2">
                 <label for="sub">Productos</label>
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-12 col-md-10">
             <?php
-            echo '<ul style="list-style-type: none; margin-bottom: 0;">';
+            echo '<ul style="list-style-type: none; margin-bottom: 0; padding: 0;">';
             foreach ($data['productos'] as $key => $va) {
                 echo '<li id="' . $va['id_prod'] . '_cc" style="display: none;">Existencia: ';
-                echo '<input type="number" readonly style="width: 35%; height:1.2rem; border:0; background-color:transparent;" id="' . $va['id_prod'] . '_pp" value="' . $va['existencia'] .'" hidden>';
+                echo '<input type="number" readonly style="width: 20%; height:1.2rem; border:0; background-color:transparent;" id="' . $va['id_prod'] . '_pp" value="' . $va['existencia'] .'" hidden>';
                 echo '<span> '.number_format($va['existencia'], 2, '.', ',').' </span>';
-                echo $va['unidad_medida'];
-                echo ' Restante: ';
-                echo '<input type="number" readonly style="width: 35%; height:1.2rem; border:0; background-color:transparent;" id="' . $va['id_prod'] . '_ppp" value=""></li>';
+                echo '<span style="padding-right: 2rem">'.$va['unidad_medida'].'</span>';
+                echo ' Programada: ';
+                echo '<input type="number" readonly style="width: 12%; height:1.2rem; border:0; background-color:transparent;" id="' . $va['id_prod'] . '_pppp" value="">';
+                //echo '<span> '.number_format($va['existencia'], 2, '.', ',').' </span>';
+                //echo '<span style="padding-right: 2rem">'.$va['unidad_medida'].'</span>';
+                echo ' Disponible: ';
+                echo '<input type="number" readonly style="width: 12%; height:1.2rem; border:0; background-color:transparent;" id="' . $va['id_prod'] . '_ppp" value="">';
+                //echo '<span> '.number_format($va['existencia'], 2, '.', ',').' </span>';
+                /* echo $va['unidad_medida']. */'</li>';
             }
             echo '</ul>';
             ?>

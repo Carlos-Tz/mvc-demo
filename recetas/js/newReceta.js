@@ -1,6 +1,8 @@
 
 var table = document.getElementById("receta_table");
-var url = 'http://localhost/inomac/recetas';
+/* var url = 'http://localhost/inomac/recetas'; */
+var url = 'http://localhost:8080/local/dev/adm/mvc/recetas';
+
 var subrancho = 0;
 $(document).ready(function() {
     $('.subrancho_s').select2();
@@ -181,7 +183,41 @@ function change(val){
             var td = cells[i];
             if(i % 2 != 0) { sum += parseFloat(td.firstChild.value); }
         }
-        if($('#'+idp+'_pp')[0].value){
+        $.ajax({
+            type: "POST",
+            url: 'index.php?c=recetas&action=calcular',
+            data: { 'id': idp, 'id_r': $('#id_receta').val() },
+            success: function(response){
+                //console.log(parseFloat(response))
+                var total_p = parseFloat(response);
+                var programada;
+                if (total_p){
+                    programada = sum + total_p;
+                }else{
+                    programada = sum;
+                }
+                //console.log(row)
+                if($('#'+idp+'_pp')[0].value){
+                    proEx = parseFloat($('#'+idp+'_pp')[0].value);
+                    if(programada > proEx) {
+                        alert('Existencia insuficiente de este producto!');
+                        $('#'+scp+'___'+sicp+'___'+idp+'___'+clp).val(0).trigger('change');
+                    }else {
+                        var re = (proEx - programada);
+                        var ha = parseFloat($('#'+scp+'___ss')[0].value);
+                        $('#'+idp+'_ppp').val(parseFloat(re).toFixed(2));
+                        $('#'+idp+'_pppp').val(parseFloat(programada).toFixed(2));
+                        var valor2 = valor/ha; //console.log(valor2);
+                        if(valor > 0){
+                            $('#'+scp+'___'+sicp+'___'+idp+'___'+'2').val(valor2.toFixed(2));
+                        }else {
+                            $('#'+scp+'___'+sicp+'___'+idp+'___'+'2').val(0);
+                        }
+                    }
+                }
+            }
+        })
+        /* if($('#'+idp+'_pp')[0].value){
             proEx = parseFloat($('#'+idp+'_pp')[0].value);
             if(sum > proEx) {
                 alert('Existencia insuficiente de este prodcuto!');
@@ -197,7 +233,7 @@ function change(val){
                     $('#'+scp+'___'+sicp+'___'+idp+'___'+'2').val(0);
                 }
             }
-        }
+        } */
     }
 }
 function change1(val){
