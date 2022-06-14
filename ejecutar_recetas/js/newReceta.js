@@ -2,8 +2,8 @@
 var table = document.getElementById("receta_table");
 /* var url = 'http://localhost/inomac/recetas'; */
 var url = 'http://localhost:8080/local/dev/adm/mvc/recetas';
-//var productos_g = []
-//var subrancho = 0;
+
+var subrancho = 0;
 $(document).ready(function() {
     $('.subrancho_s').select2();
     $('.productos_s').select2();
@@ -13,13 +13,69 @@ $(document).ready(function() {
             return false;
         }
     });
-    var id_subrancho = $('#sssub').val();
-    var id_receta = $('#id_receta').val();
+});
+$('#form').submit(function(e){
+    e.preventDefault();
+    var row = table.rows;
+    var cc = row[0].cells.length;
+    let text = "¿Confirma que desea guardar la receta?";
+    if(row.length > 1 && cc > 1){
+        if (confirm(text) == true) {
+            $.ajax({
+                url: 'index.php?c=recetas&action=guardar',
+                type: 'post',
+                data:$('#form').serialize(),
+                success: function(res){
+                    var id = parseInt(res);
+                    var datos = [];
+        
+                    for (var i = 1; i < row.length; i++) {
+                        for (var j = 1; j < row[i].cells.length; j+=2) {
+                            var td = row[i].cells[j];
+                            var td2 = row[i].cells[j+1];
+                            var v1 = parseFloat(td.firstChild.value);
+                            var v2 = parseFloat(td2.firstChild.value);
+                            var arrId = td.id.split('___');
+                            var scp = arrId[0]; //console.log(scp);
+                            var sicp = parseFloat(arrId[1]); //console.log(sicp);
+                            var idp = parseFloat(arrId[2]); //console.log(idp);
+                            var dost = parseFloat(td.firstChild.value);
+                            var dosh = parseFloat(td2.firstChild.value);
+                            datos.push({ id_receta: id, id_prod: idp, id_sector: sicp, dosis_total: dost, dosis_hectarea: dosh });
+                        }
+                    }
+                    $.ajax({
+                        url: 'index.php?c=recetas&action=guardar_detalles',
+                        type: 'post',
+                        data: { datos: datos},
+                        success: function(res){
+                            //console.log(res);
+                            location.href = url;
+                        }
+                    });
+                }
+            });
+        } 
+    }else{
+        alert('La tabla esta vacía!');
+    }
+});
+$('#cancel').click(function(e){
+    e.preventDefault();
+    let text = "¿Confirma que desea cancelar la receta?";
+    if (confirm(text) == true) {
+        location.href = url;
+    }
+});
+$('#subrancho').on('select2:select', function (e) {
+    var data = e.params.data;
+    subrancho = data.id;
+    $('#sssub').val(subrancho);
     //console.log(data.id);
     $.ajax({
         type: "POST",
         url: 'index.php?c=recetas&action=sectores',
-        data: { 'id': id_subrancho },
+        data: { 'id': data.id },
         success: function(response){
             $.when($('#sectores').html(response)).done($('.sectores_s').select2()).done(
                 $('#all').click(function(e){
@@ -39,41 +95,6 @@ $(document).ready(function() {
                         $(".sectores_s").trigger('change');
                     }
                             
-                }),
-                $.ajax({
-                    type: "POST",
-                    url: 'index.php?c=recetas&action=get_detalles',
-                    data: { 'id': id_receta }, 
-                    success: function(response){                      
-                        //console.log(response);
-                        let data = JSON.parse(response);
-                        let sectores = [];
-                        let productos = [];
-                        for(let va of data){
-                            sectores.push(va.id_sector);
-                            productos.push(va.id_prod);
-                        }
-                        let sectores_u = sectores.filter((item,index)=>{
-                            return sectores.indexOf(item) === index;
-                        })
-                        let productos_u = productos.filter((item,index)=>{
-                            return productos.indexOf(item) === index;
-                        })
-                        $('.sectores_s').val(sectores_u);
-                        $(".sectores_s").trigger('select2:select');
-                        $('.sectores_s').trigger('change'); 
-                        $('.productos_s').val(productos_u);
-                        $(".productos_s").trigger('select2:select');
-                        $('.productos_s').trigger('change'); 
-                        for(let va of data){  
-                            let dosis_t = parseFloat(va.dosis_total).toFixed(2); //console.log(dosis_t)
-                            let dosis_h = parseFloat(va.dosis_hectarea).toFixed(2); //console.log(dosis_h)
-                            var inp = $('input#'+va.nombre_s+'___'+va.id_sector+'___'+va.id_prod+'___1').val(dosis_t).trigger('change');
-                            var inp2 = $('input#'+va.nombre_s+'___'+va.id_sector+'___'+va.id_prod+'___2').val(dosis_h).trigger('change');
-                        }
-                        //var inp = $('input#A1___1___2889___1'); console.log(inp)
-
-                    }
                 })
             );
 
@@ -107,29 +128,25 @@ $(document).ready(function() {
     $.ajax({
         type: "POST",
         url: 'index.php?c=recetas&action=sectores_list',
-        data: { 'id': id_subrancho },
+        data: { 'id': data.id },
         success: function(response){
             $.when($('#ssectores').html(response))
         }
     })
-    //var data = e.params.data;
+  });
+
+$('#clasificacion').on('select2:select', function (e) {
+    var data = e.params.data;
     //console.log(data.id);
     $.ajax({
         type: "POST",
         url: 'index.php?c=recetas&action=productos',
-        data: { },
+        data: { 'clasificacion': data.id },
         success: function(response){
-            $.when($('#productos').html(response)).done($('.productos_s').select2())
+            $.when($('#productos').html(response)).done($('.productos_s').select2());
             
         $('#productos_lista').on('select2:select', function (evt) {
-            if(evt.params){
-                addRow(evt.params.data.id, evt.params.data.text);
-            } else {
-                for (let va of evt.target.selectedOptions){
-                    addRow(va.value, va.text);
-                }
-            }
-              //addRow(evt.params.data);
+              addRow(evt.params.data);
         });
         $('#productos_lista').on('select2:unselecting', function (evt) {
             let text = "¿Confirma que desea eliminar este producto de la tabla?";
@@ -146,60 +163,7 @@ $(document).ready(function() {
 
         }
       });
-});
-$('#form').submit(function(e){
-    e.preventDefault();
-    var row = table.rows;
-    var cc = row[0].cells.length;
-    let text = "¿Confirma que desea actualizar la receta?";
-    if(row.length > 1 && cc > 1){
-        if (confirm(text) == true) { console.log($('#id_receta').val());
-            $.ajax({
-                url: 'index.php?c=recetas&action=eliminar',
-                type: 'post',
-                data: { 'id': $('#id_receta').val() },
-                success: function(res){ //console.log(res);
-                    //var id = parseInt(res); //console.log(id)
-                    var datos = [];
-        
-                    for (var i = 1; i < row.length; i++) {
-                        for (var j = 1; j < row[i].cells.length; j+=2) {
-                            var td = row[i].cells[j];
-                            var td2 = row[i].cells[j+1];
-                            var v1 = parseFloat(td.firstChild.value);
-                            var v2 = parseFloat(td2.firstChild.value);
-                            var arrId = td.id.split('___');
-                            var scp = arrId[0]; //console.log(scp);
-                            var sicp = parseFloat(arrId[1]); //console.log(sicp);
-                            var idp = parseFloat(arrId[2]); //console.log(idp);
-                            var dost = parseFloat(td.firstChild.value);
-                            var dosh = parseFloat(td2.firstChild.value);
-                            datos.push({ id_receta: $('#id_receta').val(), id_prod: idp, id_sector: sicp, dosis_total: dost, dosis_hectarea: dosh });
-                        }
-                    }
-                    $.ajax({
-                        url: 'index.php?c=recetas&action=guardar_detalles',
-                        type: 'post',
-                        data: { datos: datos},
-                        success: function(res){
-                            //console.log(res);
-                            location.href = url;
-                        }
-                    });
-                }
-            });
-        } 
-    }else{
-        alert('La tabla esta vacía!');
-    }
-});
-$('#cancel').click(function(e){
-    e.preventDefault();
-    let text = "¿Confirma que desea cancelar la receta?";
-    if (confirm(text) == true) {
-        location.href = url;
-    }
-});
+  });
 
 
 function change(val){
@@ -222,7 +186,7 @@ function change(val){
         $.ajax({
             type: "POST",
             url: 'index.php?c=recetas&action=calcular',
-            data: { 'id': idp, 'id_r': $('#id_receta').val() },
+            data: { 'id': idp, 'id_r': 0 },
             success: function(response){
                 //console.log(parseFloat(response))
                 var total_p = parseFloat(response);
@@ -283,25 +247,25 @@ function hide(id){
     $('li#'+id+'_cc').hide();
 }
 
-function addRow(producto_id, producto_text) {
+function addRow(producto) {
     var lastrow = table.rows.length;
 	var lastcol = table.rows[0].cells.length;
 	var lcol = table.rows[0].cells;	//console.log(lcol[1].id);
 	var row = table.insertRow(lastrow);
-    row.setAttribute("id", producto_id, 0);
+    row.setAttribute("id", producto.id, 0);
 	var cellcol0 = row.insertCell(0);
 	//cellcol0.innerHTML = lastrow;
-	cellcol0.innerHTML = '<button type="button" class="btn" style="padding: 0 0.5rem !important; width: 100%;" id="'+producto_id+'">'+producto_text+'</button>';
+	cellcol0.innerHTML = '<button type="button" class="btn" style="padding: 0 0.5rem !important;" id="'+producto.id+'">'+producto.text+'</button>';
 	
 	
 	for(i=1; i<lastcol;i++)	{
 		var cell1 = row.insertCell(i);
-        cell1.setAttribute("id", lcol[i].id + producto_id ); //console.log(lcol[i].id);
+        cell1.setAttribute("id", lcol[i].id + producto.id ); //console.log(lcol[i].id);
         if(i % 2 == 0) {
-            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto_id+'___2" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" name="pos'+(i)+'" onchange="change1(this)" value="0" min="0" step="0.01" onfocus="show('+producto_id+')" onblur="hide('+producto_id+')">';
+            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto.id+'___2" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" name="pos'+(i)+'" onchange="change1(this)" value="0" min="0" step="0.01" onfocus="show('+producto.id+')" onblur="hide('+producto.id+')">';
         }else {
             //cell1.setAttribute("id", lcol[i].id + producto.id+'___1');
-            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto_id+'___1" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" name="pos'+(i)+'" onchange="change(this)" value="0" min="0" step="0.01" onfocus="show('+producto_id+')" onblur="hide('+producto_id+')">';
+            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto.id+'___1" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" name="pos'+(i)+'" onchange="change(this)" value="0" min="0" step="0.01" onfocus="show('+producto.id+')" onblur="hide('+producto.id+')">';
         }
 	}
 }

@@ -22,7 +22,7 @@ $(document).ready(function() {
         data: { 'id': id_subrancho },
         success: function(response){
             $.when($('#sectores').html(response)).done($('.sectores_s').select2()).done(
-                $('#all').click(function(e){
+                /* $('#all').click(function(e){
                     e.preventDefault();
                     var row = table.rows;
                     var cc = row[0].cells.length;
@@ -39,7 +39,7 @@ $(document).ready(function() {
                         $(".sectores_s").trigger('change');
                     }
                             
-                }),
+                }), */
                 $.ajax({
                     type: "POST",
                     url: 'index.php?c=recetas&action=get_detalles',
@@ -81,26 +81,26 @@ $(document).ready(function() {
                 if(evt.params){
                     addCol(evt.params.data.id, evt.params.data.text);
                 } else {
-                    removeAllC();
+                    //removeAllC();
                     for (let va of evt.target.selectedOptions){
                         //console.log(va.value + ' => ' + va.text);
                         addCol(va.value, va.text);
                     }
                 }
             });
-            $('#sectores_lista').on('select2:unselecting', function (evt) {
+           /*  $('#sectores_lista').on('select2:unselecting', function (evt) {
                 let text = "¿Confirma que desea eliminar este sector de la tabla?";
                 if (confirm(text) == true) {
                   } else {
                       evt.preventDefault();
                   }
-            });
+            }); */
 
-            $('#sectores_lista').on('select2:unselect', function (evt) {
+            /* $('#sectores_lista').on('select2:unselect', function (evt) {
                 removeCol(evt.params.data.text+'___'+evt.params.data.id+'___');
                 removeCol(evt.params.data.text+'___'+evt.params.data.id+'___');
                 //console.log(evt.params.data.id);
-            });
+            }); */
         }
       });
 
@@ -131,7 +131,7 @@ $(document).ready(function() {
             }
               //addRow(evt.params.data);
         });
-        $('#productos_lista').on('select2:unselecting', function (evt) {
+        /* $('#productos_lista').on('select2:unselecting', function (evt) {
             let text = "¿Confirma que desea eliminar este producto de la tabla?";
             if (confirm(text) == true) {
                 console.log('se ha aceptado la eliminacin!');
@@ -139,10 +139,10 @@ $(document).ready(function() {
                   evt.preventDefault();
                 console.log('ha cancelado la eliminacion');
               }
-        });
-        $('#productos_lista').on('select2:unselect', function (evt) {
+        }); */
+        /* $('#productos_lista').on('select2:unselect', function (evt) {
             removeRow(evt.params.data.id);
-        });
+        }); */
 
         }
       });
@@ -202,7 +202,7 @@ $('#cancel').click(function(e){
 });
 
 
-function change(val){
+/* function change(val){
     var id = val.id;
     var sum = 0;
     var proEx = 0;
@@ -254,8 +254,8 @@ function change(val){
             }
         })
     }
-}
-function change1(val){
+} */
+/* function change1(val){
     var id = val.id;
     var sum = 0;
     var proEx = 0;
@@ -275,13 +275,13 @@ function change1(val){
             $('#'+scp+'___'+sicp+'___'+idp+'___'+'1').val(0).trigger('change');
         }
     }
-}
-function show(id){
+} */
+/* function show(id){
     $('li#'+id+'_cc').show();
 }
 function hide(id){
     $('li#'+id+'_cc').hide();
-}
+} */
 
 function addRow(producto_id, producto_text) {
     var lastrow = table.rows.length;
@@ -298,10 +298,10 @@ function addRow(producto_id, producto_text) {
 		var cell1 = row.insertCell(i);
         cell1.setAttribute("id", lcol[i].id + producto_id ); //console.log(lcol[i].id);
         if(i % 2 == 0) {
-            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto_id+'___2" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" name="pos'+(i)+'" onchange="change1(this)" value="0" min="0" step="0.01" onfocus="show('+producto_id+')" onblur="hide('+producto_id+')">';
+            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto_id+'___2" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" name="pos'+(i)+'" value="0" min="0" step="0.01">';
         }else {
             //cell1.setAttribute("id", lcol[i].id + producto.id+'___1');
-            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto_id+'___1" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" name="pos'+(i)+'" onchange="change(this)" value="0" min="0" step="0.01" onfocus="show('+producto_id+')" onblur="hide('+producto_id+')">';
+            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto_id+'___1" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" name="pos'+(i)+'" value="0" min="0" step="0.01">';
         }
 	}
 }
@@ -322,27 +322,20 @@ function addCol(sector_value, sector_text) {
 			cell2.innerHTML = "Dosis Ha";
             cell1.className = 'td_green';
             cell2.className = 'td_white';
-           /*  if(table.rows[0].cells[lastcol-1].className == 'td_blue'){
-                cell1.className = 'td_green';
-                cell2.className = 'td_green';
-            }else {
-                cell1.className = 'td_blue';
-                cell2.className = 'td_blue';
-            } */
         }
 		else  {
-            cell1.innerHTML = '<input type="number" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" id="'+sector_text + '___' + sector_value + '___'+ lrow[i].id + '___1" class="form-control" name="pos'+ sector_value +'" onchange="change(this)" value="0" min="0" step="0.01" onfocus="show('+lrow[i].id+')" onblur="hide('+lrow[i].id+')">';
-            cell2.innerHTML = '<input type="number" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" id="'+sector_text + '___' + sector_value + '___'+ lrow[i].id + '___2" class="form-control" name="pos'+ sector_value +'" onchange="change1(this)" value="0" min="0" step="0.01" onfocus="show('+lrow[i].id+')" onblur="hide('+lrow[i].id+')">';
+            cell1.innerHTML = '<input type="number" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" id="'+sector_text + '___' + sector_value + '___'+ lrow[i].id + '___1" class="form-control" name="pos'+ sector_value +'" value="0" min="0" step="0.01">';
+            cell2.innerHTML = '<input type="number" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" id="'+sector_text + '___' + sector_value + '___'+ lrow[i].id + '___2" class="form-control" name="pos'+ sector_value +'" value="0" min="0" step="0.01">';
         }
 		
 	}
 }
 
-function removeRow(id){
+/* function removeRow(id){
     $("tr#"+id).remove();
-}
+} */
 
-function removeAllC(){
+/* function removeAllC(){
     var lastcol = (table.rows[0].cells.length)-1;
 	var lastrow = (table.rows.length);
     for(i=0; i<lastrow;i++)	{
@@ -350,9 +343,9 @@ function removeAllC(){
             table.rows[i].deleteCell(j);
         }
 	}
-}
+} */
 
-function removeCol(id){
+/* function removeCol(id){
     var row = table.rows;
   
     for (var i = 0; i < row[0].cells.length; i++) {
@@ -363,4 +356,4 @@ function removeCol(id){
             }
         }
     }
-}
+} */

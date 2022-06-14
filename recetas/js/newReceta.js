@@ -255,7 +255,7 @@ function addRow(producto) {
     row.setAttribute("id", producto.id, 0);
 	var cellcol0 = row.insertCell(0);
 	//cellcol0.innerHTML = lastrow;
-	cellcol0.innerHTML = '<button type="button" class="btn" style="padding: 0 0.5rem !important;" id="'+producto.id+'">'+producto.text+'</button>';
+	cellcol0.innerHTML = '<button type="button" class="btn" style="padding: 0 0.5rem !important; width: 100%;" id="'+producto.id+'">'+producto.text+'</button>';
 	
 	
 	for(i=1; i<lastcol;i++)	{
