@@ -163,7 +163,7 @@ class RecetasController {
                 "clasificacion" => $row['clasificacion'],
             );
         }
-        $this->view("EditReceta", array(
+        $this->view("editReceta", array(
             "title" => "Editar Receta",
             "data" => $data1,
             "productos" => $productos,

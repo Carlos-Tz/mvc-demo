@@ -1,6 +1,9 @@
 function getTableRecetas(){
     var table = $('#table-recipes').DataTable({
         dom: 'ltrip',
+        responsive: true,
+        autoWidth: true,
+        scrollX: "auto",
         order: [[0, 'desc']],
         ajax: {
             'url': 'index.php?c=recetas&action=table',
@@ -29,6 +32,16 @@ function getTableRecetas(){
             },
             {
                 data: 'status'
+            },
+            {
+                data: 'justificacion'/* ,
+                render: function (data, type){
+                    if(data.length > 20){
+                        return  data.substring(0, 19);
+                    }else {
+                        return data;
+                    }
+                } */
             },
             {
                 data: 'options'

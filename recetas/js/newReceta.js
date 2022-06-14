@@ -186,7 +186,7 @@ function change(val){
         $.ajax({
             type: "POST",
             url: 'index.php?c=recetas&action=calcular',
-            data: { 'id': idp, 'id_r': $('#id_receta').val() },
+            data: { 'id': idp, 'id_r': 0 },
             success: function(response){
                 //console.log(parseFloat(response))
                 var total_p = parseFloat(response);
@@ -217,23 +217,6 @@ function change(val){
                 }
             }
         })
-        /* if($('#'+idp+'_pp')[0].value){
-            proEx = parseFloat($('#'+idp+'_pp')[0].value);
-            if(sum > proEx) {
-                alert('Existencia insuficiente de este prodcuto!');
-                $('#'+scp+'___'+sicp+'___'+idp+'___'+clp).val(0).trigger('change');
-            }else {
-                var re = (proEx - sum);
-                var ha = parseFloat($('#'+scp+'___ss')[0].value);
-                $('#'+idp+'_ppp').val(parseFloat(re).toFixed(2));
-                var valor2 = valor/ha; //console.log(valor2);
-                if(valor > 0){
-                    $('#'+scp+'___'+sicp+'___'+idp+'___'+'2').val(valor2.toFixed(2));
-                }else {
-                    $('#'+scp+'___'+sicp+'___'+idp+'___'+'2').val(0);
-                }
-            }
-        } */
     }
 }
 function change1(val){

@@ -22,6 +22,7 @@ date_default_timezone_set('America/Mexico_City');
                                 <th>Subrancho</th>
                                 <th>Fecha</th>
                                 <th>Estatus</th>
+                                <th>Justificación</th>
                                 <th>Opciones</th>
                             </tr>
                         </thead>
