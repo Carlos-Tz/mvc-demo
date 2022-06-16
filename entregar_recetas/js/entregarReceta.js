@@ -298,10 +298,10 @@ function addRow(producto_id, producto_text) {
 		var cell1 = row.insertCell(i);
         cell1.setAttribute("id", lcol[i].id + producto_id ); //console.log(lcol[i].id);
         if(i % 2 == 0) {
-            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto_id+'___2" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" name="pos'+(i)+'" value="0" min="0" step="0.01">';
+            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto_id+'___2" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" value="0" min="0" step="0.01">';
         }else {
             //cell1.setAttribute("id", lcol[i].id + producto.id+'___1');
-            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto_id+'___1" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" name="pos'+(i)+'" value="0" min="0" step="0.01">';
+            cell1.innerHTML = '<div class="form-row"><div class="col"><input type="number" id="'+lcol[i].id+ producto_id+'___1" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" value="0" min="0" step="0.01"></div><div class="col"><input type="checkbox"></div></div>';
         }
 	}
 }
@@ -324,8 +324,8 @@ function addCol(sector_value, sector_text) {
             cell2.className = 'td_white';
         }
 		else  {
-            cell1.innerHTML = '<input type="number" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" id="'+sector_text + '___' + sector_value + '___'+ lrow[i].id + '___1" class="form-control" name="pos'+ sector_value +'" value="0" min="0" step="0.01">';
-            cell2.innerHTML = '<input type="number" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" id="'+sector_text + '___' + sector_value + '___'+ lrow[i].id + '___2" class="form-control" name="pos'+ sector_value +'" value="0" min="0" step="0.01">';
+            cell1.innerHTML = '<input type="number" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" id="'+sector_text + '___' + sector_value + '___'+ lrow[i].id + '___1" class="form-control" value="0" min="0" step="0.01">';
+            cell2.innerHTML = '<input type="number" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" id="'+sector_text + '___' + sector_value + '___'+ lrow[i].id + '___2" class="form-control" value="0" min="0" step="0.01">';
         }
 		
 	}

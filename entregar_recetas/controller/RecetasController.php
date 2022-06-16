@@ -29,8 +29,8 @@ class RecetasController {
             case "nueva":
                 $this->nueva();
                 break;
-            case "ejecutar":
-                $this->ejecutar();
+            case "entregar":
+                $this->entregar();
                 break;
             case "guardar":
                 $this->guardar();
@@ -117,7 +117,7 @@ class RecetasController {
         echo $res;
     }
 
-    public function ejecutar() {
+    public function entregar() {
         $recipe = new Recipe($this->Connection);
         $id = $_GET['id'];
         $receta_data = $recipe->getRecipe($id); 
@@ -163,8 +163,8 @@ class RecetasController {
                 "clasificacion" => $row['clasificacion'],
             );
         }
-        $this->view("ejecutarReceta", array(
-            "title" => "Ejecutar Receta",
+        $this->view("entregarReceta", array(
+            "title" => "Entregar Receta",
             "data" => $data1,
             "productos" => $productos,
             "receta" => $receta
@@ -328,7 +328,7 @@ class RecetasController {
                 "status" => $row['status'],
                 "justificacion" => $row['justificacion'],
                 "options" => 
-                '<a href="index.php?c=recetas&action=ejecutar&id='.$row['id_receta'].'"  data-toggle="tooltip" title="Ejecutar" class="btn btn-sm btn-info"> Ejecutar </a>'
+                '<a href="index.php?c=recetas&action=entregar&id='.$row['id_receta'].'"  data-toggle="tooltip" title="Entregar" class="btn btn-sm btn-info"> Entregar </a>'
                 /* <a href="index.php?action=delete&id='.$row['id_receta'].'"  data-toggle="tooltip" title="Eliminar" class="btn btn-sm btn-danger"> <i class="fa-solid fa-trash"></i> </a>' */
             );
         }

@@ -6,7 +6,7 @@ date_default_timezone_set('America/Mexico_City');
 
 <div class="card-body">
     <div class="container-fluid">
-        <H1>Módulo Ejecutar Recetas</H1>
+        <H1>Módulo Entregar Recetas</H1>
         <div class="row">
             <div class="col-sm-12">
                 <div class="container mt-1" id="cont_e">
@@ -32,4 +32,4 @@ date_default_timezone_set('America/Mexico_City');
 
 <?php include_once("../utils/piePagina.php"); ?>
 
-<script src="<?= DIR_S ?>ejecutar_recetas/js/recetas.js"></script>
+<script src="<?= DIR_S ?>entregar_recetas/js/recetas.js"></script>
