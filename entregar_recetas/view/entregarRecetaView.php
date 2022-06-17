@@ -3,7 +3,7 @@ include("../utils/cabecera.php");
 date_default_timezone_set('America/Mexico_City');
 ?>
 <!-- <link href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" rel="stylesheet" crossorigin="anonymous" /> -->
-<link rel="stylesheet" href="<?= DIR_S ?>recetas/css/style.css">
+<link rel="stylesheet" href="<?= DIR_S ?>entregar_recetas/css/style.css">
 
 
 <div class="card-body">
@@ -64,12 +64,11 @@ date_default_timezone_set('America/Mexico_City');
                 </div>
             </div>
         </div>
-        <!-- <div class="row px-2" style="background-color: #e3e6ec">
+        <div class="row px-2" style="background-color: #e3e6ec">
             <div class="col-sm-12">
-                <label for="sub">Sectores:</label> <button type="button" id="all" style="margin: 0 0.5rem 0 2.5rem; padding: 0 0.5rem !important;" class="btn btn-outline-success">Todos los sectores</button>
-                <div id="ssectores"></div>
+                <button type="button" id="all_p" style="margin-bottom: 0.5rem; padding: 0 0.5rem !important;" class="btn btn-outline-success">Seleccionar todo</button>
             </div>
-        </div> -->
+        </div>
         <div class="row py-2 px-2" id="sectores" style="background-color: #e3e6ec" hidden>
         </div>
         <div class="row py-2 px-2" id="productos" style="background-color: #e3e6ec" hidden>

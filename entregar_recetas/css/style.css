@@ -56,3 +56,7 @@ input[type=date]{
     /* background-color: #73a2be;
     color: white; */
 }
+
+.form-control[readonly]{
+    background-color: transparent !important;
+}

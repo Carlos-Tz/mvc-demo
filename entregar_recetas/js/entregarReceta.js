@@ -1,7 +1,7 @@
 
 var table = document.getElementById("receta_table");
 /* var url = 'http://localhost/inomac/recetas'; */
-var url = 'http://localhost:8080/local/dev/adm/mvc/recetas';
+var url = 'http://localhost:8080/local/dev/adm/mvc/entregar_recetas';
 //var productos_g = []
 //var subrancho = 0;
 $(document).ready(function() {
@@ -22,24 +22,65 @@ $(document).ready(function() {
         data: { 'id': id_subrancho },
         success: function(response){
             $.when($('#sectores').html(response)).done($('.sectores_s').select2()).done(
-                /* $('#all').click(function(e){
+                $('#all_p').click(function(e){
                     e.preventDefault();
                     var row = table.rows;
                     var cc = row[0].cells.length;
-                    let text = "¿Confirma que desea borrar la tabla y agregar todos los sectores?";
+                    let text = "¿Confirma que desea seleccionar todos los elementos?";
                     if(row.length > 1 && cc > 1){
                         if (confirm(text) == true) {
-                            $(".sectores_s > option").prop("selected", "selected");
+                            //console.log('se ha confrmado');
+                            for (var i = 1; i < row[0].cells.length; i++) {
+                                //var str = row[0].cells[i];
+                                //if (str.id == id) { 
+                                    for (var j = 1; j < row.length; j++) {
+                                        if(i % 2 !== 0) {
+                                            //console.log(row[j].cells[i]);
+                                            var td = row[j].cells[i];
+                                            var lch = td.lastChild
+                                            lch.checked = true;
+                                            var id = lch.id;
+                                            //console.log(lch.id);
+                                            var arrId = id.split('___');
+                                            var scp = arrId[0];
+                                            var sicp = arrId[1];
+                                            var idp = arrId[2];
+                                            var va = parseFloat($('input#'+scp+'___'+sicp+'___'+idp+'___1').val());
+                                            if(va > 0) {
+                                                //console.log(lch.id);
+                                                //console.log(va);
+                                                $.ajax({
+                                                    type: "POST",
+                                                    url: 'index.php?c=productos&action=salida',
+                                                    data: { 'id_sub': $('#sssub').val(), 'id_prod': idp, 'id_sec': sicp, 'sal': va },
+                                                    success: function(response){
+                                                        console.log(response);
+                                                    }
+                                                })
+                                            }
+                                            //var clp = arrId[3];
+                                            //console.log(scp)
+                                            //console.log(sicp)
+                                            //console.log(idp)
+
+                                        }
+                                        
+                                        //row[j].deleteCell(i);
+                                    }//console.log('ok');
+                                //}
+                            }
+                            /* $(".sectores_s > option").prop("selected", "selected");
                             $(".sectores_s").trigger('select2:select');
-                            $(".sectores_s").trigger('change');
+                            $(".sectores_s").trigger('change'); */
                         }
                     }else{
-                        $(".sectores_s > option").prop("selected", "selected");
+                        console.log('No hay elementos');
+                        /* $(".sectores_s > option").prop("selected", "selected");
                         $(".sectores_s").trigger('select2:select');
-                        $(".sectores_s").trigger('change');
+                        $(".sectores_s").trigger('change'); */
                     }
                             
-                }), */
+                }),
                 $.ajax({
                     type: "POST",
                     url: 'index.php?c=recetas&action=get_detalles',
@@ -297,11 +338,12 @@ function addRow(producto_id, producto_text) {
 	for(i=1; i<lastcol;i++)	{
 		var cell1 = row.insertCell(i);
         cell1.setAttribute("id", lcol[i].id + producto_id ); //console.log(lcol[i].id);
+        cell1.className = 'text-center';
         if(i % 2 == 0) {
-            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto_id+'___2" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" value="0" min="0" step="0.01">';
+            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto_id+'___2" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" value="0" min="0" step="0.01" readonly>';
         }else {
             //cell1.setAttribute("id", lcol[i].id + producto.id+'___1');
-            cell1.innerHTML = '<div class="form-row"><div class="col"><input type="number" id="'+lcol[i].id+ producto_id+'___1" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" value="0" min="0" step="0.01"></div><div class="col"><input type="checkbox"></div></div>';
+            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto_id+'___1" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" value="0" min="0" step="0.01" readonly><input type="checkbox" id="'+lcol[i].id+ producto_id+'___c">';
         }
 	}
 }
@@ -317,6 +359,8 @@ function addCol(sector_value, sector_text) {
 		var cell2 = table.rows[i].insertCell(lastcol+1);
         cell1.setAttribute("id", sector_text + '___' + sector_value + '___' + lrow[i].id );
         cell2.setAttribute('id', sector_text + '___' + sector_value + '___'  + lrow[i].id );
+        cell1.className = 'text-center';
+        cell2.className = 'text-center';
 		if(i==0){
             cell1.innerHTML = "Sector " + sector_text;
 			cell2.innerHTML = "Dosis Ha";
@@ -324,7 +368,7 @@ function addCol(sector_value, sector_text) {
             cell2.className = 'td_white';
         }
 		else  {
-            cell1.innerHTML = '<input type="number" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" id="'+sector_text + '___' + sector_value + '___'+ lrow[i].id + '___1" class="form-control" value="0" min="0" step="0.01">';
+            cell1.innerHTML = '<input type="number" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" id="'+sector_text + '___' + sector_value + '___'+ lrow[i].id + '___1" class="form-control" value="0" min="0" step="0.01" readonly><input type="checkbox" id="'+lcol[i].id+ producto_id+'___c">';
             cell2.innerHTML = '<input type="number" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" id="'+sector_text + '___' + sector_value + '___'+ lrow[i].id + '___2" class="form-control" value="0" min="0" step="0.01">';
         }
 		
