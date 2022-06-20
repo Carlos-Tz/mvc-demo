@@ -35,6 +35,9 @@ class RecetasController {
             case "guardar":
                 $this->guardar();
                 break;
+            case "actualizar":
+                $this->actualizar();
+                break;
             case "eliminar":
                 $this->eliminar();
                 break;
@@ -62,6 +65,9 @@ class RecetasController {
             case "calcular":
                 $this->calcular();
                 break;
+            case "cambiar_status":
+                $this->cambiar_status();
+                break;
             default:
                 $this->index();
                 break;
@@ -88,7 +94,7 @@ class RecetasController {
         }
 
         $producto = new Producto($this->Connection);
-        $p_data = $producto->getProducto();
+        $p_data = $producto->getProductos();
         $productos = array();
 
         foreach ($p_data as $row) {
@@ -115,6 +121,20 @@ class RecetasController {
         $det_rec = new RecipeDetail($this->Connection);
         $res = $det_rec->calcular($id, $id_r);
         echo $res;
+    }
+
+    public function actualizar() {
+        $id = $_POST['id'];
+        $rec = new Recipe($this->Connection);
+        $receta = $rec->updateRecipe($id, 'Entregada');
+        print_r($receta);
+    }
+
+    public function cambiar_status() {
+        $id = $_POST['id'];
+        $d_rec = new RecipeDetail($this->Connection);
+        $d_receta = $d_rec->updateStatus($id, 'Entregada');
+        print_r($d_receta);
     }
 
     public function entregar() {
@@ -150,7 +170,7 @@ class RecetasController {
         }
 
         $producto = new Producto($this->Connection);
-        $p_data = $producto->getProducto();
+        $p_data = $producto->getProductos();
         $productos = array();
 
         foreach ($p_data as $row) {
@@ -217,7 +237,7 @@ class RecetasController {
     public function productos() {
         //$clasificacion = $_POST['clasificacion'];
         $producto = new Producto($this->Connection);
-        $s_data = $producto->getProducto();
+        $s_data = $producto->getProductos();
         $productos = array();
 
         foreach ($s_data as $row) {
@@ -238,7 +258,7 @@ class RecetasController {
 
     public function getProducts() {
         $producto = new Producto($this->Connection);
-        $data = $producto->getProducto();
+        $data = $producto->getProductos();
         $productos = array();
 
         foreach ($data as $row) {

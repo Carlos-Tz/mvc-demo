@@ -28,9 +28,9 @@ class RecipeDetail {
     
     public function calcular($id, $id_r){
         if($id_r > 0){
-            $stmt = $this->Connection->prepare("SELECT SUM(dosis_total) FROM receta_detalle WHERE id_prod = ". $id ." AND id_receta != ". $id_r  );
+            $stmt = $this->Connection->prepare("SELECT SUM(dosis_total) FROM receta_detalle WHERE id_prod = ". $id ." AND id_receta != ". $id_r ." AND status='Programada'" );
         }else{
-            $stmt = $this->Connection->prepare("SELECT SUM(dosis_total) FROM receta_detalle WHERE id_prod = ". $id);
+            $stmt = $this->Connection->prepare("SELECT SUM(dosis_total) FROM receta_detalle WHERE id_prod = ". $id ." AND status='Programada'");
         }
         $stmt->execute();
 

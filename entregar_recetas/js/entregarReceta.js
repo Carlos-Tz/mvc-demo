@@ -38,31 +38,7 @@ $(document).ready(function() {
                                             //console.log(row[j].cells[i]);
                                             var td = row[j].cells[i];
                                             var lch = td.lastChild
-                                            lch.checked = true;
-                                            var id = lch.id;
-                                            //console.log(lch.id);
-                                            var arrId = id.split('___');
-                                            var scp = arrId[0];
-                                            var sicp = arrId[1];
-                                            var idp = arrId[2];
-                                            var va = parseFloat($('input#'+scp+'___'+sicp+'___'+idp+'___1').val());
-                                            if(va > 0) {
-                                                //console.log(lch.id);
-                                                //console.log(va);
-                                                $.ajax({
-                                                    type: "POST",
-                                                    url: 'index.php?c=productos&action=salida',
-                                                    data: { 'id_sub': $('#sssub').val(), 'id_prod': idp, 'id_sec': sicp, 'sal': va },
-                                                    success: function(response){
-                                                        console.log(response);
-                                                    }
-                                                })
-                                            }
-                                            //var clp = arrId[3];
-                                            //console.log(scp)
-                                            //console.log(sicp)
-                                            //console.log(idp)
-
+                                            lch.checked = true;                                        
                                         }
                                         
                                         //row[j].deleteCell(i);
@@ -109,8 +85,12 @@ $(document).ready(function() {
                         for(let va of data){  
                             let dosis_t = parseFloat(va.dosis_total).toFixed(2); //console.log(dosis_t)
                             let dosis_h = parseFloat(va.dosis_hectarea).toFixed(2); //console.log(dosis_h)
-                            var inp = $('input#'+va.nombre_s+'___'+va.id_sector+'___'+va.id_prod+'___1').val(dosis_t).trigger('change');
-                            var inp2 = $('input#'+va.nombre_s+'___'+va.id_sector+'___'+va.id_prod+'___2').val(dosis_h).trigger('change');
+                            var inp = $('input#'+va.nombre_s+'___'+va.id_sector+'___'+va.id_prod+'___1');//.val(dosis_t).trigger('change');
+                            var inp2 = $('input#'+va.nombre_s+'___'+va.id_sector+'___'+va.id_prod+'___2');//.val(dosis_h).trigger('change');
+
+                            inp.val(dosis_t).trigger('change');
+                            inp.attr('name', 'n___'+va.id_receta_detalle);
+                            inp2.val(dosis_h).trigger('change');
                         }
                         //var inp = $('input#A1___1___2889___1'); console.log(inp)
 
@@ -192,41 +172,69 @@ $('#form').submit(function(e){
     e.preventDefault();
     var row = table.rows;
     var cc = row[0].cells.length;
-    let text = "¿Confirma que desea actualizar la receta?";
+    let text = "¿Confirma que desea surtir la receta?";
     if(row.length > 1 && cc > 1){
-        if (confirm(text) == true) { console.log($('#id_receta').val());
-            $.ajax({
-                url: 'index.php?c=recetas&action=eliminar',
-                type: 'post',
-                data: { 'id': $('#id_receta').val() },
-                success: function(res){ //console.log(res);
-                    //var id = parseInt(res); //console.log(id)
-                    var datos = [];
-        
-                    for (var i = 1; i < row.length; i++) {
-                        for (var j = 1; j < row[i].cells.length; j+=2) {
-                            var td = row[i].cells[j];
-                            var td2 = row[i].cells[j+1];
-                            var v1 = parseFloat(td.firstChild.value);
-                            var v2 = parseFloat(td2.firstChild.value);
-                            var arrId = td.id.split('___');
-                            var scp = arrId[0]; //console.log(scp);
-                            var sicp = parseFloat(arrId[1]); //console.log(sicp);
-                            var idp = parseFloat(arrId[2]); //console.log(idp);
-                            var dost = parseFloat(td.firstChild.value);
-                            var dosh = parseFloat(td2.firstChild.value);
-                            datos.push({ id_receta: $('#id_receta').val(), id_prod: idp, id_sector: sicp, dosis_total: dost, dosis_hectarea: dosh });
+        if (confirm(text) == true) {
+            for (var i = 1; i < row[0].cells.length; i++) {
+                for (var j = 1; j < row.length; j++) {
+                    if(i % 2 !== 0) {
+                        //console.log(row[j].cells[i]);
+                        var td = row[j].cells[i];
+                        var lch = td.lastChild;
+                        //console.log(lch.checked);
+                        if(lch.checked){
+                            var id = lch.id;
+                            var arrId = id.split('___');
+                            var scp = arrId[0];
+                            var sicp = arrId[1];
+                            var idp = arrId[2];
+                            var inp = $('input#'+scp+'___'+sicp+'___'+idp+'___1');
+                            var idd = inp.attr("name");
+                            //console.log(idd);
+                            var arrIdd = idd.split('___');
+                            console.log(arrIdd[1]);
+                            var id_receta_det = parseInt(arrIdd[1]);
+                            var va = parseFloat(inp.val());
+                            if(va > 0) {
+                                //console.log(va)
+                                $.ajax({
+                                    type: "POST",
+                                    url: 'index.php?c=productos&action=salida',
+                                    data: { 'id_sub': $('#sssub').val(), 'id_prod': idp, 'id_sec': sicp, 'sal': va },
+                                    success: function(response){
+                                        console.log(response);
+                                        //location.href = url;
+                                    }
+                                })
+                                $.ajax({
+                                    type: "POST",
+                                    url: 'index.php?c=productos&action=movimiento',
+                                    data: { 'id_sub': $('#sssub').val(), 'id_prod': idp, 'id_sec': sicp, 'sal': va, 'nom_sec': scp },
+                                    success: function(response){
+                                        console.log(response);
+                                        //location.href = url;
+                                    }
+                                })
+                                $.ajax({
+                                    type: "POST",
+                                    url: 'index.php?c=recetas&action=cambiar_status',
+                                    data: { 'id': id_receta_det },
+                                    success: function(response){
+                                        console.log(response);
+                                        location.href = url;
+                                    }
+                                })
+                            }
                         }
                     }
-                    $.ajax({
-                        url: 'index.php?c=recetas&action=guardar_detalles',
-                        type: 'post',
-                        data: { datos: datos},
-                        success: function(res){
-                            //console.log(res);
-                            location.href = url;
-                        }
-                    });
+                }
+            }
+            $.ajax({
+                url: 'index.php?c=recetas&action=actualizar',
+                type: 'post',
+                data: { 'id': $('#id_receta').val() },
+                success: function(res){ console.log(res);
+                    
                 }
             });
         } 
@@ -236,7 +244,7 @@ $('#form').submit(function(e){
 });
 $('#cancel').click(function(e){
     e.preventDefault();
-    let text = "¿Confirma que desea cancelar la receta?";
+    let text = "¿Confirma que desea cancelar la entrega?";
     if (confirm(text) == true) {
         location.href = url;
     }

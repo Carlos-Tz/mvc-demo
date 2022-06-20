@@ -49,4 +49,14 @@ class Recipe {
         //$id = $this->Connection->lastInsertId();
         echo $result;
     }
+
+    public function updateRecipe($id, $status) {
+        $stmt = $this->Connection->prepare('UPDATE receta SET status = ? WHERE id_receta = ?');
+        $stmt->bindParam(1, $status);
+        $stmt->bindParam(2, $id);
+        $res = $stmt->execute();
+        //$result = $stmt->fetchAll();
+        $this->Connection = null; //cierre de conexión
+        return $res;
+    }
 }
