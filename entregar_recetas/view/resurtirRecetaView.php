@@ -67,12 +67,12 @@ date_default_timezone_set('America/Mexico_City');
         </div>
         <div class="row px-2" style="background-color: #e3e6ec">
             <div class="col-sm-12">
-                <button type="button" id="all_p" style="margin-bottom: 0.5rem; padding: 0 0.5rem !important;" class="btn btn-outline-success">Seleccionar todo</button>
+                <label for="sub">Sectores:</label> <button type="button" id="all" style="margin: 0 0.5rem 0 2.5rem; padding: 0 0.5rem !important;" class="btn btn-outline-success">Todos los sectores</button>
             </div>
         </div>
-        <div class="row py-2 px-2" id="sectores" style="background-color: #e3e6ec" hidden>
+        <div class="row py-2 px-2" id="sectores" style="background-color: #e3e6ec">
         </div>
-        <div class="row py-2 px-2" id="productos" style="background-color: #e3e6ec" hidden>
+        <div class="row py-2 px-2" id="productos" style="background-color: #e3e6ec">
         </div>
         <!-- <div id="pp">
             
@@ -89,7 +89,7 @@ date_default_timezone_set('America/Mexico_City');
 
         <div class="row py-4 px-2">
             <div class="col-sm-4">
-                <button type="submit" class="btn btn-outline-success btn-block">Surtir Receta</button>
+                <button type="submit" class="btn btn-outline-success btn-block">Guardar Receta</button>
             </div>
             <div class="col-sm-4">
                 <button id="cancel" class="btn btn-outline-danger btn-block">Cancelar</button>
