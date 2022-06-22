@@ -41,7 +41,7 @@ class ProductosController {
         $id_s = intval($_POST['id_sub']);
         $id_p = intval($_POST['id_prod']);
         $id_se = intval($_POST['id_sec']);
-        $val = intval($_POST['sal']);
+        $val = $_POST['sal'];
         $prod = new Producto($this->Connection);
         $producto = $prod->getProducto($id_p);
         if ($producto[0]){
@@ -56,20 +56,25 @@ class ProductosController {
         
     }
     public function movimiento() {
-        $id_s = intval($_POST['id_sub']);
-        $id_p = intval($_POST['id_prod']);
+        $id_r = intval($_POST['id_rec']);
+        $sub = $_POST['sub'];
+        $id_p = $_POST['id_prod'];
         $id_se = intval($_POST['id_sec']);
-        $val = intval($_POST['sal']);
-        $nom_s = intval($_POST['nom_sec']);
+        $val = $_POST['sal'];
+        $nom_s = $_POST['nom_sec'];
         $prod = new Producto($this->Connection);
         $producto = $prod->getProducto($id_p);
         if ($producto[0]){
             print_r($producto[0]);
+            $precio = floatval($producto[0]['costo_promedio']);
+            $nombre = $producto[0]['nom_prod'];
+            $clasificacion = $producto[0]['clasificacion'];
+            $fecha = date("Y-m-d"); 
             /* $exis = floatval($producto[0]['existencia']);
-            $nexis = $exis - $val;
+            $nexis = $exis - $val;*/
             $prod2 = new Producto($this->Connection);
-            $producto2 =  $prod2->updateProducto($nexis, $id_p);
-            print_r($producto2); */
+            $producto2 =  $prod2->addMov($id_p, $val, $precio, $fecha, $id_r, $nombre, $clasificacion, $sub, $nom_s);
+            print_r($producto2);
         }else return 0;
     }
 

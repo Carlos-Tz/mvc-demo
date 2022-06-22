@@ -1,7 +1,7 @@
 
 var table = document.getElementById("receta_table");
-/* var url = 'http://localhost/inomac/recetas'; */
-var url = 'http://localhost:8080/local/dev/adm/mvc/recetas';
+var url = 'http://localhost/inomac/recetas';
+/* var url = 'http://localhost:8080/local/dev/adm/mvc/recetas'; */
 
 var subrancho = 0;
 $(document).ready(function() {

@@ -9,7 +9,7 @@ date_default_timezone_set('America/Mexico_City');
 <div class="card-body">
     <div class="container-fluid">
         <form action="" method="POST" id="form">
-        <H1>Entregar Receta</H1>
+        <H1>Resurtir Receta</H1>
         <div class="row py-2  px-2" style="background-color: #e3e6ec">
             <div class="col-md-4">
                 <div class="form-group">
@@ -18,7 +18,7 @@ date_default_timezone_set('America/Mexico_City');
                     <input type="text" value="<?php echo $data['receta'][0]['nombre'] ?>" id="nombress" hidden>
                     <input type="number" value="<?php echo $data['receta'][0]['id_receta'] ?>" id="id_receta" hidden>
                     <input type="text" name="estatus" value="Programada" hidden>
-                    <input type="date" class="form-control" name="fecha" id="fecha" value="<?php echo $data['receta'][0]['fecha'] ?>" required readonly>
+                    <input type="date" class="form-control" name="fecha" id="fecha" value="<?php echo $data['receta'][0]['fecha'] ?>" required>
                 </div>
             </div>
             <div class="col-md-4 ">
@@ -102,4 +102,4 @@ date_default_timezone_set('America/Mexico_City');
 
 <?php include_once("../utils/piePagina.php"); ?>
 
-<script src="<?= DIR_S ?>entregar_recetas/js/entregarReceta.js"></script>
+<script src="<?= DIR_S ?>entregar_recetas/js/resurtirReceta.js"></script>

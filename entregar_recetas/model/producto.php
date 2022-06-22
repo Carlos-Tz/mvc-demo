@@ -43,4 +43,24 @@ class Producto {
         $this->Connection = null; //cierre de conexión
         return $res;
     }
+
+    public function addMov($id_p, $val, $precio, $fecha, $id_r, $nombre, $clasificacion, $sub, $nom_s){
+        $stmt = $this->Connection->prepare('INSERT INTO movtos_prod (id_prod, tipo, cantidad, precio_compra, fecha_movto, id_requisicion, nom_prod, clasificacion, subrancho, sector) VALUES( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+        $tipo = 'S';
+
+        $stmt->bindParam(1, $id_p);
+        $stmt->bindParam(2, $tipo);
+        $stmt->bindParam(3, $val);
+        $stmt->bindParam(4, $precio);
+        $stmt->bindParam(5, $fecha);
+        $stmt->bindParam(6, $id_r);
+        $stmt->bindParam(7, $nombre);
+        $stmt->bindParam(8, $clasificacion);
+        $stmt->bindParam(9, $sub);
+        $stmt->bindParam(10, $nom_s);
+        $res = $stmt->execute();
+        //$result = $stmt->fetchAll();
+        $this->Connection = null; //cierre de conexión
+        return $res;
+    }
 }
