@@ -1,7 +1,7 @@
 
 var table = document.getElementById("receta_table");
-/* var url = 'http://localhost/inomac/recetas'; */
-var url = 'http://localhost:8080/local/dev/adm/mvc/recetas';
+/* var url = 'http://localhost/inomac/entregar_recetas'; */
+var url = 'http://localhost:8080/local/dev/adm/mvc/entregar_recetas';
 //var productos_g = []
 //var subrancho = 0;
 $(document).ready(function() {
@@ -151,10 +151,44 @@ $('#form').submit(function(e){
     e.preventDefault();
     var row = table.rows;
     var cc = row[0].cells.length;
-    let text = "¿Confirma que desea actualizar la receta?";
+    let text = "¿Confirma que desea guardar la receta?";
     if(row.length > 1 && cc > 1){
-        if (confirm(text) == true) { console.log($('#id_receta').val());
+        if (confirm(text) == true) { //console.log($('#id_receta').val());
             $.ajax({
+                url: 'index.php?c=recetas&action=guardar',
+                type: 'post',
+                data:$('#form').serialize(),
+                success: function(res){
+                    var id = parseInt(res);
+                    var datos = [];
+        
+                    for (var i = 1; i < row.length; i++) {
+                        for (var j = 1; j < row[i].cells.length; j+=2) {
+                            var td = row[i].cells[j];
+                            var td2 = row[i].cells[j+1];
+                            var v1 = parseFloat(td.firstChild.value);
+                            var v2 = parseFloat(td2.firstChild.value);
+                            var arrId = td.id.split('___');
+                            var scp = arrId[0]; //console.log(scp);
+                            var sicp = parseFloat(arrId[1]); //console.log(sicp);
+                            var idp = parseFloat(arrId[2]); //console.log(idp);
+                            var dost = parseFloat(td.firstChild.value);
+                            var dosh = parseFloat(td2.firstChild.value);
+                            datos.push({ id_receta: id, id_prod: idp, id_sector: sicp, dosis_total: dost, dosis_hectarea: dosh });
+                        }
+                    }
+                    $.ajax({
+                        url: 'index.php?c=recetas&action=guardar_detalles',
+                        type: 'post',
+                        data: { datos: datos},
+                        success: function(res){
+                            //console.log(res);
+                            location.href = url;
+                        }
+                    });
+                }
+            });
+            /* $.ajax({
                 url: 'index.php?c=recetas&action=eliminar',
                 type: 'post',
                 data: { 'id': $('#id_receta').val() },
@@ -187,7 +221,7 @@ $('#form').submit(function(e){
                         }
                     });
                 }
-            });
+            }); */
         } 
     }else{
         alert('La tabla esta vacía!');
