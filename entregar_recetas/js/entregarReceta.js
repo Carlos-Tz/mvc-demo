@@ -109,19 +109,6 @@ $(document).ready(function() {
                     }
                 }
             });
-           /*  $('#sectores_lista').on('select2:unselecting', function (evt) {
-                let text = "¿Confirma que desea eliminar este sector de la tabla?";
-                if (confirm(text) == true) {
-                  } else {
-                      evt.preventDefault();
-                  }
-            }); */
-
-            /* $('#sectores_lista').on('select2:unselect', function (evt) {
-                removeCol(evt.params.data.text+'___'+evt.params.data.id+'___');
-                removeCol(evt.params.data.text+'___'+evt.params.data.id+'___');
-                //console.log(evt.params.data.id);
-            }); */
         }
       });
 
@@ -152,18 +139,6 @@ $(document).ready(function() {
             }
               //addRow(evt.params.data);
         });
-        /* $('#productos_lista').on('select2:unselecting', function (evt) {
-            let text = "¿Confirma que desea eliminar este producto de la tabla?";
-            if (confirm(text) == true) {
-                console.log('se ha aceptado la eliminacin!');
-              } else {
-                  evt.preventDefault();
-                console.log('ha cancelado la eliminacion');
-              }
-        }); */
-        /* $('#productos_lista').on('select2:unselect', function (evt) {
-            removeRow(evt.params.data.id);
-        }); */
 
         }
       });
@@ -251,87 +226,6 @@ $('#cancel').click(function(e){
 });
 
 
-/* function change(val){
-    var id = val.id;
-    var sum = 0;
-    var proEx = 0;
-    var valor = val.value; 
-    if (valor >= 0){
-        var arrId = id.split('___');
-        var scp = arrId[0]; //console.log(id);
-        var sicp = arrId[1]; //console.log(id);
-        var idp = arrId[2]; //console.log(idp);
-        var clp = arrId[3]; //console.log(idp);
-        var row = $('tr#'+idp);
-        var cells = row[0].cells;
-        for (var i = 1; i < cells.length; i++) {
-            var td = cells[i];
-            if(i % 2 != 0) { sum += parseFloat(td.firstChild.value); }
-        }
-        $.ajax({
-            type: "POST",
-            url: 'index.php?c=recetas&action=calcular',
-            data: { 'id': idp, 'id_r': $('#id_receta').val() },
-            success: function(response){
-                //console.log(parseFloat(response))
-                var total_p = parseFloat(response);
-                var programada;
-                if (total_p){
-                    programada = sum + total_p;
-                }else{
-                    programada = sum;
-                }
-                //console.log(row)
-                if($('#'+idp+'_pp')[0].value){
-                    proEx = parseFloat($('#'+idp+'_pp')[0].value);
-                    if(programada > proEx) {
-                        alert('Existencia insuficiente de este producto!');
-                        $('#'+scp+'___'+sicp+'___'+idp+'___'+clp).val(0).trigger('change');
-                    }else {
-                        var re = (proEx - programada);
-                        var ha = parseFloat($('#'+scp+'___ss')[0].value);
-                        $('#'+idp+'_ppp').val(parseFloat(re).toFixed(2));
-                        $('#'+idp+'_pppp').val(parseFloat(programada).toFixed(2));
-                        var valor2 = valor/ha; //console.log(valor2);
-                        if(valor > 0){
-                            $('#'+scp+'___'+sicp+'___'+idp+'___'+'2').val(valor2.toFixed(2));
-                        }else {
-                            $('#'+scp+'___'+sicp+'___'+idp+'___'+'2').val(0);
-                        }
-                    }
-                }
-            }
-        })
-    }
-} */
-/* function change1(val){
-    var id = val.id;
-    var sum = 0;
-    var proEx = 0;
-    var valor = val.value; //console.log(subrancho);
-    //console.log(val.value);
-    if (valor >= 0){
-        var arrId = id.split('___');
-        var scp = arrId[0]; //console.log(id);
-        var sicp = arrId[1]; //console.log(id);
-        var idp = arrId[2]; //console.log(idp);
-        var clp = arrId[3]; 
-        var ha = parseFloat($('#'+scp+'___ss')[0].value);
-        var valor2 = valor*ha; 
-        if(valor > 0){
-            $('#'+scp+'___'+sicp+'___'+idp+'___'+'1').val(valor2.toFixed(2)).trigger('change');
-        }else {
-            $('#'+scp+'___'+sicp+'___'+idp+'___'+'1').val(0).trigger('change');
-        }
-    }
-} */
-/* function show(id){
-    $('li#'+id+'_cc').show();
-}
-function hide(id){
-    $('li#'+id+'_cc').hide();
-} */
-
 function addRow(producto_id, producto_text) {
     var lastrow = table.rows.length;
 	var lastcol = table.rows[0].cells.length;
@@ -382,30 +276,3 @@ function addCol(sector_value, sector_text) {
 		
 	}
 }
-
-/* function removeRow(id){
-    $("tr#"+id).remove();
-} */
-
-/* function removeAllC(){
-    var lastcol = (table.rows[0].cells.length)-1;
-	var lastrow = (table.rows.length);
-    for(i=0; i<lastrow;i++)	{
-        for (j=lastcol; j>0; j--){
-            table.rows[i].deleteCell(j);
-        }
-	}
-} */
-
-/* function removeCol(id){
-    var row = table.rows;
-  
-    for (var i = 0; i < row[0].cells.length; i++) {
-        var str = row[0].cells[i];
-        if (str.id == id) { 
-            for (var j = 0; j < row.length; j++) {
-                row[j].deleteCell(i);
-            }
-        }
-    }
-} */

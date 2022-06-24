@@ -1,7 +1,7 @@
 
 var table = document.getElementById("receta_table");
-/* var url = 'http://localhost/inomac/entregar_recetas'; */
-var url = 'http://localhost:8080/local/dev/adm/mvc/entregar_recetas';
+var url = 'http://localhost/inomac/entregar_recetas';
+/* var url = 'http://localhost:8080/local/dev/adm/mvc/entregar_recetas'; */
 //var productos_g = []
 //var subrancho = 0;
 $(document).ready(function () {
@@ -22,29 +22,7 @@ $(document).ready(function () {
         data: { 'id': id_subrancho },
         success: function (response) {
             $.when($('#sectores').html(response)).done($('.sectores_s').select2()).done(
-                /* $('#all_p').click(function (e) {
-                    e.preventDefault();
-                    var row = table.rows;
-                    var cc = row[0].cells.length;
-                    let text = "¿Confirma que desea seleccionar todos los elementos?";
-                    if (row.length > 1 && cc > 1) {
-                        if (confirm(text) == true) {
-                            for (var i = 1; i < row[0].cells.length; i++) {
-                                for (var j = 1; j < row.length; j++) {
-                                    if (i % 2 !== 0) {
-                                        var td = row[j].cells[i];
-                                        var lch = td.lastChild
-                                        lch.checked = true;
-                                    }
-                                }//console.log('ok');
-                                //}
-                            }
-                        }
-                    } else {
-                        console.log('No hay elementos');
-                    }
-
-                }), */
+                
                 $.ajax({
                     type: "POST",
                     url: 'index.php?c=recetas&action=get_detalles',

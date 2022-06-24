@@ -188,40 +188,7 @@ $('#form').submit(function(e){
                     });
                 }
             });
-            /* $.ajax({
-                url: 'index.php?c=recetas&action=eliminar',
-                type: 'post',
-                data: { 'id': $('#id_receta').val() },
-                success: function(res){ //console.log(res);
-                    //var id = parseInt(res); //console.log(id)
-                    var datos = [];
-        
-                    for (var i = 1; i < row.length; i++) {
-                        for (var j = 1; j < row[i].cells.length; j+=2) {
-                            var td = row[i].cells[j];
-                            var td2 = row[i].cells[j+1];
-                            var v1 = parseFloat(td.firstChild.value);
-                            var v2 = parseFloat(td2.firstChild.value);
-                            var arrId = td.id.split('___');
-                            var scp = arrId[0]; //console.log(scp);
-                            var sicp = parseFloat(arrId[1]); //console.log(sicp);
-                            var idp = parseFloat(arrId[2]); //console.log(idp);
-                            var dost = parseFloat(td.firstChild.value);
-                            var dosh = parseFloat(td2.firstChild.value);
-                            datos.push({ id_receta: $('#id_receta').val(), id_prod: idp, id_sector: sicp, dosis_total: dost, dosis_hectarea: dosh });
-                        }
-                    }
-                    $.ajax({
-                        url: 'index.php?c=recetas&action=guardar_detalles',
-                        type: 'post',
-                        data: { datos: datos},
-                        success: function(res){
-                            //console.log(res);
-                            location.href = url;
-                        }
-                    });
-                }
-            }); */
+            
         } 
     }else{
         alert('La tabla esta vacía!');
