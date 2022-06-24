@@ -2,8 +2,6 @@
 var table = document.getElementById("receta_table");
 /* var url = 'http://localhost/inomac/entregar_recetas'; */
 var url = 'http://localhost:8080/local/dev/adm/mvc/entregar_recetas';
-//var productos_g = []
-//var subrancho = 0;
 $(document).ready(function() {
     $('.subrancho_s').select2();
     $('.productos_s').select2();
@@ -31,29 +29,29 @@ $(document).ready(function() {
                         if (confirm(text) == true) {
                             //console.log('se ha confrmado');
                             for (var i = 1; i < row[0].cells.length; i++) {
-                                //var str = row[0].cells[i];
-                                //if (str.id == id) { 
-                                    for (var j = 1; j < row.length; j++) {
-                                        if(i % 2 !== 0) {
-                                            //console.log(row[j].cells[i]);
-                                            var td = row[j].cells[i];
-                                            var lch = td.lastChild
-                                            lch.checked = true;                                        
-                                        }
-                                        
-                                        //row[j].deleteCell(i);
-                                    }//console.log('ok');
-                                //}
+                                for (var j = 1; j < row.length; j++) {
+                                    if(i % 2 !== 0) {
+                                        //console.log(row[j].cells[i]);
+                                        var td = row[j].cells[i];
+                                        var lch = td.lastChild;
+                                        /* lch.addEventListener('change', function(event){
+                                            if (event.target.checked) {
+                                                alert(`${event.target.value} is checked`);
+                                            }
+                                            else {
+                                                alert(`${event.target.value} is unchecked`);
+                                            }
+                                        }); */
+                                        lch.setAttribute('checked', 'checked').trigger('change');
+                                    
+                                        //lch.checked = true;
+                                        //lch.trigger('change');                                        
+                                    }                                        
+                                }
                             }
-                            /* $(".sectores_s > option").prop("selected", "selected");
-                            $(".sectores_s").trigger('select2:select');
-                            $(".sectores_s").trigger('change'); */
                         }
                     }else{
                         console.log('No hay elementos');
-                        /* $(".sectores_s > option").prop("selected", "selected");
-                        $(".sectores_s").trigger('select2:select');
-                        $(".sectores_s").trigger('change'); */
                     }
                             
                 }),
@@ -234,7 +232,7 @@ function addRow(producto_id, producto_text) {
     row.setAttribute("id", producto_id, 0);
 	var cellcol0 = row.insertCell(0);
 	//cellcol0.innerHTML = lastrow;
-	cellcol0.innerHTML = '<button type="button" class="btn" style="padding: 0 0.5rem !important; width: 100%;" id="'+producto_id+'">'+producto_text+'</button>';
+	cellcol0.innerHTML = '<button type="button" class="btn" style="padding: 0 0.5rem !important; width: 100%;" id="'+producto_id+'">'+producto_text+'</button><span id="'+producto_id+'___s"></span>';
 	
 	
 	for(i=1; i<lastcol;i++)	{
@@ -245,7 +243,7 @@ function addRow(producto_id, producto_text) {
             cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto_id+'___2" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" value="0" min="0" step="0.01" readonly>';
         }else {
             //cell1.setAttribute("id", lcol[i].id + producto.id+'___1');
-            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto_id+'___1" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" value="0" min="0" step="0.01" readonly><input type="checkbox" id="'+lcol[i].id+ producto_id+'___c">';
+            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto_id+'___1" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" value="0" min="0" step="0.01" readonly><input type="checkbox" id="'+lcol[i].id+ producto_id+'___c" onchange="changeC(this)">';
         }
 	}
 }
@@ -270,9 +268,70 @@ function addCol(sector_value, sector_text) {
             cell2.className = 'td_white';
         }
 		else  {
-            cell1.innerHTML = '<input type="number" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" id="'+sector_text + '___' + sector_value + '___'+ lrow[i].id + '___1" class="form-control" value="0" min="0" step="0.01" readonly><input type="checkbox" id="'+lcol[i].id+ producto_id+'___c">';
+            cell1.innerHTML = '<input type="number" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" id="'+sector_text + '___' + sector_value + '___'+ lrow[i].id + '___1" class="form-control" value="0" min="0" step="0.01" readonly><input type="checkbox" id="'+lcol[i].id+ producto_id+'___c" onchange="changeC(this)">';
             cell2.innerHTML = '<input type="number" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" id="'+sector_text + '___' + sector_value + '___'+ lrow[i].id + '___2" class="form-control" value="0" min="0" step="0.01">';
         }
 		
 	}
+}
+
+function changeC(val){
+    var id = val.id;
+    var sum = 0;
+    var proEx = 0;
+    var valor = val.checked;
+    console.log(val.checked);
+    /*console.log(val.id); */
+    //if (valor){
+        var arrId = id.split('___');
+        var scp = arrId[0]; 
+        var sicp = arrId[1];
+        var idp = arrId[2];
+        var clp = arrId[3];
+        var row = $('tr#'+idp);
+        var cells = row[0].cells;
+        for (var i = 1; i < cells.length; i++) {
+            var td = cells[i];
+            if(i % 2 != 0 && td.childNodes[1].checked) { 
+                sum += parseFloat(td.firstChild.value); 
+                //console.log(td.childNodes[1].checked)
+            }
+        }
+        $('span#'+idp+'___s').text(sum);
+        console.log($('span#'+idp+'___s'))
+        /* $.ajax({
+            type: "POST",
+            url: 'index.php?c=recetas&action=calcular',
+            data: { 'id': idp, 'id_r': $('#id_receta').val() },
+            success: function(response){
+                //console.log(parseFloat(response))
+                var total_p = parseFloat(response);
+                var programada;
+                if (total_p){
+                    programada = sum + total_p;
+                }else{
+                    programada = sum;
+                }
+                //console.log(row)
+                if($('#'+idp+'_pp')[0].value){
+                    proEx = parseFloat($('#'+idp+'_pp')[0].value);
+                    if(programada > proEx) {
+                        alert('Existencia insuficiente de este producto!');
+                        $('#'+scp+'___'+sicp+'___'+idp+'___'+clp).val(0).trigger('change');
+                    }else {
+                        var re = (proEx - programada);
+                        var ha = parseFloat($('#'+scp+'___ss')[0].value);
+                        $('#'+idp+'_ppp').val(parseFloat(re).toFixed(2));
+                        $('#'+idp+'_pppp').val(parseFloat(programada).toFixed(2));
+                        var valor2 = valor/ha; //console.log(valor2);
+                        if(valor > 0){
+                            $('#'+scp+'___'+sicp+'___'+idp+'___'+'2').val(valor2.toFixed(2));
+                        }else {
+                            $('#'+scp+'___'+sicp+'___'+idp+'___'+'2').val(0);
+                        }
+                    }
+                }
+            }
+        }) */
+    //}
 }
