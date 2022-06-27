@@ -96,12 +96,15 @@ $(document).ready(function() {
                                 inpc.attr('checked', 'checked');
                                 inpc.trigger('change');
                                 inpc.attr("disabled", true);
-                                
-                                //inpc.onchange();
                             }
-                            if(inpc.attr("disabled")){
+                            if(dosis_t == 0){
+                                inpc.attr('checked', 'checked');
+                                inpc.trigger('change');
+                                inpc.attr("disabled", true);
+                            }
+                            /* if(inpc.attr("disabled")){
                                 console.log(inpc.attr("disabled"))
-                            }
+                            } */
                         }
                         //var inp = $('input#A1___1___2889___1'); console.log(inp)
 
@@ -175,38 +178,42 @@ $('#form').submit(function(e){
                         var sicp = arrId[1];
                         var idp = parseInt(arrId[2]);
                         var inp = $('input#'+scp+'___'+sicp+'___'+idp+'___1');
+                        var inpc = $('input#'+scp+'___'+sicp+'___'+idp+'___c');
                         var idd = inp.attr("name");
                         var arrIdd = idd.split('___');
                         var id_receta_det = parseInt(arrIdd[1]);
                         var va = parseFloat(inp.val());
-                        if(lch.checked && va > 0){
-                            $.ajax({
-                                type: "POST",
-                                url: 'index.php?c=productos&action=salida',
-                                data: { 'id_sub': $('#sssub').val(), 'id_prod': idp, 'id_sec': sicp, 'sal': va },
-                                success: function(response){
-                                    //console.log(response);
-                                    //location.href = url;
-                                }
-                            })
-                            $.ajax({
-                                type: "POST",
-                                url: 'index.php?c=productos&action=movimiento',
-                                data: { 'id_rec': $('#id_receta').val() , 'sub': $('#nombress').val(), 'id_prod': idp, 'id_sec': sicp, 'sal': va, 'nom_sec': scp },
-                                success: function(response){
-                                    //console.log(response);
-                                    //location.href = url;
-                                }
-                            })
-                            $.ajax({
-                                type: "POST",
-                                url: 'index.php?c=recetas&action=cambiar_status',
-                                data: { 'id': id_receta_det },
-                                success: function(response){
-                                    //console.log(response);
-                                    location.href = url;
-                                }
-                            })
+                        if(lch.checked && va > 0 ){
+                            if(!inpc.attr("disabled")){
+                                $.ajax({
+                                    type: "POST",
+                                    url: 'index.php?c=productos&action=salida',
+                                    data: { 'id_sub': $('#sssub').val(), 'id_prod': idp, 'id_sec': sicp, 'sal': va },
+                                    success: function(response){
+                                        //console.log(response);
+                                        //location.href = url;
+                                    }
+                                })
+                                $.ajax({
+                                    type: "POST",
+                                    url: 'index.php?c=productos&action=movimiento',
+                                    data: { 'id_rec': $('#id_receta').val() , 'sub': $('#nombress').val(), 'id_prod': idp, 'id_sec': sicp, 'sal': va, 'nom_sec': scp },
+                                    success: function(response){
+                                        //console.log(response);
+                                        //location.href = url;
+                                    }
+                                })
+                                $.ajax({
+                                    type: "POST",
+                                    url: 'index.php?c=recetas&action=cambiar_status',
+                                    data: { 'id': id_receta_det },
+                                    success: function(response){
+                                        //console.log(response);
+                                        location.href = url;
+                                    }
+                                })
+                            }
+                            
                             //completo = true;
                             /* if(va > 0) {
                                 //console.log(va)

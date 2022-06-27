@@ -41,6 +41,7 @@ define('DIR_S', 'http://localhost/inomac/');
                 padding: 1rem;
                 color: #222;
             }
+            table {page-break-inside: always;}
 
             /* .td_green {
                 background-color: #222 !important;
