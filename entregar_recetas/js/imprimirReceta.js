@@ -1,7 +1,7 @@
 
 var table = document.getElementById("receta_table");
-var url = 'http://localhost/inomac/entregar_recetas';
-/* var url = 'http://localhost:8080/local/dev/adm/mvc/entregar_recetas'; */
+/* var url = 'http://localhost/inomac/entregar_recetas'; */
+var url = 'http://localhost:8080/local/dev/adm/mvc/entregar_recetas';
 //var productos_g = []
 //var subrancho = 0;
 $(document).ready(function () {
@@ -51,12 +51,30 @@ $(document).ready(function () {
                         for (let va of data) {
                             let dosis_t = parseFloat(va.dosis_total).toFixed(2); //console.log(dosis_t)
                             let dosis_h = parseFloat(va.dosis_hectarea).toFixed(2); //console.log(dosis_h)
-                            var inp = $('input#' + va.nombre_s + '___' + va.id_sector + '___' + va.id_prod + '___1');//.val(dosis_t).trigger('change');
-                            var inp2 = $('input#' + va.nombre_s + '___' + va.id_sector + '___' + va.id_prod + '___2');//.val(dosis_h).trigger('change');
+                            var inp = $('input#' + va.nombre_s + '___' + va.id_sector + '___' + va.id_prod + '___1');
+                            var inp2 = $('input#' + va.nombre_s + '___' + va.id_sector + '___' + va.id_prod + '___2');
+                            var inpc = $('input#'+va.nombre_s+'___'+va.id_sector+'___'+va.id_prod+'___c');
 
                             inp.val(dosis_t).trigger('change');
                             inp.attr('name', 'n___' + va.id_receta_detalle);
                             inp2.val(dosis_h).trigger('change');
+                            if(va.status == 'Entregada'){
+                                inpc.attr('checked', 'checked');
+                                inpc.trigger('change');
+                                inpc.attr("disabled", true);
+                            }
+                            if($('#estatus').val() == 'Incompleta' && va.status == 'Programada'){
+                                inp.hide();
+                                inp2.hide();
+                            }
+                            if(dosis_t == 0){
+                                inpc.attr('checked', 'checked');
+                                inpc.trigger('change');
+                                inpc.attr("disabled", true);
+                                inp.hide();
+                                inp2.hide();
+                            }
+                            inpc.hide();
                         }
                         window.print();
                     }
@@ -117,7 +135,7 @@ function addRow(producto_id, producto_text) {
     row.setAttribute("id", producto_id, 0);
     var cellcol0 = row.insertCell(0);
     //cellcol0.innerHTML = lastrow;
-    cellcol0.innerHTML = '<button type="button" class="btn" style="padding: 0 0.5rem !important; width: 100%; border:none; background-color:transparent;" id="' + producto_id + '">' + producto_text + '</button>';
+    cellcol0.innerHTML = '<button type="button" class="btn" style="padding: 0 0.5rem !important; width: 100%; border:none; background-color:transparent;" id="' + producto_id + '">' + producto_text + '</button><p style="text-align:center;" id="'+producto_id+'___s"></p>';
 
 
     for (i = 1; i < lastcol; i++) {
@@ -125,10 +143,10 @@ function addRow(producto_id, producto_text) {
         cell1.setAttribute("id", lcol[i].id + producto_id); //console.log(lcol[i].id);
         cell1.className = 'text-center';
         if (i % 2 == 0) {
-            cell1.innerHTML = '<input type="number" id="' + lcol[i].id + producto_id + '___2" class="form-control" style="border: none; text-align: center; min-width: 1.8cm; height: 1.2rem; width: 100%; padding: 0;" value="0" min="0" step="0.01" readonly>';
+            cell1.innerHTML = '<input type="number" id="' + lcol[i].id + producto_id + '___2" class="form-control" style="border: none; text-align: center; height: 1.2rem; width: 100%; padding: 0;" value="0" min="0" step="0.01" readonly>';
         } else {
             //cell1.setAttribute("id", lcol[i].id + producto.id+'___1');
-            cell1.innerHTML = '<input type="number" id="' + lcol[i].id + producto_id + '___1" class="form-control" style="border: none; text-align: center; min-width: 1.8cm; height: 1.2rem; width: 100%; padding: 0;" value="0" min="0" step="0.01" readonly>';
+            cell1.innerHTML = '<input type="number" id="' + lcol[i].id + producto_id + '___1" class="form-control" style="border: none; text-align: center; height: 1.2rem; width: 100%; padding: 0;" value="0" min="0" step="0.01" readonly><input type="checkbox" id="'+lcol[i].id+ producto_id+'___c" onchange="changeC(this)">';
         }
     }
 }
@@ -153,9 +171,31 @@ function addCol(sector_value, sector_text) {
             cell2.className = 'td_white';
         }
         else {
-            cell1.innerHTML = '<input type="number" style="border: none; text-align: center; min-width: 1.8cm; height: 1.2rem; width:100%; padding:0;" id="' + sector_text + '___' + sector_value + '___' + lrow[i].id + '___1" class="form-control" value="0" min="0" step="0.01" readonly>';
-            cell2.innerHTML = '<input type="number" style="border: none; text-align: center; min-width: 1.8cm; height: 1.2rem; width:100%; padding:0;" id="' + sector_text + '___' + sector_value + '___' + lrow[i].id + '___2" class="form-control" value="0" min="0" step="0.01">';
+            cell1.innerHTML = '<input type="number" style="border: none; text-align: center; height: 1.2rem; width:100%; padding:0;" id="' + sector_text + '___' + sector_value + '___' + lrow[i].id + '___1" class="form-control" value="0" min="0" step="0.01" readonly><input type="checkbox" id="'+lcol[i].id+ producto_id+'___c" onchange="changeC(this)">';
+            cell2.innerHTML = '<input type="number" style="border: none; text-align: center; height: 1.2rem; width:100%; padding:0;" id="' + sector_text + '___' + sector_value + '___' + lrow[i].id + '___2" class="form-control" value="0" min="0" step="0.01">';
         }
 
     }
+}
+
+function changeC(val){
+    var id = val.id;
+    var sum = 0;
+    var proEx = 0;
+    var valor = val.checked;
+    var arrId = id.split('___');
+    var scp = arrId[0]; 
+    var sicp = arrId[1];
+    var idp = arrId[2];
+    var clp = arrId[3];
+    var row = $('tr#'+idp);
+    var cells = row[0].cells;
+    for (var i = 1; i < cells.length; i++) {
+        var td = cells[i];
+        if(i % 2 != 0 && td.childNodes[1].checked) { 
+            sum += parseFloat(td.firstChild.value); 
+            //console.log(td.childNodes[1].checked)
+        }
+    }
+    $('p#'+idp+'___s').text('Total: '+sum.toFixed(2));
 }

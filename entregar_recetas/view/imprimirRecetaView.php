@@ -2,11 +2,11 @@
 /* include("../utils/cabecera.php");
 date_default_timezone_set('America/Mexico_City'); */
 
-/* define('DIR_A', 'http://localhost:8080/local/dev/adm/mvc/cap_humano/'); */
-define('DIR_A', 'http://localhost/inomac/cap_humano/');
+define('DIR_A', 'http://localhost:8080/local/dev/adm/mvc/cap_humano/');
+/* define('DIR_A', 'http://localhost/inomac/cap_humano/'); */
 
-/* define('DIR_S', 'http://localhost:8080/local/dev/adm/mvc/'); */
-define('DIR_S', 'http://localhost/inomac/');
+define('DIR_S', 'http://localhost:8080/local/dev/adm/mvc/');
+/* define('DIR_S', 'http://localhost/inomac/'); */
 
 ?>
 <!DOCTYPE html>
@@ -27,36 +27,29 @@ define('DIR_S', 'http://localhost/inomac/');
             /* color: white; */
             font-weight: 500;
             text-align: center;
-            min-width: 2cm;
+            /* min-width: 2cm; */
         }
 
         .td_white {
             text-align: center;
             font-weight: 500;
-            min-width: 2cm;
+            /* min-width: 2cm; */
         }
+        /* .table  {
+            width: 100%;
+            overflow-x: auto;
+        } */
 
         @media print {
             body {
                 padding: 1rem;
                 color: #222;
+                /* transform: translate(8.5in, -100%) rotate(90deg);
+                transform-origin: bottom left;
+                display: block;*/
+                transform: scale(0.8, 0.8);
+                transform-origin: top left;                
             }
-            table {page-break-inside: always;}
-
-            /* .td_green {
-                background-color: #222 !important;
-                color: #222;
-                font-weight: 500;
-                text-align: center;
-                min-width: 2cm;
-            } */
-
-            /*
-            .td_white {
-                text-align: center;
-                font-weight: 500;
-                min-width: 2cm;
-            } */
         }
     </style>
 </head>
@@ -88,7 +81,7 @@ define('DIR_S', 'http://localhost/inomac/');
     <input type="number" value="<?php echo $data['receta'][0]['num_subrancho'] ?>" id="sssub" hidden>
     <input type="text" value="<?php echo $data['receta'][0]['nombre'] ?>" id="nombress" hidden>
     <input type="number" value="<?php echo $data['receta'][0]['id_receta'] ?>" id="id_receta" hidden>
-    <input type="text" name="estatus" value="Programada" hidden>
+    <input type="text" name="estatus" value="<?php echo $data['receta'][0]['status'] ?>" id="estatus" hidden>
     <input type="date" class="form-control" name="fecha" id="fecha" value="<?php echo $data['receta'][0]['fecha'] ?>" required readonly hidden>
 
     <div style="display: none;">
@@ -111,13 +104,15 @@ define('DIR_S', 'http://localhost/inomac/');
     <div id="sectores" style="background-color: #e3e6ec" hidden></div>
     <div id="productos" style="background-color: #e3e6ec" hidden></div>
 
-    <table class="table" id="receta_table" border="1" style="border: solid 1px #ccc; border-collapse: collapse; margin-top: 1rem;">
-        <tbody>
-            <tr class="table-header">
-                <td style="min-width: 4cm;">Nombre del producto</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="table">
+        <table id="receta_table" border="1" style="border: solid 1px #ccc; border-collapse: collapse; margin-top: 1rem;">
+            <tbody>
+                <tr class="table-header">
+                    <td style="min-width: 4cm;">Nombre del producto</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     <?php include_once("../utils/piePagina.php"); ?>
 
     <script src="<?= DIR_S ?>entregar_recetas/js/imprimirReceta.js"></script>

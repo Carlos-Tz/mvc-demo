@@ -1,7 +1,7 @@
 
 var table = document.getElementById("receta_table");
-var url = 'http://localhost/inomac/entregar_recetas';
-/* var url = 'http://localhost:8080/local/dev/adm/mvc/entregar_recetas'; */
+/* var url = 'http://localhost/inomac/entregar_recetas'; */
+var url = 'http://localhost:8080/local/dev/adm/mvc/entregar_recetas';
 $(document).ready(function() {
     $('.subrancho_s').select2();
     $('.productos_s').select2();
@@ -34,19 +34,8 @@ $(document).ready(function() {
                                         //console.log(row[j].cells[i]);
                                         var td = row[j].cells[i];
                                         var lch = td.lastChild;
-                                        /* lch.addEventListener('change', function(event){
-                                            if (event.target.checked) {
-                                                alert(`${event.target.value} is checked`);
-                                            }
-                                            else {
-                                                alert(`${event.target.value} is unchecked`);
-                                            }
-                                        }); */
                                         lch.setAttribute('checked', 'checked');
-                                        lch.onchange();
-                                    
-                                        //lch.checked = true;
-                                        //lch.trigger('change');                                        
+                                        lch.onchange();                                   
                                     }                                        
                                 }
                             }
@@ -212,12 +201,7 @@ $('#form').submit(function(e){
                                         location.href = url;
                                     }
                                 })
-                            }
-                            
-                            //completo = true;
-                            /* if(va > 0) {
-                                //console.log(va)
-                            } */
+                            }                            
                         }else{
                             if(va > 0){
                                 completo = false;
