@@ -131,8 +131,9 @@ class RecetasController {
 
     public function actualizar() {
         $id = $_POST['id'];
+        $status = $_POST['status'];
         $rec = new Recipe($this->Connection);
-        $receta = $rec->updateRecipe($id, 'Entregada');
+        $receta = $rec->updateRecipe($id, $status);
         print_r($receta);
     }
 
@@ -455,7 +456,7 @@ class RecetasController {
         $data1 = array();
 
         foreach ($data as $row) {
-            if($row['status'] == 'Programada'){
+            if($row['status'] == 'Programada' || $row['status'] == 'Incompleta'){
                 $a = '<a href="index.php?c=recetas&action=entregar&id='.$row['id_receta'].'"  data-toggle="tooltip" title="Entregar" class="btn btn-sm btn-info"> Entregar </a>';
             }elseif($row['status'] == 'Entregada'){
                 $a = '<a href="index.php?c=recetas&action=resurtir&id='.$row['id_receta'].'"  data-toggle="tooltip" title="Resurtir" class="btn btn-sm btn-secondary"> Resurtir </a>';

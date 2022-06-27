@@ -2,11 +2,11 @@
 /* include("../utils/cabecera.php");
 date_default_timezone_set('America/Mexico_City'); */
 
-define('DIR_A', 'http://localhost:8080/local/dev/adm/mvc/cap_humano/');
-/* define('DIR_A', 'http://localhost/inomac/cap_humano/'); */
+/* define('DIR_A', 'http://localhost:8080/local/dev/adm/mvc/cap_humano/'); */
+define('DIR_A', 'http://localhost/inomac/cap_humano/');
 
-define('DIR_S', 'http://localhost:8080/local/dev/adm/mvc/');
-/* define('DIR_S', 'http://localhost/inomac/'); */
+/* define('DIR_S', 'http://localhost:8080/local/dev/adm/mvc/'); */
+define('DIR_S', 'http://localhost/inomac/');
 
 ?>
 <!DOCTYPE html>
@@ -63,23 +63,24 @@ define('DIR_S', 'http://localhost:8080/local/dev/adm/mvc/');
 
 <body>
     <div>
-        <table style="width:100%;">
+        <table border="1" style="width:100%; border: solid 1px #ccc; border-collapse: collapse;">
             <tr style="padding-bottom: 1.5rem;">
-                <td style="padding-bottom: 2rem;">REPORTE DE APLICACIÓN DE PlAGUICIDAS</td>
-                <td style="text-align:right; padding-bottom: 2rem;">FOLIO: <?php echo str_pad($data['receta'][0]['id_receta'], 6, "0", STR_PAD_LEFT);  ?></td>
+                <td style="padding: 1rem 0.5rem;">REPORTE DE APLICACIÓN DE PlAGUICIDAS</td>
+                <td style="text-align:right; padding: 1rem 0.5rem;">FOLIO: <?php echo str_pad($data['receta'][0]['id_receta'], 6, "0", STR_PAD_LEFT);  ?></td>
             </tr>
             <tr>
-                <td style="width: 50%">Fecha: <?php echo $data['receta'][0]['fecha'] ?></td>
-                <td style="width: 50%">Subrancho: <?php echo $data['receta'][0]['nombre'] ?></td>
+                <td style="width: 50%; padding: 0.5rem;">Fecha: <?php echo $data['receta'][0]['fecha'] ?></td>
+                <td style="width: 50%; padding: 0.5rem;">Rancho: <?php echo $data['receta'][0]['nombre'] ?></td>
             </tr>
             <tr>
-                <td colspan="2">Encargado: <?php echo $data['receta'][0]['encargado'] ?></td>
+                <td style="width: 50%; padding: 0.5rem;">Encargado: <?php echo $data['receta'][0]['encargado'] ?></td>
+                <td style="width: 50%; padding: 0.5rem;">Equipo de aplicación: <?php echo $data['receta'][0]['equipo'] ?></td>
             </tr>
             <tr>
-                <td colspan="2">Equipo de aplicación: <?php echo $data['receta'][0]['equipo'] ?></td>
+                <td colspan="2" style="padding: 0.5rem;">Justificación: <?php echo $data['receta'][0]['justificacion'] ?></td>
             </tr>
             <tr>
-                <td colspan="2">Justificación: <?php echo $data['receta'][0]['justificacion'] ?></td>
+                <td colspan="2" style="padding: 0.5rem;">Receta: <?php echo $data['receta'][0]['status'] ?></td>
             </tr>
         </table>
     </div>
