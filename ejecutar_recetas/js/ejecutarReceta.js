@@ -21,7 +21,7 @@ $(document).ready(function() {
         data: { 'id': id_subrancho },
         success: function(response){
             $.when($('#sectores').html(response)).done($('.sectores_s').select2()).done(
-                $('#all_p').click(function(e){
+                /* $('#all_p').click(function(e){
                     e.preventDefault();
                     var row = table.rows;
                     var cc = row[0].cells.length;
@@ -45,7 +45,7 @@ $(document).ready(function() {
                         console.log('No hay elementos');
                     }
                             
-                }),
+                }), */
                 $.ajax({
                     type: "POST",
                     url: 'index.php?c=recetas&action=get_detalles',
@@ -149,13 +149,47 @@ $(document).ready(function() {
 });
 $('#form').submit(function(e){
     e.preventDefault();
-    var row = table.rows;
+    var row = table1.rows;
     var cc = row[0].cells.length;
-    let text = "¿Confirma que desea surtir la receta?";
-    var completo = true;
+    let text = "¿Confirma que desea ejecutar la receta?";
+    //var completo = true;
     if(row.length > 1 && cc > 1){
         if (confirm(text) == true) {
-            for (var i = 1; i < row[0].cells.length; i++) {
+            for (var i = 1; i < row.length; i++) {
+                var vfecha = row[i].cells[0].firstChild.value;
+                var id = row[i].cells[0].firstChild.id;
+                var arrId = id.split('___');
+                var scp = arrId[0]; 
+                var sicp = parseInt(arrId[1]);
+                if(row[i].cells[2].firstChild.value){
+                    var vhorai = row[i].cells[2].firstChild.value;
+                }else{
+                    var vhorai = '';
+                }
+                if(row[i].cells[3].firstChild.value){
+                    var vhorat = row[i].cells[3].firstChild.value;
+                }else{
+                    var vhorat = '';
+                }
+                if(row[i].cells[4].firstChild.value){
+                    var vmin = parseFloat(row[i].cells[4].firstChild.value);
+                }else{
+                    var vmin = 0;
+                }
+                $.ajax({
+                    type: "POST",
+                    url: 'index.php?c=recetas&action=update_details',
+                    data: { 'id_s': sicp, 'vfecha': vfecha, 'vhorai': vhorai, 'vhorat': vhorat, 'vmin': vmin, 'id': $('#id_receta').val() },
+                    success: function(response){
+                        console.log(response);
+                        //location.href = url;
+                    }
+                })
+            }
+            /* console.log(row[2])
+            console.log(row[3])
+            console.log(row[4]) */
+            /* for (var i = 1; i < row[0].cells.length; i++) {
                 for (var j = 1; j < row.length; j++) {
                     if(i % 2 !== 0) {
                         //console.log(row[j].cells[i]);
@@ -172,8 +206,8 @@ $('#form').submit(function(e){
                         var idd = inp.attr("name");
                         var arrIdd = idd.split('___');
                         var id_receta_det = parseInt(arrIdd[1]);
-                        var va = parseFloat(inp.val());
-                        if(lch.checked && va > 0 ){
+                        var va = parseFloat(inp.val()); */
+                        /* if(lch.checked && va > 0 ){
                             if(!inpc.attr("disabled")){
                                 $.ajax({
                                     type: "POST",
@@ -206,30 +240,20 @@ $('#form').submit(function(e){
                         }else{
                             if(va > 0){
                                 completo = false;
-                                /* console.log('sin seleccionar');
-                                console.log(lch.id); */
+                                //console.log('sin seleccionar');
+                                //console.log(lch.id);
                             }
-                        }
-                    }
+                        } */
+                    /* }
                 }
-            }
-            if (completo){
+            } */
                 $.ajax({
                     url: 'index.php?c=recetas&action=actualizar',
                     type: 'post',
-                    data: { 'id': $('#id_receta').val(), 'status': 'Entregada' },
+                    data: { 'id': $('#id_receta').val(), 'status': 'Ejecutada' },
                     success: function(res){ console.log(res);                        
                     }
                 });
-            }else{
-                $.ajax({
-                    url: 'index.php?c=recetas&action=actualizar',
-                    type: 'post',
-                    data: { 'id': $('#id_receta').val(), 'status': 'Incompleta' },
-                    success: function(res){ console.log(res);                        
-                    }
-                });
-            }
         } 
     }else{
         alert('La tabla esta vacía!');
@@ -299,47 +323,84 @@ function addCol(sector_value, sector_text) {
 	var lcol = table1.rows[0].cells;	//console.log(lcol[1].id);
 	var row = table1.insertRow(lastrow);
     row.setAttribute("id", sector_value, 0);
+	//console.log(lastrow)
 	var cellcol0 = row.insertCell(0);
-	//cellcol0.innerHTML = lastrow;
-	cellcol0.innerHTML = '<button type="button" class="btn" style="padding: 0 0.5rem !important; width: 100%;" id="'+sector_value+'"></button><p style="text-align:center;" id="'+sector_value+'___s"></p>';
     var cell1 = row.insertCell(1);
-    cell1.setAttribute("id", lcol[i].id + sector_value );
-    cell1.className = 'text-center';
-    cell1.innerHTML = sector_text;
     var cell2 = row.insertCell(2);
-    cell2.setAttribute("id", lcol[i].id + sector_value );
+    var cell3 = row.insertCell(3);
+    var cell4 = row.insertCell(4);
+    var cell5 = row.insertCell(5);
+    cell1.setAttribute("id", sector_text );
+    cell1.innerHTML = sector_text;
+    cell1.className = 'text-center';
+    cell2.setAttribute("id", sector_text );
     cell2.className = 'text-center';
-    cell2.innerHTML = '<input type="date" id="'+lcol[i].id+ sector_value+'___2" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;">';
+    cell3.setAttribute("id", sector_text );
+    cell3.className = 'text-center';
+    cell4.setAttribute("id", sector_text );
+    cell4.className = 'text-center';
+    cell5.setAttribute("id", sector_text );
+    cell5.className = 'text-center';
+    if(lastrow == 1){
+        cellcol0.innerHTML = '<input type="date" style="padding: 0 0.5rem !important; width: 100%; border:none;" id="'+sector_text+'___'+sector_value+'___fff" onchange="changeE(this)">';
+        cell2.innerHTML = '<input type="time" id="'+sector_text+'___'+sector_value+'___hhi" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.8rem;" onchange="changeE(this)">';
+        cell3.innerHTML = '<input type="time" id="'+sector_text+'___'+sector_value+'___hhf" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.8rem;" onchange="changeE(this)">';
+        cell4.innerHTML = '<input type="number" id="'+sector_text+'___'+sector_value+'___mmr" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.8rem;" onchange="changeE(this)">';
+    }else{
+        cellcol0.innerHTML = '<input type="date" style="padding: 0 0.5rem !important; width: 100%; border:none;" id="'+sector_text+'___'+sector_value+'___fff">';
+        cell2.innerHTML = '<input type="time" id="'+sector_text+'___'+sector_value+'___hhi" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.8rem;">';
+        cell3.innerHTML = '<input type="time" id="'+sector_text+'___'+sector_value+'___hhf" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.8rem;">';
+        cell4.innerHTML = '<input type="number" id="'+sector_text+'___'+sector_value+'___mmr" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.8rem;">';
+    }
+
+
+    cell5.innerHTML = '';
 	
-	
-	/* for(i=1; i<lastcol;i++)	{
-        if(i % 2 == 0) {
-            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ sector_value+'___2" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" value="0" min="0" step="0.01" readonly>';
-        }else {
-            //cell1.setAttribute("id", lcol[i].id + producto.id+'___1');
-            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ sector_value+'___1" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" value="0" min="0" step="0.01" readonly>';
-        }
-	} */
 }
 
-function changeC(val){
+function changeE(val){
     var id = val.id;
-    var sum = 0;
-    var proEx = 0;
-    var valor = val.checked;
     var arrId = id.split('___');
     var scp = arrId[0]; 
     var sicp = arrId[1];
-    var idp = arrId[2];
-    var clp = arrId[3];
-    var row = $('tr#'+idp);
-    var cells = row[0].cells;
-    for (var i = 1; i < cells.length; i++) {
-        var td = cells[i];
-        if(i % 2 != 0 && td.childNodes[1].checked && !td.childNodes[1].disabled) { 
-            sum += parseFloat(td.firstChild.value); 
-            //console.log(td.childNodes[1].checked)
+    var tipo = arrId[2];
+    var lastrow = table1.rows.length;
+	//var lastcol = table1.rows[0].cells.length;
+	var lcol = table1.rows[1].cells;	
+
+    switch (tipo) {
+        case 'fff':
+            var fe1 = lcol[0].firstChild.value;
+            break;
+        case 'hhi':
+            var hi1 = lcol[2].firstChild.value;
+            break;
+        case 'hhf':
+            var ht1 = lcol[3].firstChild.value;
+            break;
+        case 'mmr':
+            var mr1 = lcol[4].firstChild.value;
+            break;
+        default:
+            break;
+    }
+    for (var i = 2; i < lastrow; i++) {
+	    var rowC = table1.rows[i].cells;	
+        switch (tipo) {
+            case 'fff':
+                rowC[0].firstChild.value = fe1;
+                break;
+            case 'hhi':
+                rowC[2].firstChild.value = hi1;
+                break;
+            case 'hhf':
+                rowC[3].firstChild.value = ht1;
+                break;
+            case 'mmr':
+                rowC[4].firstChild.value = mr1;
+                break;
+            default:
+                break;
         }
     }
-    $('p#'+idp+'___s').text('Total: '+sum.toFixed(2));
 }

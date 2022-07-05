@@ -47,4 +47,19 @@ class RecipeDetail {
         return $res;
     }
 
+    public function updateDetails($id_s, $fecha, $horai, $horat, $min, $status, $id) {
+        $stmt = $this->Connection->prepare('UPDATE receta_detalle SET fecha = ?, hora_inicio = ?, hora_fin = ?, riego = ?, status = ? WHERE (id_sector = ?) AND id_receta = ?');
+        $stmt->bindParam(1, $fecha);
+        $stmt->bindParam(2, $horai);
+        $stmt->bindParam(3, $horat);
+        $stmt->bindParam(4, $min);
+        $stmt->bindParam(5, $status);
+        $stmt->bindParam(6, $id_s);
+        $stmt->bindParam(7, $id);
+        $res = $stmt->execute();
+        //$result = $stmt->fetchAll();
+        $this->Connection = null; //cierre de conexión
+        return $res;
+    }
+
 }

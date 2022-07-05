@@ -74,6 +74,9 @@ class RecetasController {
             case "cambiar_status":
                 $this->cambiar_status();
                 break;
+            case "update_details":
+                $this->update_details();
+                break;
             default:
                 $this->index();
                 break;
@@ -141,6 +144,18 @@ class RecetasController {
         $id = $_POST['id'];
         $d_rec = new RecipeDetail($this->Connection);
         $d_receta = $d_rec->updateStatus($id, 'Entregada');
+        print_r($d_receta);
+    }
+
+    public function update_details() {
+        $id = $_POST['id'];
+        $id_s = $_POST['id_s'];
+        $vfecha = $_POST['vfecha']; print_r($id);
+        $vhorai = $_POST['vhorai'];
+        $vhorat = $_POST['vhorat'];
+        $vmin = $_POST['vmin'];
+        $d_rec = new RecipeDetail($this->Connection);
+        $d_receta = $d_rec->updateDetails($id_s, $vfecha, $vhorai, $vhorat, $vmin, 'Ejecutada', $id);
         print_r($d_receta);
     }
 
@@ -242,6 +257,9 @@ class RecetasController {
                 "costo_promedio" => $row['costo_promedio'],
                 "unidad_medida" => $row['unidad_medida'],
                 "clasificacion" => $row['clasificacion'],
+                "ingrediente_activo" => $row['ingrediente_activo'],
+                "intervalo" => $row['intervalo'],
+                "plazo_intervalo" => $row['plazo_intervalo'],
             );
         }
         $this->view("ejecutarReceta", array(

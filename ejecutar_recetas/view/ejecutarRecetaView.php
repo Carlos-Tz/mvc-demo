@@ -65,14 +65,39 @@ date_default_timezone_set('America/Mexico_City');
                 </div>
             </div>
         </div>
-        <div class="row px-2" style="background-color: #e3e6ec">
+        <!-- <div class="row px-2" style="background-color: #e3e6ec">
             <div class="col-sm-12">
                 <button type="button" id="all_p" style="margin-bottom: 0.5rem; padding: 0 0.5rem !important;" class="btn btn-outline-success">Seleccionar todo</button>
             </div>
-        </div>
+        </div> -->
         <div class="row py-2 px-2" id="sectores" style="background-color: #e3e6ec" hidden>
         </div>
         <div class="row py-2 px-2" id="productos" style="background-color: #e3e6ec" hidden>
+        </div>
+        <div class="row px-2" style="background-color: #e3e6ec">
+            <div class="col-sm-12 col-md-2">
+                <label for="sub">Productos</label>
+            </div>
+            <div class="col-sm-12 col-md-10">
+            <?php
+            echo '<ul style="list-style-type: none; margin-bottom: 0; padding: 0;">';
+            foreach ($data['productos'] as $key => $va) {
+                echo '<li id="' . $va['id_prod'] . '_cc" style="display: none;">Existencia: ';
+                echo '<input type="number" readonly style="width: 20%; height:1.2rem; border:0; background-color:transparent;" id="' . $va['id_prod'] . '_pp" value="' . $va['existencia'] .'" hidden>';
+                echo '<span> '.number_format($va['existencia'], 2, '.', ',').' </span>';
+                echo '<span style="padding-right: 2rem">'.$va['unidad_medida'].'</span>';
+                echo ' Ingrediente activo: ';
+                echo '<input type="text" readonly style="width: 12%; height:1.2rem; border:0; background-color:transparent;" id="' . $va['id_prod'] . '_iia" value="' . $va['ingrediente_activo'] .'">';
+                echo ' Intervalo: ';
+                echo '<input type="number" readonly style="width: 12%; height:1.2rem; border:0; background-color:transparent;" id="' . $va['id_prod'] . '_iii" value="' . $va['intervalo'] .'">';
+                echo ' Plazo intervalo: ';
+                echo '<input type="text" readonly style="width: 12%; height:1.2rem; border:0; background-color:transparent;" id="' . $va['id_prod'] . '_pii" value="' . $va['plazo_intervalo'] .'">';
+                //echo '<span> '.number_format($va['existencia'], 2, '.', ',').' </span>';
+                /* echo $va['unidad_medida']. */'</li>';
+            }
+            echo '</ul>';
+            ?>
+            </div>
         </div>
         <!-- <div id="pp">
             
@@ -87,16 +112,16 @@ date_default_timezone_set('America/Mexico_City');
             </table>
         </div>
 
-        <div class="fix-width scroll-inner">
+        <div class="fix-width scroll-inner py-2">
             <table class="table" id="receta_table1" border="1">
                 <tbody>
                     <tr class="table-header">
-                        <td>Fecha</td>
-                        <td>Sector</td>
-                        <td>Hora de inicio</td>
-                        <td>Hora de termino</td>
-                        <td>Minutos de riego</td>
-                        <td>Firma del responsable</td>
+                        <td style="text-align: center;">Fecha</td>
+                        <td style="text-align: center;">Sector</td>
+                        <td style="text-align: center;">Hora de inicio</td>
+                        <td style="text-align: center;">Hora de termino</td>
+                        <td style="text-align: center;">Minutos de riego</td>
+                        <td style="text-align: center;">Firma del responsable</td>
                     </tr>
                 </tbody>
             </table>
@@ -104,7 +129,7 @@ date_default_timezone_set('America/Mexico_City');
 
         <div class="row py-4 px-2">
             <div class="col-sm-4">
-                <button type="submit" class="btn btn-outline-success btn-block">Surtir Receta</button>
+                <button type="submit" class="btn btn-outline-success btn-block">Ejecutar Receta</button>
             </div>
             <div class="col-sm-4">
                 <button id="cancel" class="btn btn-outline-danger btn-block">Cancelar</button>
