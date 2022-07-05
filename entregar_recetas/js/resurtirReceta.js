@@ -1,7 +1,7 @@
 
 var table = document.getElementById("receta_table");
-/* var url = 'http://localhost/inomac/entregar_recetas'; */
-var url = 'http://localhost:8080/local/dev/adm/mvc/entregar_recetas';
+var url = 'http://localhost/inomac/entregar_recetas';
+/* var url = 'http://localhost:8080/local/dev/adm/mvc/entregar_recetas'; */
 //var productos_g = []
 //var subrancho = 0;
 $(document).ready(function() {
@@ -235,10 +235,11 @@ function change(val){
                 }
                 //console.log(row)
                 if($('#'+idp+'_pp')[0].value){
-                    proEx = parseFloat($('#'+idp+'_pp')[0].value);
+                    proEx = parseFloat($('#'+idp+'_pp')[0].value); console.log(programada); console.log(proEx)
                     if(programada > proEx) {
-                        alert('Existencia insuficiente de este producto!');
-                        $('#'+scp+'___'+sicp+'___'+idp+'___'+clp).val(0).trigger('change');
+                        //alert('Existencia insuficiente de este producto!');
+                        $('#'+scp+'___'+sicp+'___'+idp+'___'+clp).val(0)/* .trigger('change') */;
+                        //$('#'+scp+'___'+sicp+'___'+idp+'___'+'2').val(0);
                     }else {
                         var re = (proEx - programada);
                         var ha = parseFloat($('#'+scp+'___ss')[0].value);

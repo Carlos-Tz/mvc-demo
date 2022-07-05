@@ -1,7 +1,8 @@
 
 var table = document.getElementById("receta_table");
-var url = 'http://localhost/inomac/entregar_recetas';
-/* var url = 'http://localhost:8080/local/dev/adm/mvc/entregar_recetas'; */
+var table1 = document.getElementById("receta_table1");
+var url = 'http://localhost/inomac/ejecutar_recetas';
+/* var url = 'http://localhost:8080/local/dev/adm/mvc/ejecutar_recetas'; */
 $(document).ready(function() {
     $('.subrancho_s').select2();
     $('.productos_s').select2();
@@ -262,7 +263,7 @@ function addRow(producto_id, producto_text) {
             cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto_id+'___2" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" value="0" min="0" step="0.01" readonly>';
         }else {
             //cell1.setAttribute("id", lcol[i].id + producto.id+'___1');
-            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto_id+'___1" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" value="0" min="0" step="0.01" readonly><input type="checkbox" id="'+lcol[i].id+ producto_id+'___c" onchange="changeC(this)">';
+            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto_id+'___1" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" value="0" min="0" step="0.01" readonly>';
         }
 	}
 }
@@ -287,11 +288,38 @@ function addCol(sector_value, sector_text) {
             cell2.className = 'td_white';
         }
 		else  {
-            cell1.innerHTML = '<input type="number" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" id="'+sector_text + '___' + sector_value + '___'+ lrow[i].id + '___1" class="form-control" value="0" min="0" step="0.01" readonly><input type="checkbox" id="'+lcol[i].id+ producto_id+'___c" onchange="changeC(this)">';
+            cell1.innerHTML = '<input type="number" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" id="'+sector_text + '___' + sector_value + '___'+ lrow[i].id + '___1" class="form-control" value="0" min="0" step="0.01" readonly>';
             cell2.innerHTML = '<input type="number" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" id="'+sector_text + '___' + sector_value + '___'+ lrow[i].id + '___2" class="form-control" value="0" min="0" step="0.01">';
         }
 		
 	}
+
+    var lastrow = table1.rows.length;
+	var lastcol = table1.rows[0].cells.length;
+	var lcol = table1.rows[0].cells;	//console.log(lcol[1].id);
+	var row = table1.insertRow(lastrow);
+    row.setAttribute("id", sector_value, 0);
+	var cellcol0 = row.insertCell(0);
+	//cellcol0.innerHTML = lastrow;
+	cellcol0.innerHTML = '<button type="button" class="btn" style="padding: 0 0.5rem !important; width: 100%;" id="'+sector_value+'"></button><p style="text-align:center;" id="'+sector_value+'___s"></p>';
+    var cell1 = row.insertCell(1);
+    cell1.setAttribute("id", lcol[i].id + sector_value );
+    cell1.className = 'text-center';
+    cell1.innerHTML = sector_text;
+    var cell2 = row.insertCell(2);
+    cell2.setAttribute("id", lcol[i].id + sector_value );
+    cell2.className = 'text-center';
+    cell2.innerHTML = '<input type="date" id="'+lcol[i].id+ sector_value+'___2" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;">';
+	
+	
+	/* for(i=1; i<lastcol;i++)	{
+        if(i % 2 == 0) {
+            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ sector_value+'___2" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" value="0" min="0" step="0.01" readonly>';
+        }else {
+            //cell1.setAttribute("id", lcol[i].id + producto.id+'___1');
+            cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ sector_value+'___1" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" value="0" min="0" step="0.01" readonly>';
+        }
+	} */
 }
 
 function changeC(val){

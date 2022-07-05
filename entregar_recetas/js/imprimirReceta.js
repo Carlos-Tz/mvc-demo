@@ -1,7 +1,7 @@
 
 var table = document.getElementById("receta_table");
-/* var url = 'http://localhost/inomac/entregar_recetas'; */
-var url = 'http://localhost:8080/local/dev/adm/mvc/entregar_recetas';
+var url = 'http://localhost/inomac/entregar_recetas';
+/* var url = 'http://localhost:8080/local/dev/adm/mvc/entregar_recetas'; */
 //var productos_g = []
 //var subrancho = 0;
 $(document).ready(function () {
@@ -58,18 +58,18 @@ $(document).ready(function () {
                             inp.val(dosis_t).trigger('change');
                             inp.attr('name', 'n___' + va.id_receta_detalle);
                             inp2.val(dosis_h).trigger('change');
-                            if(va.status == 'Entregada'){
+                            /* if(va.status == 'Entregada'){ */
                                 inpc.attr('checked', 'checked');
                                 inpc.trigger('change');
                                 inpc.attr("disabled", true);
-                            }
-                            if($('#estatus').val() == 'Incompleta' && va.status == 'Programada'){
+                            /* } */
+                            /* if($('#estatus').val() == 'Incompleta' && va.status == 'Programada'){
                                 inp.hide();
                                 inp2.hide();
-                            }
+                            } */
                             if(dosis_t == 0){
-                                inpc.attr('checked', 'checked');
-                                inpc.trigger('change');
+                                /* inpc.attr('checked', 'checked');
+                                inpc.trigger('change'); */
                                 inpc.attr("disabled", true);
                                 inp.hide();
                                 inp2.hide();
@@ -192,7 +192,7 @@ function changeC(val){
     var cells = row[0].cells;
     for (var i = 1; i < cells.length; i++) {
         var td = cells[i];
-        if(i % 2 != 0 && td.childNodes[1].checked) { 
+        if(i % 2 != 0 && td.childNodes[1].checked && !td.childNodes[1].disabled) { 
             sum += parseFloat(td.firstChild.value); 
             //console.log(td.childNodes[1].checked)
         }
