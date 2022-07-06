@@ -260,6 +260,8 @@ class RecetasController {
                 "ingrediente_activo" => $row['ingrediente_activo'],
                 "intervalo" => $row['intervalo'],
                 "plazo_intervalo" => $row['plazo_intervalo'],
+                "reentrada" => $row['reentrada'],
+                "plazo_reentrada" => $row['plazo_reentrada'],
             );
         }
         $this->view("ejecutarReceta", array(
@@ -409,6 +411,10 @@ class RecetasController {
                 "dosis_total" => $row['dosis_total'],
                 "status" => $row['status'],
                 "nombre_s" => $row['nombre_s'],
+                "fecha" => $row['fecha'],
+                "hora_inicio" => substr($row['hora_inicio'], 0, 5),
+                "hora_fin" => substr($row['hora_fin'], 0, 5),
+                "riego" => $row['riego'],
             );
         }
         echo json_encode($data);

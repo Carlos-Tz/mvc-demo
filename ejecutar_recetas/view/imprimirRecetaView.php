@@ -2,11 +2,11 @@
 /* include("../utils/cabecera.php");
 date_default_timezone_set('America/Mexico_City'); */
 
-/* define('DIR_A', 'http://localhost:8080/local/dev/adm/mvc/cap_humano/'); */
-define('DIR_A', 'http://localhost/inomac/cap_humano/');
+define('DIR_A', 'http://localhost:8080/local/dev/adm/mvc/cap_humano/');
+/* define('DIR_A', 'http://localhost/inomac/cap_humano/'); */
 
-/* define('DIR_S', 'http://localhost:8080/local/dev/adm/mvc/'); */
-define('DIR_S', 'http://localhost/inomac/');
+define('DIR_S', 'http://localhost:8080/local/dev/adm/mvc/');
+/* define('DIR_S', 'http://localhost/inomac/'); */
 
 ?>
 <!DOCTYPE html>
@@ -39,6 +39,9 @@ define('DIR_S', 'http://localhost/inomac/');
             width: 100%;
             overflow-x: auto;
         } */
+        .text-center {
+            text-align: center;
+        }
 
         @media print {
             body {
@@ -115,7 +118,7 @@ define('DIR_S', 'http://localhost/inomac/');
     </div>
 
     <div class="fix-width scroll-inner py-2">
-        <table class="table" id="receta_table1" border="1">
+        <table id="receta_table1" border="1" style="border: solid 1px #ccc; border-collapse: collapse; margin-top: 1rem;">
             <tbody>
                 <tr class="table-header">
                     <td style="text-align: center;">Fecha</td>

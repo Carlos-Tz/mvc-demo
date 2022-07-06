@@ -1,6 +1,7 @@
 
 var table = document.getElementById("receta_table");
 var table1 = document.getElementById("receta_table1");
+var table2 = document.getElementById("receta_table2");
 var url = 'http://localhost/inomac/ejecutar_recetas';
 /* var url = 'http://localhost:8080/local/dev/adm/mvc/ejecutar_recetas'; */
 $(document).ready(function() {
@@ -229,6 +230,19 @@ function addRow(producto_id, producto_text) {
             cell1.innerHTML = '<input type="number" id="'+lcol[i].id+ producto_id+'___1" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.2rem;" value="0" min="0" step="0.01" readonly>';
         }
 	}
+
+    var lastrow2 = table2.rows.length;
+	//var lastcol = table2.rows[0].cells.length;
+	//var lcol = table2.rows[0].cells;	//console.log(lcol[1].id);
+	var row2 = table2.insertRow(lastrow2);
+    //row.setAttribute("id", producto_id, 0);
+	var cellcol02 = row2.insertCell(0);
+	var cellcol12 = row2.insertCell(1);
+	var cellcol22 = row2.insertCell(2);
+	//cellcol0.innerHTML = lastrow;
+	cellcol02.innerHTML = $('input#'+producto_id+'_iia').val();
+	cellcol12.innerHTML = $('input#'+producto_id+'_iii').val() + $('input#'+producto_id+'_pii').val();
+	cellcol22.innerHTML = $('input#'+producto_id+'_rrr').val() + $('input#'+producto_id+'_prr').val();
 }
 
 function addCol(sector_value, sector_text) {

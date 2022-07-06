@@ -89,9 +89,13 @@ date_default_timezone_set('America/Mexico_City');
                 echo ' Ingrediente activo: ';
                 echo '<input type="text" readonly style="width: 12%; height:1.2rem; border:0; background-color:transparent;" id="' . $va['id_prod'] . '_iia" value="' . $va['ingrediente_activo'] .'">';
                 echo ' Intervalo: ';
-                echo '<input type="number" readonly style="width: 12%; height:1.2rem; border:0; background-color:transparent;" id="' . $va['id_prod'] . '_iii" value="' . $va['intervalo'] .'">';
+                echo '<input type="number" readonly style="height:1.2rem; border:0; background-color:transparent;" id="' . $va['id_prod'] . '_iii" value="' . $va['intervalo'] .'">';
                 echo ' Plazo intervalo: ';
-                echo '<input type="text" readonly style="width: 12%; height:1.2rem; border:0; background-color:transparent;" id="' . $va['id_prod'] . '_pii" value="' . $va['plazo_intervalo'] .'">';
+                echo '<input type="text" readonly style="height:1.2rem; border:0; background-color:transparent;" id="' . $va['id_prod'] . '_pii" value="' . $va['plazo_intervalo'] .'">';
+                echo ' Reentrada: ';
+                echo '<input type="number" readonly style="height:1.2rem; border:0; background-color:transparent;" id="' . $va['id_prod'] . '_rrr" value="' . $va['reentrada'] .'">';
+                echo ' Plazo reentrada: ';
+                echo '<input type="text" readonly style="height:1.2rem; border:0; background-color:transparent;" id="' . $va['id_prod'] . '_prr" value="' . $va['plazo_reentrada'] .'">';
                 //echo '<span> '.number_format($va['existencia'], 2, '.', ',').' </span>';
                 /* echo $va['unidad_medida']. */'</li>';
             }
@@ -102,13 +106,20 @@ date_default_timezone_set('America/Mexico_City');
         <!-- <div id="pp">
             
         </div> -->
-        <div class="fix-width scroll-inner">
-            <table class="table" id="receta_table" border="1">
+        <div class="fix-width scroll-inner" style="display: flex;">
+            <table id="receta_table" border="1">
                 <tbody>
                     <tr class="table-header">
                         <td style="min-width: 4cm;">Nombre del producto</td>
                     </tr>
                 </tbody>
+            </table>
+            <table id="receta_table2" border="1">
+                <tr class="table-header">
+                    <td style="height: 1.2rem;">Ingr.activo</td>
+                    <td>Intervalo</td>
+                    <td>Reentrada</td>
+                </tr>
             </table>
         </div>
 

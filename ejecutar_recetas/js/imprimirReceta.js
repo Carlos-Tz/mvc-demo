@@ -2,8 +2,8 @@
 var table = document.getElementById("receta_table");
 var table1 = document.getElementById("receta_table1");
 
-var url = 'http://localhost/inomac/entregar_recetas';
-/* var url = 'http://localhost:8080/local/dev/adm/mvc/entregar_recetas'; */
+/* var url = 'http://localhost/inomac/entregar_recetas'; */
+var url = 'http://localhost:8080/local/dev/adm/mvc/entregar_recetas';
 //var productos_g = []
 //var subrancho = 0;
 $(document).ready(function () {
@@ -56,6 +56,10 @@ $(document).ready(function () {
                             var inp = $('input#' + va.nombre_s + '___' + va.id_sector + '___' + va.id_prod + '___1');
                             var inp2 = $('input#' + va.nombre_s + '___' + va.id_sector + '___' + va.id_prod + '___2');
                             var inpc = $('input#'+va.nombre_s+'___'+va.id_sector+'___'+va.id_prod+'___c');
+                            $('input#'+va.nombre_s+'___'+va.id_sector+'___fff').val(va.fecha);
+                            $('input#'+va.nombre_s+'___'+va.id_sector+'___hhi').val(va.hora_inicio);
+                            $('input#'+va.nombre_s+'___'+va.id_sector+'___hhf').val(va.hora_fin);
+                            $('input#'+va.nombre_s+'___'+va.id_sector+'___mmr').val(va.riego);
 
                             inp.val(dosis_t).trigger('change');
                             inp.attr('name', 'n___' + va.id_receta_detalle);
@@ -203,10 +207,10 @@ function addCol(sector_value, sector_text) {
     cell5.setAttribute("id", sector_text );
     cell5.className = 'text-center';
     if(lastrow == 1){
-        cellcol0.innerHTML = '<input type="date" style="padding: 0 0.5rem !important; width: 100%; border:none;" id="'+sector_text+'___'+sector_value+'___fff" onchange="changeE(this)">';
-        cell2.innerHTML = '<input type="time" id="'+sector_text+'___'+sector_value+'___hhi" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.8rem;" onchange="changeE(this)">';
-        cell3.innerHTML = '<input type="time" id="'+sector_text+'___'+sector_value+'___hhf" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.8rem;" onchange="changeE(this)">';
-        cell4.innerHTML = '<input type="number" id="'+sector_text+'___'+sector_value+'___mmr" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.8rem;" onchange="changeE(this)">';
+        cellcol0.innerHTML = '<input type="date" style="padding: 0 0.5rem !important; width: 100%; border:none;" id="'+sector_text+'___'+sector_value+'___fff">';
+        cell2.innerHTML = '<input type="time" id="'+sector_text+'___'+sector_value+'___hhi" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.8rem;">';
+        cell3.innerHTML = '<input type="time" id="'+sector_text+'___'+sector_value+'___hhf" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.8rem;">';
+        cell4.innerHTML = '<input type="number" id="'+sector_text+'___'+sector_value+'___mmr" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.8rem;">';
     }else{
         cellcol0.innerHTML = '<input type="date" style="padding: 0 0.5rem !important; width: 100%; border:none;" id="'+sector_text+'___'+sector_value+'___fff">';
         cell2.innerHTML = '<input type="time" id="'+sector_text+'___'+sector_value+'___hhi" class="form-control" style="padding: 0 0.3rem; border: none; text-align: center; min-width: 1.8cm; height: 1.8rem;">';

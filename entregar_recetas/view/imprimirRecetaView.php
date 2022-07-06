@@ -2,11 +2,11 @@
 /* include("../utils/cabecera.php");
 date_default_timezone_set('America/Mexico_City'); */
 
-/* define('DIR_A', 'http://localhost:8080/local/dev/adm/mvc/cap_humano/'); */
-define('DIR_A', 'http://localhost/inomac/cap_humano/');
+define('DIR_A', 'http://localhost:8080/local/dev/adm/mvc/cap_humano/');
+/* define('DIR_A', 'http://localhost/inomac/cap_humano/'); */
 
-/* define('DIR_S', 'http://localhost:8080/local/dev/adm/mvc/'); */
-define('DIR_S', 'http://localhost/inomac/');
+define('DIR_S', 'http://localhost:8080/local/dev/adm/mvc/');
+/* define('DIR_S', 'http://localhost/inomac/'); */
 
 ?>
 <!DOCTYPE html>

@@ -6,7 +6,7 @@ class Recipe {
 
     public function getAll() {
         /* $stmt = $this->Connection->prepare("SELECT * FROM '".$this->table."'" ); */
-        $stmt = $this->Connection->prepare("SELECT receta.id_receta, receta.num_subrancho, receta.fecha, receta.status, receta.justificacion, subrancho.nombre as nombre FROM receta, subrancho WHERE receta.num_subrancho = subrancho.num_subrancho" );
+        $stmt = $this->Connection->prepare("SELECT receta.id_receta, receta.num_subrancho, receta.fecha, receta.status, receta.justificacion, subrancho.nombre as nombre FROM receta, subrancho WHERE (receta.num_subrancho = subrancho.num_subrancho) AND receta.status = 'Programada' OR receta.status = 'Incompleta' OR receta.status = 'Entregada'" );
         $stmt->execute();
         $result = $stmt->fetchAll();
         $this->Connection = null; //cierre de conexión

@@ -83,13 +83,13 @@ $(document).ready(function() {
                             if(va.status == 'Entregada'){
                             //inpc.val(dosis_h).trigger('change');
                                 inpc.attr('checked', 'checked');
-                                inpc.trigger('change');
                                 inpc.attr("disabled", true);
+                                inpc.trigger('change');
                             }
                             if(dosis_t == 0){
                                 inpc.attr('checked', 'checked');
-                                inpc.trigger('change');
                                 inpc.attr("disabled", true);
+                                inpc.trigger('change');
                             }
                             /* if(inpc.attr("disabled")){
                                 console.log(inpc.attr("disabled"))
