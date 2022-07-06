@@ -421,16 +421,12 @@ class RecetasController {
         $data1 = array();
 
         foreach ($data as $row) {
-            /* if($row['status'] == 'Programada'){
-                $a = '<a href="index.php?c=recetas&action=entregar&id='.$row['id_receta'].'"  data-toggle="tooltip" title="Entregar" class="btn btn-sm btn-info"> Entregar </a>';
-            }elseif($row['status'] == 'Incompleta'){
-                $a = '<a href="index.php?c=recetas&action=entregar&id='.$row['id_receta'].'"  data-toggle="tooltip" title="Entregar" class="btn btn-sm btn-warning"> Entregar </a>';
-            }elseif($row['status'] == 'Entregada'){
-                $a = '<a href="index.php?c=recetas&action=resurtir&id='.$row['id_receta'].'"  data-toggle="tooltip" title="Resurtir" class="btn btn-sm btn-secondary"> Resurtir </a>';
+            if($row['status'] == 'Entregada'){
+                $a = '<a href="index.php?c=recetas&action=ejecutar&id='.$row['id_receta'].'"  data-toggle="tooltip" title="Ejecutar" class="btn btn-sm btn-info"> Ejecutar </a>';
             }else {
                 $a = '';
-            } */
-            $a = '<a href="index.php?c=recetas&action=ejecutar&id='.$row['id_receta'].'"  data-toggle="tooltip" title="Ejecutar" class="btn btn-sm btn-info"> Ejecutar </a>';
+            }
+            //$a = '<a href="index.php?c=recetas&action=ejecutar&id='.$row['id_receta'].'"  data-toggle="tooltip" title="Ejecutar" class="btn btn-sm btn-info"> Ejecutar </a>';
             $a1 = '<a href="index.php?c=recetas&action=imprimir&id='.$row['id_receta'].'"  data-toggle="tooltip" title="Imprimir" class="btn btn-sm btn-primary"> Imprimir </a>';
             $data1[] = array(
                 "id_receta" => $row['id_receta'],

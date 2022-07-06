@@ -75,7 +75,7 @@ date_default_timezone_set('America/Mexico_City');
         <div class="row py-2 px-2" id="productos" style="background-color: #e3e6ec" hidden>
         </div>
         <div class="row px-2" style="background-color: #e3e6ec">
-            <div class="col-sm-12 col-md-2">
+            <div class="col-sm-12 col-md-2" style="display: none;">
                 <label for="sub">Productos</label>
             </div>
             <div class="col-sm-12 col-md-10">

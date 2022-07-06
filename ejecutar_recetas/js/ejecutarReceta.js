@@ -181,79 +181,18 @@ $('#form').submit(function(e){
                     url: 'index.php?c=recetas&action=update_details',
                     data: { 'id_s': sicp, 'vfecha': vfecha, 'vhorai': vhorai, 'vhorat': vhorat, 'vmin': vmin, 'id': $('#id_receta').val() },
                     success: function(response){
-                        console.log(response);
-                        //location.href = url;
+                        //console.log(response);
+                        location.href = url;
                     }
                 })
             }
-            /* console.log(row[2])
-            console.log(row[3])
-            console.log(row[4]) */
-            /* for (var i = 1; i < row[0].cells.length; i++) {
-                for (var j = 1; j < row.length; j++) {
-                    if(i % 2 !== 0) {
-                        //console.log(row[j].cells[i]);
-                        var td = row[j].cells[i];
-                        var lch = td.lastChild;
-                        //console.log(lch.checked);
-                        var id = lch.id;
-                        var arrId = id.split('___');
-                        var scp = arrId[0];
-                        var sicp = arrId[1];
-                        var idp = parseInt(arrId[2]);
-                        var inp = $('input#'+scp+'___'+sicp+'___'+idp+'___1');
-                        var inpc = $('input#'+scp+'___'+sicp+'___'+idp+'___c');
-                        var idd = inp.attr("name");
-                        var arrIdd = idd.split('___');
-                        var id_receta_det = parseInt(arrIdd[1]);
-                        var va = parseFloat(inp.val()); */
-                        /* if(lch.checked && va > 0 ){
-                            if(!inpc.attr("disabled")){
-                                $.ajax({
-                                    type: "POST",
-                                    url: 'index.php?c=productos&action=salida',
-                                    data: { 'id_sub': $('#sssub').val(), 'id_prod': idp, 'id_sec': sicp, 'sal': va },
-                                    success: function(response){
-                                        //console.log(response);
-                                        //location.href = url;
-                                    }
-                                })
-                                $.ajax({
-                                    type: "POST",
-                                    url: 'index.php?c=productos&action=movimiento',
-                                    data: { 'id_rec': $('#id_receta').val() , 'sub': $('#nombress').val(), 'id_prod': idp, 'id_sec': sicp, 'sal': va, 'nom_sec': scp },
-                                    success: function(response){
-                                        //console.log(response);
-                                        //location.href = url;
-                                    }
-                                })
-                                $.ajax({
-                                    type: "POST",
-                                    url: 'index.php?c=recetas&action=cambiar_status',
-                                    data: { 'id': id_receta_det },
-                                    success: function(response){
-                                        //console.log(response);
-                                        location.href = url;
-                                    }
-                                })
-                            }                            
-                        }else{
-                            if(va > 0){
-                                completo = false;
-                                //console.log('sin seleccionar');
-                                //console.log(lch.id);
-                            }
-                        } */
-                    /* }
+            $.ajax({
+                url: 'index.php?c=recetas&action=actualizar',
+                type: 'post',
+                data: { 'id': $('#id_receta').val(), 'status': 'Ejecutada' },
+                success: function(res){ //console.log(res);                        
                 }
-            } */
-                $.ajax({
-                    url: 'index.php?c=recetas&action=actualizar',
-                    type: 'post',
-                    data: { 'id': $('#id_receta').val(), 'status': 'Ejecutada' },
-                    success: function(res){ console.log(res);                        
-                    }
-                });
+            });
         } 
     }else{
         alert('La tabla esta vacía!');
