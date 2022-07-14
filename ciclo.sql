@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `ciclo` (
-  `id_cilco` int(11) NOT NULL,
+  `id_ciclo` int(11) NOT NULL,
   `ciclo` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -37,7 +37,7 @@ CREATE TABLE `ciclo` (
 -- Volcado de datos para la tabla `ciclo`
 --
 
-INSERT INTO `ciclo` (`id_cilco`, `ciclo`) VALUES
+INSERT INTO `ciclo` (`id_ciclo`, `ciclo`) VALUES
 (1, '20211-2022'),
 (2, '2022 - 2023');
 
@@ -49,7 +49,7 @@ INSERT INTO `ciclo` (`id_cilco`, `ciclo`) VALUES
 -- Indices de la tabla `ciclo`
 --
 ALTER TABLE `ciclo`
-  ADD PRIMARY KEY (`id_cilco`);
+  ADD PRIMARY KEY (`id_ciclo`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -59,7 +59,7 @@ ALTER TABLE `ciclo`
 -- AUTO_INCREMENT de la tabla `ciclo`
 --
 ALTER TABLE `ciclo`
-  MODIFY `id_cilco` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_ciclo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
