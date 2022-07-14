@@ -1,9 +1,11 @@
 
 var table = document.getElementById("receta_table");
 var table1 = document.getElementById("receta_table1");
+var table2 = document.getElementById("receta_table2");
 
-/* var url = 'http://localhost/inomac/entregar_recetas'; */
-var url = 'http://localhost:8080/local/dev/adm/mvc/entregar_recetas';
+
+var url = 'http://localhost/inomac/entregar_recetas';
+/* var url = 'http://localhost:8080/local/dev/adm/mvc/entregar_recetas'; */
 //var productos_g = []
 //var subrancho = 0;
 $(document).ready(function () {
@@ -59,7 +61,7 @@ $(document).ready(function () {
                             $('input#'+va.nombre_s+'___'+va.id_sector+'___fff').val(va.fecha);
                             $('input#'+va.nombre_s+'___'+va.id_sector+'___hhi').val(va.hora_inicio);
                             $('input#'+va.nombre_s+'___'+va.id_sector+'___hhf').val(va.hora_fin);
-                            $('input#'+va.nombre_s+'___'+va.id_sector+'___mmr').val(va.riego);
+                            $('input#'+va.nombre_s+'___'+va.id_sector+'___mmr').val(parseFloat(va.riego).toFixed(2));
 
                             inp.val(dosis_t).trigger('change');
                             inp.attr('name', 'n___' + va.id_receta_detalle);
@@ -155,6 +157,20 @@ function addRow(producto_id, producto_text) {
             cell1.innerHTML = '<input type="number" id="' + lcol[i].id + producto_id + '___1" class="form-control" style="border: none; text-align: center; height: 1.2rem; width: 100%; padding: 0;" value="0" min="0" step="0.01" readonly><input type="checkbox" id="'+lcol[i].id+ producto_id+'___c" onchange="changeC(this)">';
         }
     }
+
+    var lastrow2 = table2.rows.length;
+	var row2 = table2.insertRow(lastrow2);
+	var cellcol02 = row2.insertCell(0);
+    cellcol02.className = 'text-center-p';
+	var cellcol12 = row2.insertCell(1);
+    cellcol12.className = 'text-center-p';
+	var cellcol22 = row2.insertCell(2);
+    cellcol22.className = 'text-center-p';
+
+	//cellcol0.innerHTML = lastrow;
+	cellcol02.innerHTML = $('input#'+producto_id+'_iia').val();
+	cellcol12.innerHTML = parseFloat($('input#'+producto_id+'_iii').val()).toFixed(2) + $('input#'+producto_id+'_pii').val();
+	cellcol22.innerHTML = parseFloat($('input#'+producto_id+'_rrr').val()).toFixed(2) + $('input#'+producto_id+'_prr').val();
 }
 
 function addCol(sector_value, sector_text) {
@@ -197,7 +213,7 @@ function addCol(sector_value, sector_text) {
     var cell5 = row.insertCell(5);
     cell1.setAttribute("id", sector_text );
     cell1.innerHTML = sector_text;
-    cell1.className = 'text-center';
+    cell1.className = 'text-center2';
     cell2.setAttribute("id", sector_text );
     cell2.className = 'text-center';
     cell3.setAttribute("id", sector_text );

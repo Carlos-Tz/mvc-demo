@@ -241,8 +241,8 @@ function addRow(producto_id, producto_text) {
 	var cellcol22 = row2.insertCell(2);
 	//cellcol0.innerHTML = lastrow;
 	cellcol02.innerHTML = $('input#'+producto_id+'_iia').val();
-	cellcol12.innerHTML = $('input#'+producto_id+'_iii').val() + $('input#'+producto_id+'_pii').val();
-	cellcol22.innerHTML = $('input#'+producto_id+'_rrr').val() + $('input#'+producto_id+'_prr').val();
+	cellcol12.innerHTML = parseFloat($('input#'+producto_id+'_iii').val()).toFixed(2) + $('input#'+producto_id+'_pii').val();
+	cellcol22.innerHTML = parseFloat($('input#'+producto_id+'_rrr').val()).toFixed(2) + $('input#'+producto_id+'_prr').val();
 }
 
 function addCol(sector_value, sector_text) {

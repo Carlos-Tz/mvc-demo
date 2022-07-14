@@ -1,5 +1,5 @@
 <?php
-//require '../phpspreadsheet/vendor/autoload.php';
+require '../phpspreadsheet/vendor/autoload.php';
 
 
 class RecetasController {
@@ -29,20 +29,11 @@ class RecetasController {
             case "nueva":
                 $this->nueva();
                 break;
-            case "ejecutar":
-                $this->ejecutar();
-                break;
-            case "imprimir":
-                $this->imprimir();
-                break;
-            case "resurtir":
-                $this->resurtir();
+            case "editar":
+                $this->editar();
                 break;
             case "guardar":
                 $this->guardar();
-                break;
-            case "actualizar":
-                $this->actualizar();
                 break;
             case "eliminar":
                 $this->eliminar();
@@ -71,12 +62,6 @@ class RecetasController {
             case "calcular":
                 $this->calcular();
                 break;
-            case "cambiar_status":
-                $this->cambiar_status();
-                break;
-            case "update_details":
-                $this->update_details();
-                break;
             default:
                 $this->index();
                 break;
@@ -103,7 +88,7 @@ class RecetasController {
         }
 
         $producto = new Producto($this->Connection);
-        $p_data = $producto->getProductos();
+        $p_data = $producto->getProducto();
         $productos = array();
 
         foreach ($p_data as $row) {
@@ -132,34 +117,7 @@ class RecetasController {
         echo $res;
     }
 
-    public function actualizar() {
-        $id = $_POST['id'];
-        $status = $_POST['status'];
-        $rec = new Recipe($this->Connection);
-        $receta = $rec->updateRecipe($id, $status);
-        print_r($receta);
-    }
-
-    public function cambiar_status() {
-        $id = $_POST['id'];
-        $d_rec = new RecipeDetail($this->Connection);
-        $d_receta = $d_rec->updateStatus($id, 'Entregada');
-        print_r($d_receta);
-    }
-
-    public function update_details() {
-        $id = $_POST['id'];
-        $id_s = $_POST['id_s'];
-        $vfecha = $_POST['vfecha']; print_r($id);
-        $vhorai = $_POST['vhorai'];
-        $vhorat = $_POST['vhorat'];
-        $vmin = $_POST['vmin'];
-        $d_rec = new RecipeDetail($this->Connection);
-        $d_receta = $d_rec->updateDetails($id_s, $vfecha, $vhorai, $vhorat, $vmin, 'Ejecutada', $id);
-        print_r($d_receta);
-    }
-
-    public function imprimir() {
+    public function editar() {
         $recipe = new Recipe($this->Connection);
         $id = $_GET['id'];
         $receta_data = $recipe->getRecipe($id); 
@@ -192,7 +150,7 @@ class RecetasController {
         }
 
         $producto = new Producto($this->Connection);
-        $p_data = $producto->getProductos();
+        $p_data = $producto->getProducto();
         $productos = array();
 
         foreach ($p_data as $row) {
@@ -203,81 +161,16 @@ class RecetasController {
                 "costo_promedio" => $row['costo_promedio'],
                 "unidad_medida" => $row['unidad_medida'],
                 "clasificacion" => $row['clasificacion'],
-                "ingrediente_activo" => $row['ingrediente_activo'],
-                "intervalo" => $row['intervalo'],
-                "plazo_intervalo" => $row['plazo_intervalo'],
-                "reentrada" => $row['reentrada'],
-                "plazo_reentrada" => $row['plazo_reentrada'],
             );
         }
-        $this->view("imprimirReceta", array(
-            "title" => "Imprimir Receta",
+        $this->view("editReceta", array(
+            "title" => "Editar Receta",
             "data" => $data1,
             "productos" => $productos,
             "receta" => $receta
             //"sectores" => $sectores
         ));
     }
-    public function ejecutar() {
-        $recipe = new Recipe($this->Connection);
-        $id = $_GET['id'];
-        $receta_data = $recipe->getRecipe($id); 
-        $receta = array();
-        foreach ($receta_data as $row) {
-            $receta[] = array(
-                //"id_subrancho" => $row['id_subrancho'],
-                "id_receta" => $row['id_receta'],
-                "num_subrancho" => $row['num_subrancho'],
-                "nombre" => $row['nombre'],
-                "fecha" => $row['fecha'],
-                "status" => $row['status'],
-                "justificacion" => $row['justificacion'],
-                "encargado" => $row['encargado'],
-                "equipo" => $row['equipo'],
-            );
-        }
-        //print_r($receta);
-
-        $subrancho = new Subrancho($this->Connection);
-        $s_data = $subrancho->getAll();
-        $data1 = array();
-
-        foreach ($s_data as $row) {
-            $data1[] = array(
-                //"id_subrancho" => $row['id_subrancho'],
-                "num_subrancho" => $row['num_subrancho'],
-                "nombre" => $row['nombre'],
-            );
-        }
-
-        $producto = new Producto($this->Connection);
-        $p_data = $producto->getProductos();
-        $productos = array();
-
-        foreach ($p_data as $row) {
-            $productos[] = array(
-                "id_prod" => $row['id_prod'],
-                "existencia" => $row['existencia'],
-                "nom_prod" => $row['nom_prod'],
-                "costo_promedio" => $row['costo_promedio'],
-                "unidad_medida" => $row['unidad_medida'],
-                "clasificacion" => $row['clasificacion'],
-                "ingrediente_activo" => $row['ingrediente_activo'],
-                "intervalo" => $row['intervalo'],
-                "plazo_intervalo" => $row['plazo_intervalo'],
-                "reentrada" => $row['reentrada'],
-                "plazo_reentrada" => $row['plazo_reentrada'],
-            );
-        }
-        $this->view("ejecutarReceta", array(
-            "title" => "Ejecutar Receta",
-            "data" => $data1,
-            "productos" => $productos,
-            "receta" => $receta
-            //"sectores" => $sectores
-        ));
-    }
-
 
     public function sectores() {
         $id = $_POST['id'];
@@ -324,7 +217,7 @@ class RecetasController {
     public function productos() {
         //$clasificacion = $_POST['clasificacion'];
         $producto = new Producto($this->Connection);
-        $s_data = $producto->getProductos();
+        $s_data = $producto->getProducto();
         $productos = array();
 
         foreach ($s_data as $row) {
@@ -345,7 +238,7 @@ class RecetasController {
 
     public function getProducts() {
         $producto = new Producto($this->Connection);
-        $data = $producto->getProductos();
+        $data = $producto->getProducto();
         $productos = array();
 
         foreach ($data as $row) {
@@ -416,10 +309,6 @@ class RecetasController {
                 "dosis_total" => $row['dosis_total'],
                 "status" => $row['status'],
                 "nombre_s" => $row['nombre_s'],
-                "fecha" => $row['fecha'],
-                "hora_inicio" => substr($row['hora_inicio'], 0, 5),
-                "hora_fin" => substr($row['hora_fin'], 0, 5),
-                "riego" => $row['riego'],
             );
         }
         echo json_encode($data);
@@ -432,21 +321,15 @@ class RecetasController {
         $data1 = array();
 
         foreach ($data as $row) {
-            if($row['status'] == 'Entregada'){
-                $a = '<a href="index.php?c=recetas&action=ejecutar&id='.$row['id_receta'].'"  data-toggle="tooltip" title="Ejecutar" class="btn btn-sm btn-info"> Ejecutar </a>';
-            }else {
-                $a = '';
-            }
-            //$a = '<a href="index.php?c=recetas&action=ejecutar&id='.$row['id_receta'].'"  data-toggle="tooltip" title="Ejecutar" class="btn btn-sm btn-info"> Ejecutar </a>';
-            $a1 = '<a href="index.php?c=recetas&action=imprimir&id='.$row['id_receta'].'"  data-toggle="tooltip" title="Imprimir" class="btn btn-sm btn-primary"> Imprimir </a>';
             $data1[] = array(
                 "id_receta" => $row['id_receta'],
                 "nombre" => $row['nombre'],
                 "fecha" => $row['fecha'],
                 "status" => $row['status'],
                 "justificacion" => $row['justificacion'],
-                "options" => $a . $a1
-                /* '<a href="index.php?c=recetas&action=entregar&id='.$row['id_receta'].'"  data-toggle="tooltip" title="Entregar" class="btn btn-sm btn-info"> Entregar </a>' */
+                "options" => 
+                '<a href="index.php?c=recetas&action=editar&id='.$row['id_receta'].'"  data-toggle="tooltip" title="Editar" class="btn btn-sm btn-info"> <i class="fa-solid fa-pen"></i> </a>'
+                /* <a href="index.php?action=delete&id='.$row['id_receta'].'"  data-toggle="tooltip" title="Eliminar" class="btn btn-sm btn-danger"> <i class="fa-solid fa-trash"></i> </a>' */
             );
         }
         $response = array(
